@@ -1,0 +1,300 @@
+/* Fundo geral */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden; /* Remove rolagem horizontal */
+}
+
+body {
+    background-color: #f0f0f0;
+    height: 100%;
+    overflow: auto;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza horizontalmente */
+    gap: 20px; /* Espaço entre os cartões */
+}
+
+/* Sidebar esquerda */
+.sidebar {
+    background-color: #84B0B5;
+    padding: 20px;
+    border-radius: 0 20px 20px 0;
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+/* Conteúdo principal */
+.main-content {
+    margin-left: 250px; /* Ajusta para a largura da sidebar */
+    padding: 20px;
+    height: 100vh; /* Garante altura da tela */
+    overflow-y: auto; /* Permite rolagem vertical */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Título e dropdown no sidebar */
+.sidebar h1, .sidebar h3 {
+    margin: 0;
+    padding: 0;
+}
+
+/* Card de formulário */
+.form-card {
+    background-color: #84B0B5;
+    border-radius: 20px;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Título do formulário */
+.form-card .card-title {
+    color: #F5F5E6;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Inputs e textarea */
+.form-control {
+    background-color: #F5F5E6;
+    border: none;
+    border-radius: 20px;
+    padding: 15px;
+    font-size: 14px;
+    margin-bottom: 15px; /* Espaçamento entre os inputs */
+}
+
+/* Dropdown */
+.dropdown-toggle.no-border {
+    border: none;
+    background-color: #84B0B5; /* Cor da sidebar */
+    color: #F5F5E6; /* Cor do texto */
+}
+
+.dropdown-toggle.no-border:hover {
+    background-color: #6e8e8e; /* Cor ao passar o mouse */
+}
+
+.dropdown-menu {
+    background-color: #84B0B5; /* Cor do fundo do menu */
+}
+
+.dropdown-item {
+    color: #F5F5E6; /* Cor do texto dos itens do menu */
+}
+
+.dropdown-item:hover {
+    background-color: #6e8e8e; /* Cor de fundo ao passar o mouse sobre o item do menu */
+}
+
+.dropdown-menu.show {
+    display: block; /* Garante que o menu dropdown fique visível */
+}
+
+/* Estilo do botão Início */
+.no-border {
+    border: none;
+    background-color: #84B0B5; /* Cor da sidebar */
+    color: #F5F5E6; /* Cor do texto */
+    width: 100%; /* Faz com que o botão ocupe toda a largura da sidebar */
+    text-align: left; /* Alinha o texto à esquerda */
+    padding: 10px; /* Ajusta o padding */
+    font-size: 18px; /* Aumenta o tamanho da fonte */
+    text-transform: uppercase; /* Deixa o texto em maiúsculas */
+    font-weight: bold; /* Deixa o texto em negrito */
+}
+
+.no-border:hover {
+    background-color: #6e8e8e; /* Cor ao passar o mouse */
+}
+
+.btn-light {
+    background-color: transparent; /* Remove a cor padrão do Bootstrap */
+    border: none; /* Remove a borda padrão do Bootstrap */
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem; /* Espaço abaixo do botão */
+}
+
+.tamanho {
+    font-size: 25px;
+}
+
+/* Botão Enviar */
+.btn-block {
+    background-color: #BF4341;
+    border-radius: 20px;
+    font-weight: bold;
+    padding: 10px;
+    width: 150px;  /* Diminuir a largura do botão */
+}
+
+/* Centralizar o botão */
+.btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.btn-block:hover {
+    background-color: #BF4341;
+    border-color: #BF4341;
+}
+
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Garante a altura da tela */
+    overflow: hidden;
+}
+/* Estilos para a página de perfil */
+
+/* Contêiner principal da seção de perfil */
+.profile-container {
+    display: flex;
+    flex-direction: column; /* Alinha verticalmente */
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #84B0B5;
+    border-radius: 20px;
+    padding: 15px;
+    width: 100%;
+    max-width: 900px;
+    margin-top: 30px; /* Espaço superior */
+}
+
+.profile-photo {
+    flex-basis: 30%;
+    background-color: #D8D8D8;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+    width: 250px;
+    margin-right: 20px;
+}
+
+.profile-photo img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 20px;
+}
+
+.profile-info {
+    flex-basis: 65%;
+}
+
+.profile-info input,
+.profile-info textarea {
+    background-color: #F5F5E6;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.profile-description {
+    background-color: #F5F5E6;
+    padding: 15px;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+.profile-carousel {
+    background-color: #D8D8D8;
+    border-radius: 20px;
+    height: 200px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.profile-carousel button {
+    background-color: #BF4341;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.profile-carousel button:hover {
+    background-color: #93372F;
+}
+
+.row.align-items-center-perfil {
+    margin-bottom: 20px;
+}
+
+.centrinho {
+    text-align: center;
+    margin: 20px 0;
+    color: #BF4341;
+    background-color: ;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .profile-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-photo {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .profile-info {
+        width: 100%;
+    }
+}
+
+
+/* Ajuste da responsividade */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%; /* Ocupa toda a largura da tela em dispositivos móveis */
+        height: auto; /* Ajusta a altura para o conteúdo */
+        position: relative; /* Remove a posição fixa */
+        overflow: hidden; /* Remove a rolagem da sidebar em telas pequenas */
+    }
+
+    .main-content {
+        margin-left: 0; /* Remove a margem à esquerda para dispositivos móveis */
+        width: 100%; /* Ajusta a largura do conteúdo principal */
+    }
+}
