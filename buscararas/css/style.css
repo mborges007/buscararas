@@ -1,4 +1,8 @@
 /* Fundo geral */
+.sidebar, .content, .dropdown-item, .profile-container {
+    cursor: default; /* Define o cursor padrão */
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -18,7 +22,9 @@ body {
     flex-direction: column;
     align-items: center; /* Centraliza horizontalmente */
     gap: 20px; /* Espaço entre os cartões */
-}
+        margin-left: 200px; /* Ajuste conforme a largura da sidebar */
+        width: calc(100% - 200px); /* Ajuste conforme a largura da sidebar */
+    }
 
 /* Sidebar esquerda */
 .sidebar {
@@ -34,47 +40,6 @@ body {
     z-index: 1000;
 }
 
-/* Conteúdo principal */
-.main-content {
-    margin-left: 250px; /* Ajusta para a largura da sidebar */
-    padding: 20px;
-    height: 100vh; /* Garante altura da tela */
-    overflow-y: auto; /* Permite rolagem vertical */
-    display: flex;
-    flex-direction: column;
-}
-
-/* Título e dropdown no sidebar */
-.sidebar h1, .sidebar h3 {
-    margin: 0;
-    padding: 0;
-}
-
-/* Card de formulário */
-.form-card {
-    background-color: #84B0B5;
-    border-radius: 20px;
-    padding: 30px;
-    width: 100%;
-    max-width: 500px;
-}
-
-/* Título do formulário */
-.form-card .card-title {
-    color: #F5F5E6;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-/* Inputs e textarea */
-.form-control {
-    background-color: #F5F5E6;
-    border: none;
-    border-radius: 20px;
-    padding: 15px;
-    font-size: 14px;
-    margin-bottom: 15px; /* Espaçamento entre os inputs */
-}
 
 /* Dropdown */
 .dropdown-toggle.no-border {
@@ -102,6 +67,80 @@ body {
 .dropdown-menu.show {
     display: block; /* Garante que o menu dropdown fique visível */
 }
+
+.sidebar .btn-primary, .sidebar .btn-secondary {
+    width: 80%; /* Ajuste a largura conforme necessário */
+    margin: 0 auto; /* Centraliza os botões */
+    border-radius: 20px; /* Arredonda os cantos dos botões */
+}
+/* Sidebar esquerda */
+.sidebar .btn-primary {
+    background-color: #66888b; /* Cor do botão de Login */
+    border-color: #84B0B5;
+    color: white;
+}
+
+.sidebar .btn-secondary {
+    background-color: #BF4341; /* Cor do botão de Cadastro */
+    border-color: #BF4341;
+    color: white;
+}
+
+.sidebar .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #00408b;
+}
+
+.sidebar .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+
+
+/* Alinhamento dos botões na parte inferior */
+.sidebar .mt-auto {
+    margin-top: auto; /* Empurra os botões para a parte inferior */
+}
+/* Conteúdo principal */
+.main-content {
+    margin-left: 250px; /* Ajusta para a largura da sidebar */
+    padding: 20px;
+    height: 100vh; /* Garante altura da tela */
+    overflow-y: auto; /* Permite rolagem vertical */
+    display: flex;
+    flex-direction: column;
+}
+
+            /*Filtro */
+
+/* Card de formulário */
+.form-card {
+    background-color: #84B0B5;
+    border-radius: 20px;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Título do formulário */
+.form-card .card-title {
+    color: #F5F5E6;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Inputs e textarea */
+.form-control {
+    background-color: #F5F5E6;
+    border: none;
+    border-radius: 20px;
+    padding: 15px;
+    font-size: 14px;
+    margin-bottom: 15px; /* Espaçamento entre os inputs */
+}
+
+
 
 /* Estilo do botão Início */
 .no-border {
@@ -132,6 +171,95 @@ body {
 .tamanho {
     font-size: 25px;
 }
+
+                    /* index */
+
+/* Estilo para a seção passo a passo */
+.steps-container {
+    background-color: #84B0B5; /* Cor de fundo */
+    padding: 15px;
+    border-radius: 20px;
+    margin: 20px auto; /* Centraliza horizontalmente */
+    max-width: 1200px; /* Define uma largura máxima */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Espaçamento entre os passos */
+}
+
+.step {
+    flex: 1;
+    margin: 0 10px;
+    padding: 10px;
+    color: white;
+    max-width: 250px; /* Define uma largura máxima para cada passo */
+    text-align: center;
+}
+
+.step h4 {
+    font-weight: bold;
+}
+
+.step p {
+    font-size: 14px;
+}
+
+/* Estilo da imagem do passo */
+.step-image {
+    width: 150px; /* Tamanho da imagem */
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+/* Certifique-se de que a barra lateral não sobreponha o conteúdo */
+.content {
+    margin-left: 250px; /* Ajuste conforme a largura da sidebar */
+    padding: 20px; /* Adiciona padding para evitar que conteúdo toque a borda */
+    width: calc(100% - 250px); /* Ajuste conforme a largura da sidebar */
+    overflow-y: auto; /* Permite rolagem vertical */
+}
+
+
+/* Estilo das imagens */
+#cards img {
+    max-width: 100px; /* Ajuste o tamanho das imagens conforme necessário */
+    height: auto;
+    border-radius: 20px; /* Para combinar com o estilo arredondado */
+}
+
+/* Estilo para os cards dos passos */
+#cards .col-md-3 {
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    padding: 1.5rem;
+    margin: 1rem;
+    border-radius: 20px;
+}
+
+
+/* Estilo do Filtro de Busca */
+.search-container {
+    width: 90%;
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    margin-top: 20px;
+}
+
+.search-input {
+    width: 40%; /* Ajuste a largura conforme necessário */
+    padding: 10px 20px;
+    border: 2px solid #84B0B5; /* Cor da borda */
+    background-color: #F5F5E6; /* Cor de fundo */
+    border-radius: 20px; /* Borda arredondada */
+    outline: none; /* Remove a borda de foco padrão */
+    font-size: 16px; /* Tamanho da fonte */
+    box-shadow: none; /* Remove a sombra padrão */
+}
+
+.search-input::placeholder {
+    color: #BF4341; /* Cor do texto do placeholder */
+    font-style: italic; /* Estilo do texto do placeholder */
+}
+
+
 
 /* Botão Enviar */
 .btn-block {
@@ -165,14 +293,13 @@ body {
 /* Contêiner principal da seção de perfil */
 .profile-container {
     display: flex;
-    flex-direction: column; /* Alinha verticalmente */
-    justify-content: flex-start;
+    flex-direction: column;
     align-items: center;
     background-color: #84B0B5;
     border-radius: 20px;
     padding: 15px;
     width: 100%;
-    max-width: 900px;
+    max-width: 1000px; /* Define uma largura máxima para alinhar com a seção passo a passo */
     margin-top: 30px; /* Espaço superior */
 }
 
@@ -252,7 +379,7 @@ body {
     text-align: center;
     margin: 20px 0;
     color: #BF4341;
-    background-color: ;
+
 }
 
 @media (max-width: 768px) {
