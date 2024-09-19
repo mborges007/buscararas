@@ -16,6 +16,11 @@ body {
     overflow: auto;
 }
 
+.scrollable-menu {
+    max-height: 200px; /* Defina a altura máxima desejada */
+    overflow-y: auto; /* Habilita a barra de rolagem vertical */
+}
+
 .content {
     flex: 1;
     display: flex;
@@ -48,12 +53,31 @@ body {
     color: #F5F5E6; /* Cor do texto */
 }
 
-.dropdown-toggle.no-border:hover {
-    background-color: #6e8e8e; /* Cor ao passar o mouse */
+.dropdown-menu {
+    max-height: 200px; /* Altura máxima para o dropdown */
+    overflow-y: auto; /* Habilita a rolagem vertical */
 }
 
+/* Personalização da barra de rolagem para navegadores WebKit */
+.dropdown-menu::-webkit-scrollbar {
+    width: 8px; /* Largura da barra de rolagem */
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+    background: #84B0B5; /* Cor do fundo da barra de rolagem */
+    border-radius: 10px; /* Bordas arredondadas da trilha da barra de rolagem */
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background-color: #F5F5E6; /* Cor da barra de rolagem */
+    border-radius: 10px; /* Bordas arredondadas do indicador da barra de rolagem */
+    border: 2px solid #84B0B5; /* Espaço ao redor do indicador */
+}
+
+/* Estilo para navegadores Firefox */
 .dropdown-menu {
-    background-color: #84B0B5; /* Cor do fundo do menu */
+    scrollbar-width: thin; /* Largura da barra de rolagem */
+    scrollbar-color: #F5F5E6 #84B0B5; /* Cor do indicador e da trilha */
 }
 
 .dropdown-item {
@@ -130,16 +154,16 @@ body {
     margin-bottom: 20px;
 }
 
-/* Inputs e textarea */
-.form-control {
+/* Inputs, textarea e select */
+.form-control,
+.form-select {
     background-color: #F5F5E6;
     border: none;
     border-radius: 20px;
-    padding: 15px;
+    padding: 10px;
     font-size: 14px;
     margin-bottom: 15px; /* Espaçamento entre os inputs */
 }
-
 
 
 /* Estilo do botão Início */
@@ -200,7 +224,7 @@ body {
 }
 
 .step p {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 /* Estilo da imagem do passo */
@@ -240,7 +264,7 @@ body {
     width: 90%;
     display: flex;
     justify-content: center; /* Centraliza horizontalmente */
-    margin-top: 20px;
+    margin-top: -40px;
 }
 
 .search-input {
@@ -256,7 +280,18 @@ body {
 
 .search-input::placeholder {
     color: #BF4341; /* Cor do texto do placeholder */
-    font-style: italic; /* Estilo do texto do placeholder */
+
+}
+
+/* Estilo dos radio buttons */
+.form-check-input {
+    accent-color: #84B0B5; /* Cor do radio button */
+    color: #84B0B5;
+}
+
+.form-check-label {
+    font-size: 16px; /* Tamanho da fonte */
+    margin-left: 5px; /* Espaçamento entre o radio button e o texto */
 }
 
 
@@ -382,6 +417,61 @@ body {
 
 }
 
+
+/* PEFIL PERFIL*/
+
+.perfil-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #84B0B5;
+    border-radius: 20px;
+    padding: 15px;
+    width: 100%;
+    max-width: 1000px; /* Define uma largura máxima para alinhar com a seção passo a passo */
+    margin-top: 30px; /* Espaço superior */
+}
+
+.perfil-photo {
+    flex-basis: 30%;
+    background-color: #D8D8D8;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+    width: 250px;
+    margin-right: 20px;
+}
+
+.perfil-photo img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 20px;
+}
+
+.perfil-info {
+    flex-basis: 65%;
+}
+
+.perfil-info input,
+.perfil-info textarea {
+    background-color: #F5F5E6;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.perfil-description {
+    background-color: #F5F5E6;
+    padding: 15px;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
 @media (max-width: 768px) {
     .sidebar {
         width: 100%;
@@ -425,3 +515,5 @@ body {
         width: 100%; /* Ajusta a largura do conteúdo principal */
     }
 }
+
+
