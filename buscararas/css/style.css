@@ -280,18 +280,42 @@ body {
 
 .search-input::placeholder {
     color: #BF4341; /* Cor do texto do placeholder */
-
 }
 
 /* Estilo dos radio buttons */
 .form-check-input {
     accent-color: #84B0B5; /* Cor do radio button */
-    color: #84B0B5;
 }
 
 .form-check-label {
     font-size: 16px; /* Tamanho da fonte */
     margin-left: 5px; /* Espaçamento entre o radio button e o texto */
+}
+
+/* Estilo para os resultados da busca */
+.results-container {
+    width: 90%;
+    margin: 20px auto; /* Centraliza os resultados */
+    background-color: #F5F5E6; /* Fundo dos resultados */
+    border-radius: 10px; /* Borda arredondada */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    padding: 10px; /* Espaçamento interno */
+}
+
+.result-item {
+    display: block;
+    padding: 10px; /* Espaçamento interno dos itens */
+    text-decoration: none; /* Remove sublinhado */
+    color: #333; /* Cor do texto */
+    border-bottom: 1px solid #ccc; /* Linha divisória entre os itens */
+}
+
+.result-item:hover {
+    background-color: #d9f7e9; /* Fundo ao passar o mouse */
+}
+
+.result-item:last-child {
+    border-bottom: none; /* Remove a linha da última item */
 }
 
 
