@@ -11,4 +11,11 @@ try {
 } catch (PDOException $e) {
     echo "Erro na conexão: " . $e->getMessage();
 }
+
+try {
+    $pdo = new PDO('mysql:host=localhost;dbname=busca', 'root', '');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo 'Conexão falhou: ' . $e->getMessage();
+}
 ?>

@@ -142,9 +142,9 @@ body {
 .form-card {
     background-color: #84B0B5;
     border-radius: 20px;
-    padding: 30px;
-    width: 100%;
-    max-width: 500px;
+    padding: 15px;
+    width: 80%;
+    max-width: 450px;
 }
 
 /* Título do formulário */
@@ -161,8 +161,8 @@ body {
     border: none;
     border-radius: 20px;
     padding: 10px;
-    font-size: 14px;
-    margin-bottom: 15px; /* Espaçamento entre os inputs */
+    font-size: 12px;
+    margin-bottom: 14px; /* Espaçamento entre os inputs */
 }
 
 
@@ -260,6 +260,12 @@ body {
 
 
 /* Estilo do Filtro de Busca */
+#searchResults {
+    display: block !important; /* Apenas para teste */
+    position: absolute;
+    z-index: 100;
+    background-color: white; /* Para ver os itens */
+}
 .search-container {
     width: 90%;
     display: flex;
@@ -268,7 +274,7 @@ body {
 }
 
 .search-input {
-    width: 40%; /* Ajuste a largura conforme necessário */
+    width: 70%; /* Ajuste a largura conforme necessário */
     padding: 10px 20px;
     border: 2px solid #84B0B5; /* Cor da borda */
     background-color: #F5F5E6; /* Cor de fundo */
@@ -347,31 +353,39 @@ body {
     height: 100vh; /* Garante a altura da tela */
     overflow: hidden;
 }
-/* Estilos para a página de perfil */
+/* Estilos para a página de lista_profiss*/
 
 /* Contêiner principal da seção de perfil */
+.w-100 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .profile-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row; /* Alinha os elementos em linha */
+    justify-content: flex-start;
+    align-items: flex-start;
     background-color: #84B0B5;
     border-radius: 20px;
-    padding: 15px;
-    width: 100%;
-    max-width: 1000px; /* Define uma largura máxima para alinhar com a seção passo a passo */
-    margin-top: 30px; /* Espaço superior */
+    padding: 10px;
+    width: 90%;
+    max-width: 800px;
+    margin-top: 30px;
+    min-height: 200px; /* Define uma altura mínima para que o conteúdo tenha espaço */
 }
 
 .profile-photo {
-    flex-basis: 30%;
     background-color: #D8D8D8;
     border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 250px;
-    width: 250px;
-    margin-right: 20px;
+    height: 150px;
+    width: 150px;
+    margin-left: 20%;
+    flex-shrink: 0; /* Garante que a imagem não será redimensionada */
 }
 
 .profile-photo img {
@@ -381,7 +395,12 @@ body {
 }
 
 .profile-info {
-    flex-basis: 65%;
+    flex-grow: 1; /* Faz com que o texto ocupe o restante do espaço */
+    padding-left: 20px;
+}
+
+.profile-info p {
+    margin: 0;
 }
 
 .profile-info input,
@@ -400,6 +419,8 @@ body {
     padding: 15px;
     border-radius: 20px;
     margin-top: 20px;
+    max-width: 100%;
+    min-height: 100px; /* Define uma altura mínima para a descrição */
 }
 
 .profile-carousel {
@@ -431,7 +452,8 @@ body {
 }
 
 .row.align-items-center-perfil {
-    margin-bottom: 20px;
+    flex-direction: row;
+    align-items: center;
 }
 
 .centrinho {
@@ -443,6 +465,13 @@ body {
 
 
 /* PEFIL PERFIL*/
+
+.row.align-items-center-perfil {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 
 .perfil-container {
     display: flex;
@@ -457,25 +486,23 @@ body {
 }
 
 .perfil-photo {
-    flex-basis: 30%;
     background-color: #D8D8D8;
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 250px;
-    width: 250px;
-    margin-right: 20px;
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+    margin-bottom: 20px;
 }
 
 .perfil-photo img {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 20px;
+    max-width: 80%;
+    max-height: 80%;
+    border-radius: 50%;
 }
 
 .perfil-info {
-    flex-basis: 65%;
+    padding-left: 20px;
+    text-align: left;
+    flex-grow: 1;
 }
 
 .perfil-info input,

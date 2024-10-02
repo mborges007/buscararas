@@ -18,9 +18,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $checkEmail->execute();
 
     if ($checkEmail->rowCount() > 0) {
-        echo "Esse e-mail já está cadastrado. Por favor, utilize outro.";
+        // Email já cadastrado
+        echo "<script>alert('Esse e-mail já está cadastrado. Por favor, utilize outro.'); window.history.back();</script>";
+        exit; // Encerra a execução
     } else {
-        // Preparando a consulta SQL
+        // Preparando a consulta SQL para inserir o novo profissional
         $sql = "INSERT INTO profissional (nome_profissional, senha_profissional, descricao_profissional, email_profissional, tel_profissional, ranking_profissional, fk_departamentos_id_area, fk_profissoes_id_profissao) 
                 VALUES (:nome, :senha, :descricao, :email, :telefone, :ranking, :id_area, :id_profissao)";
         

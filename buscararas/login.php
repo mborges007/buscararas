@@ -40,4 +40,22 @@ try {
 } catch (PDOException $e) {
     echo "Erro na conexão: " . $e->getMessage();
 }
+
+// Mensagens de erro amigáveis
+if ($stmt->rowCount() > 0) {
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (password_verify($senha, $usuario['senha_profissional'])) {
+        session_start();
+        $_SESSION['user'] = $email; // ou outra informação do usuário
+        header("Location: meuperfil.html");
+        exit;
+    } else {
+        echo "<script>alert('Email ou senha incorretos.'); window.location.href='login.html';</script>";
+    }
+} else {
+    echo "<script>alert('Email ou senha incorretos.'); window.location.href='login.html';</script>";
+}
+
+
 ?>
