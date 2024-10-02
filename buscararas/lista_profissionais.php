@@ -92,9 +92,9 @@ include 'includes/busca_profissionais.php';
             </div>
         </div>
     <?php endforeach; ?>
-<?php else: ?>
-    <p>Ainda não temos nenhum profissional cadastrado neste departamento.</p>
-<?php endif; ?>
+    <?php else: ?>
+        <p>Ainda não temos nenhum profissional cadastrado neste departamento.</p>
+    <?php endif; ?>
 
         </div>
     </div>
