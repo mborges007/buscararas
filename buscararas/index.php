@@ -32,6 +32,12 @@
         <ul id="searchResults" class="list-group position-absolute z-index-100" style="display: none;"></ul>
     </div>
 </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
         <!-- Passo a Passo -->
         <div class="steps-container d-flex justify-content-around w-100 p-4">
@@ -62,7 +68,7 @@
     document.getElementById('searchResults').style.display = 'none';
 }
 
-function carregarOpcoes() {
+    function carregarOpcoes() {
     const filtro = document.getElementById('searchFilter').value;
     const query = document.getElementById('searchInput').value;
 
