@@ -1,4 +1,5 @@
 /* Fundo geral */
+
 .sidebar, .content, .dropdown-item, .profile-container {
     cursor: default; /* Define o cursor padrão */
 }
@@ -136,7 +137,8 @@ body {
     flex-direction: column;
 }
 
-            /*Filtro */
+            
+/*Filtro */
 
 /* Card de formulário */
 .form-card {
@@ -154,6 +156,19 @@ body {
     margin-bottom: 20px;
 }
 
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.form-group label {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
 /* Inputs, textarea e select */
 .form-control,
 .form-select {
@@ -162,9 +177,17 @@ body {
     border-radius: 20px;
     padding: 10px;
     font-size: 12px;
-    margin-bottom: 14px; /* Espaçamento entre os inputs */
+    margin-bottom: 12px; /* Espaçamento entre os inputs */
 }
+.form-control.aumentar,
+.form-select.aumentar {
+    width: 111%; /* Para que o input e o select ocupem o mesmo espaço */
+    max-width: 300px; /* Ajustar largura máxima */
+    border: 2px solid #84B0B5; /* Borda de 2px com a cor #84B0B5 */
+    border-radius: 20px;       /* Bordas arredondadas */            /* Espaçamento interno */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar um efeito elevado */
 
+}
 
 /* Estilo do botão Início */
 .no-border {
@@ -480,7 +503,7 @@ body {
     background-color: #84B0B5;
     border-radius: 20px;
     padding: 15px;
-    width: 100%;
+    width: 60%;
     max-width: 1000px; /* Define uma largura máxima para alinhar com a seção passo a passo */
     margin-top: 30px; /* Espaço superior */
 }
@@ -488,8 +511,8 @@ body {
 .perfil-photo {
     background-color: #D8D8D8;
     border-radius: 50%;
-    height: 200px;
-    width: 200px;
+    height: 150px;
+    width: 150px;
     margin-bottom: 20px;
 }
 

@@ -4,7 +4,7 @@ include 'db.php';
 
 // Verificando se o parâmetro 'id' está presente na URL
 if (!isset($_GET['id'])) {
-    echo "<p>Erro: ID do profissional não foi fornecido.</p>";
+    echo "<p class='text-danger'>Erro: ID do profissional não foi fornecido.</p>";
     exit;
 }
 
@@ -20,7 +20,7 @@ try {
 
     // Verificar se o profissional foi encontrado
     if (!$profissional) {
-        echo "<p>Nenhum profissional encontrado com o ID fornecido.</p>";
+        echo "<p class='text-danger'>Nenhum profissional encontrado com o ID fornecido.</p>";
         exit;
     }
 
@@ -42,7 +42,7 @@ try {
     $media = $mediaResultado['media'] ? round($mediaResultado['media'], 2) : 0; // Arredondando para duas casas decimais
 
 } catch (PDOException $e) {
-    echo "<p>Ocorreu um erro ao buscar o profissional. Por favor, tente novamente mais tarde.</p>";
+    echo "<p class='text-danger'>Ocorreu um erro ao buscar o profissional. Por favor, tente novamente mais tarde.</p>";
     exit;
 }
 
@@ -62,13 +62,15 @@ include 'includes/busca_profissionais.php';
     <title>BuscAraras - <?php echo htmlspecialchars($profissional['nome_profissional']); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v17.0" nonce="Zt9PfOj5"></script>
 </head>
 <body>
 
 <?php include 'includes/sidebar.php'; ?>
 
 <div class="content d-flex flex-column align-items-center flex-grow-1">
-    <h1>Perfil</h1>
+   
     <!-- Card do Perfil -->
     <div class="card form-card w-150 p-8 perfil-container">
         <div class="row align-items-center-perfil mb-4">
@@ -89,7 +91,7 @@ include 'includes/busca_profissionais.php';
                         $profissao = $profStmt->fetch(PDO::FETCH_ASSOC);
                         echo htmlspecialchars($profissao['nome_profissao']);
                     } catch (PDOException $e) {
-                        echo "Erro ao buscar profissão";
+                        echo "<p class='text-danger'>Erro ao buscar profissão</p>";
                     }
                     ?>
                 </p>
@@ -116,11 +118,17 @@ include 'includes/busca_profissionais.php';
                         <input type="hidden" name="usuario_ip" value="<?php echo htmlspecialchars($usuarioIp); ?>">
                         <div class="mb-3">
                             <label for="nota" class="form-label">Nota (0 a 10):</label>
-                            <input type="number" class="form-control" id="nota" name="nota" min="0" max="10"required>
+                            <input type="number" class="form-control" id="nota" name="nota" min="0" max="10" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Avaliar</button>
                     </form>
+                    
                 <?php endif; ?>
+                <div class="fb-comments" 
+                        data-href="https://www.seusite.com/perfil_profissional.php?id=<?php echo $profissionalId; ?>" 
+                        data-width="100%" 
+                        data-numposts="5">
+                    </div>
             </div>
         </div>
     </div>

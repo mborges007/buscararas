@@ -16,22 +16,22 @@
     <?php include 'includes/sidebar.php'; ?>
 
     <div class="content d-flex flex-column align-items-center flex-grow-1">
-        <h1>Início</h1>
-        <div class="d-flex justify-content-center mb-4">
-    <div class="form-group me-3">
-        <label for="searchFilter">Filtrar por</label>
-        <select class="form-select" id="searchFilter" onchange="toggleSearchInput()">
-            <option value="name">Nome</option>
-            <option value="profession">Profissão</option>
-        </select>
+    <h1>Início</h1>
+    <div class="d-flex justify-content-center mb-4">
+        <div class="form-group me-3">
+            <label for="searchFilter">Filtrar por</label>
+            <select class="form-select aumentar" id="searchFilter" onchange="toggleSearchInput()">
+                <option value="name">Nome</option>
+                <option value="profession">Profissão</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="searchInput">Digite para buscar</label>
+            <input type="text" class="form-control aumentar" id="searchInput" onkeyup="carregarOpcoes()" placeholder="Comece a digitar...">
+            <ul id="searchResults" class="list-group position-absolute z-index-100" style="display: none;"></ul>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label for="searchInput">Digite para buscar</label>
-        <input type="text" class="form-control" id="searchInput" onkeyup="carregarOpcoes()" placeholder="Comece a digitar...">
-        <ul id="searchResults" class="list-group position-absolute z-index-100" style="display: none;"></ul>
-    </div>
-</div>
 <br>
 <br>
 <br>

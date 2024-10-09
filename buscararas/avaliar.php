@@ -5,7 +5,7 @@ include 'db.php';
 // Verificando se os dados do formulário foram enviados
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_profissional = $_POST['id_profissional'];
-    $nota = $_POST['nota'];
+    $estrelas = $_POST['estrelas']; // Renomeado de nota para estrelas
     $usuario_ip = $_POST['usuario_ip'];
 
     try {
@@ -19,20 +19,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($avaliacaoExistente) {
             // Atualizando a avaliação existente
-            $updateQuery = "UPDATE avaliacao SET notas_avaliacao = :nota WHERE id_avaliacao = :id_avaliacao";
+            $updateQuery = "UPDATE avaliacao SET estrelas_avaliacao = :estrelas WHERE id_avaliacao = :id_avaliacao"; // Atualizado para estrelas
             $updateStmt = $conn->prepare($updateQuery);
             $updateStmt->bindParam(':id_avaliacao', $avaliacaoExistente['id_avaliacao'], PDO::PARAM_INT);
-            $updateStmt->bindParam(':nota', $nota, PDO::PARAM_INT);
+            $updateStmt->bindParam(':estrelas', $estrelas, PDO::PARAM_INT); // Atualizado para estrelas
             $updateStmt->execute();
 
             // Mensagem de sucesso para atualização
             header("Location: perfilunico.php?id=$id_profissional&mensagem=" . urlencode("Avaliação atualizada com sucesso!"));
         } else {
             // Inserir a nova avaliação no banco de dados
-            $insertQuery = "INSERT INTO avaliacao (fk_profissional_id_profissional, notas_avaliacao, usuario_ip) VALUES (:id_profissional, :nota, :usuario_ip)";
+            $insertQuery = "INSERT INTO avaliacao (fk_profissional_id_profissional, estrelas_avaliacao, usuario_ip) VALUES (:id_profissional, :estrelas, :usuario_ip)"; // Atualizado para estrelas
             $stmt = $conn->prepare($insertQuery);
             $stmt->bindParam(':id_profissional', $id_profissional, PDO::PARAM_INT);
-            $stmt->bindParam(':nota', $nota, PDO::PARAM_INT);
+            $stmt->bindParam(':estrelas', $estrelas, PDO::PARAM_INT); // Atualizado para estrelas
             $stmt->bindParam(':usuario_ip', $usuario_ip, PDO::PARAM_STR);
             $stmt->execute();
 

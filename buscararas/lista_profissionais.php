@@ -29,9 +29,7 @@ try {
     exit;
 }
 
-
 include 'includes/busca_profissionais.php';
-
 
 
 ?>

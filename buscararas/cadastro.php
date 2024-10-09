@@ -45,57 +45,57 @@ $profissoes = $conn->query("SELECT * FROM profissoes")->fetchAll(PDO::FETCH_ASSO
             </div>
         </div>                     
         <!-- Main Content -->
-        <div class="main-content d-flex justify-content-center align-items-center">
-    <div class="card form-card">
-        <div class="card-body">
-            <h4 class="card-title text-center">Cadastro</h4>
-            <form action="cadastrar.php" method="POST">
-                <div class="form-group">
-                    <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" name="nome_profissional" required>
+<div class="main-content d-flex justify-content-center align-items-center">
+            <div class="card form-card">
+                <div class="card-body">
+                    <h4 class="card-title text-center">Cadastro</h4>
+                    <form action="cadastrar.php" method="POST">
+                        <div class="form-group">
+                            <label for="nome">Nome</label>
+                            <input type="text" class="form-control" id="nome" name="nome_profissional" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email_profissional" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefone">Telefone com Whatsapp</label>
+                            <small class="form-text text-muted">Insira apenas números (sem espaços ou caracteres especiais).</small>
+                            <input type="tel" class="form-control" id="telefone" maxlength="11" name="tel_profissional" required pattern="[0-9]{11}">
+                            
+                        </div>
+                        <div class="form-group">
+                            <label for="area-atuacao">Área de atuação</label>
+                            <select class="form-select" id="area-atuacao" name="fk_departamentos_id_area" required onchange="carregarProfissoes()">
+                                <option selected>Selecione uma opção</option>
+                                <?php foreach ($departamentos as $departamento): ?>
+                                    <option value="<?= $departamento['id_area'] ?>"><?= $departamento['nome_area'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="profissao">Profissão</label>
+                            <select class="form-select" id="profissao" name="fk_profissoes_id_profissao" required>
+                                <option selected>Selecione uma opção</option>
+                                <!-- Profissões serão carregadas aqui -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="senha">Senha</label>
+                            <small class="form-text text-muted">A senha deve ter entre 6 e 8 caracteres.</small>
+                            <input type="password" class="form-control" id="senha" name="senha_profissional" required maxlength="8" pattern=".{6,8}" title="A senha deve ter entre 6 e 8 caracteres.">
+                            
+                        </div>
+                        <div class="form-group">
+                            <label for="descricao">Descrição Profissional</label>
+                            <textarea class="form-control" id="descricao" name="descricao_profissional" rows="3" placeholder="Breve relato sobre seu ofício"></textarea>
+                        </div>
+                        <div class="btn-container">
+                            <button type="submit" class="btn btn-danger btn-sm btn-block">Enviar</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email_profissional" required>
-                </div>
-                <div class="form-group">
-                    <label for="telefone">Telefone com Whatsapp</label>
-                    <small class="form-text text-muted">Insira apenas números (sem espaços ou caracteres especiais).</small>
-                    <input type="tel" class="form-control" id="telefone" maxlength="11" name="tel_profissional" required pattern="[0-9]{11}">
-                    
-                </div>
-                <div class="form-group">
-                    <label for="area-atuacao">Área de atuação</label>
-                    <select class="form-select" id="area-atuacao" name="fk_departamentos_id_area" required onchange="carregarProfissoes()">
-                        <option selected>Selecione uma opção</option>
-                        <?php foreach ($departamentos as $departamento): ?>
-                            <option value="<?= $departamento['id_area'] ?>"><?= $departamento['nome_area'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="profissao">Profissão</label>
-                    <select class="form-select" id="profissao" name="fk_profissoes_id_profissao" required>
-                        <option selected>Selecione uma opção</option>
-                        <!-- Profissões serão carregadas aqui -->
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="senha">Senha</label>
-                    <small class="form-text text-muted">A senha deve ter entre 6 e 8 caracteres.</small>
-                    <input type="password" class="form-control" id="senha" name="senha_profissional" required maxlength="8" pattern=".{6,8}" title="A senha deve ter entre 6 e 8 caracteres.">
-                    
-                </div>
-                <div class="form-group">
-                    <label for="descricao">Descrição Profissional</label>
-                    <textarea class="form-control" id="descricao" name="descricao_profissional" rows="3" placeholder="Breve relato sobre seu ofício"></textarea>
-                </div>
-                <div class="btn-container">
-                    <button type="submit" class="btn btn-danger btn-sm btn-block">Enviar</button>
-                </div>
-            </form>
         </div>
-    </div>
 </div>
 
    
