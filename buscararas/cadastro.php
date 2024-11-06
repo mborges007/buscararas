@@ -8,7 +8,15 @@ $departamentos = $conn->query("SELECT * FROM departamentos")->fetchAll(PDO::FETC
 $profissoes = $conn->query("SELECT * FROM profissoes")->fetchAll(PDO::FETCH_ASSOC);
 
 
-
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $descricao = trim($_POST['descricao_profissional']);
+    
+    if (strlen($descricao) < 80) {
+        $error_message = "A descrição deve ter pelo menos 80 caracteres.";
+    } else {
+        // Processar o formulário
+    }
+}
 
 ?>
 
@@ -21,6 +29,8 @@ $profissoes = $conn->query("SELECT * FROM profissoes")->fetchAll(PDO::FETCH_ASSO
     <title>BuscAraras Cadastro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
     <div class="container-fluid p-0 vh-100 d-flex">
@@ -60,7 +70,7 @@ $profissoes = $conn->query("SELECT * FROM profissoes")->fetchAll(PDO::FETCH_ASSO
                         </div>
                         <div class="form-group">
                             <label for="telefone">Telefone com Whatsapp</label>
-                            <small class="form-text text-muted">Insira apenas números (sem espaços ou caracteres especiais).</small>
+                            <small class="form-text text-muted" style="margin-top: -6px;">Insira apenas números (sem espaços ou caracteres especiais).</small>
                             <input type="tel" class="form-control" id="telefone" maxlength="11" name="tel_profissional" required pattern="[0-9]{11}">
                             
                         </div>
@@ -82,17 +92,18 @@ $profissoes = $conn->query("SELECT * FROM profissoes")->fetchAll(PDO::FETCH_ASSO
                         </div>
                         <div class="form-group">
                             <label for="senha">Senha</label>
-                            <small class="form-text text-muted">A senha deve ter entre 6 e 8 caracteres.</small>
+                            <small class="form-text text-muted" style="margin-top: -6px;">A senha deve ter entre 6 e 8 caracteres.</small>
                             <input type="password" class="form-control" id="senha" name="senha_profissional" required maxlength="8" pattern=".{6,8}" title="A senha deve ter entre 6 e 8 caracteres.">
                             
                         </div>
                         <div class="form-group">
-                            <label for="descricao">Descrição Profissional</label>
-                            <textarea class="form-control" id="descricao" name="descricao_profissional" rows="3" placeholder="Breve relato sobre seu ofício"></textarea>
-                        </div>
-                        <div class="btn-container">
-                            <button type="submit" class="btn btn-danger btn-sm btn-block">Enviar</button>
-                        </div>
+                                <label for="descricao">Descrição Profissional</label>
+                                <small class="form-text text-muted"style="margin-top: -6px;">Mínimo 80 caracteres.</small>
+                                <textarea class="form-control" id="descricao" name="descricao_profissional" rows="3" placeholder="Breve relato sobre seu ofício" minlength="80" required></textarea>
+                            </div>
+                            <div class="btn-container">
+                                <button type="submit" class="btn btn-danger btn-sm btn-block">Enviar</button>
+                            </div>
                     </form>
                 </div>
         </div>

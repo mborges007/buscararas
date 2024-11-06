@@ -17,6 +17,7 @@ body {
     overflow: auto;
 }
 
+
 .scrollable-menu {
     max-height: 200px; /* Defina a altura máxima desejada */
     overflow-y: auto; /* Habilita a barra de rolagem vertical */
@@ -28,8 +29,8 @@ body {
     flex-direction: column;
     align-items: center; /* Centraliza horizontalmente */
     gap: 20px; /* Espaço entre os cartões */
-        margin-left: 200px; /* Ajuste conforme a largura da sidebar */
-        width: calc(100% - 200px); /* Ajuste conforme a largura da sidebar */
+    margin-left: 200px; /* Ajuste conforme a largura da sidebar */
+    width: calc(100% - 200px); /* Ajuste conforme a largura da sidebar */
     }
 
 /* Sidebar esquerda */
@@ -137,6 +138,12 @@ body {
     flex-direction: column;
 }
 
+#ordenar {
+    background-color: #F5F5E6;
+    border-radius: 20px;
+    padding: 5px;
+}
+
             
 /*Filtro */
 
@@ -169,6 +176,7 @@ body {
     color: #333;
 }
 
+
 /* Inputs, textarea e select */
 .form-control,
 .form-select {
@@ -181,7 +189,7 @@ body {
 }
 .form-control.aumentar,
 .form-select.aumentar {
-    width: 111%; /* Para que o input e o select ocupem o mesmo espaço */
+    width: 150%; /* Para que o input e o select ocupem o mesmo espaço */
     max-width: 300px; /* Ajustar largura máxima */
     border: 2px solid #84B0B5; /* Borda de 2px com a cor #84B0B5 */
     border-radius: 20px;       /* Bordas arredondadas */            /* Espaçamento interno */
@@ -311,6 +319,8 @@ body {
     color: #BF4341; /* Cor do texto do placeholder */
 }
 
+
+
 /* Estilo dos radio buttons */
 .form-check-input {
     accent-color: #84B0B5; /* Cor do radio button */
@@ -392,38 +402,48 @@ body {
     align-items: flex-start;
     background-color: #84B0B5;
     border-radius: 20px;
-    padding: 10px;
+    padding: 20px;
     width: 90%;
     max-width: 800px;
     margin-top: 30px;
-    min-height: 200px; /* Define uma altura mínima para que o conteúdo tenha espaço */
+    min-height: 200px; /* Define uma altura mínima para garantir espaço */
 }
 
 .profile-photo {
     background-color: #D8D8D8;
-    border-radius: 20px;
+    border-radius: 50%; /* Deixa a imagem circular */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 150px;
     width: 150px;
-    margin-left: 20%;
     flex-shrink: 0; /* Garante que a imagem não será redimensionada */
 }
 
 .profile-photo img {
     max-width: 100%;
     max-height: 100%;
-    border-radius: 20px;
+    border-radius: 50%; /* Mantém a imagem redonda */
 }
 
 .profile-info {
-    flex-grow: 1; /* Faz com que o texto ocupe o restante do espaço */
-    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px; /* Isso ajuda a manter o alinhamento consistente */
 }
+
+
 
 .profile-info p {
     margin: 0;
+    margin-bottom: 15px; /* Adiciona um espaçamento entre as informações */
+}
+
+.row.align-items-center-perfil {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .profile-info input,
@@ -474,10 +494,7 @@ body {
     background-color: #93372F;
 }
 
-.row.align-items-center-perfil {
-    flex-direction: row;
-    align-items: center;
-}
+
 
 .centrinho {
     text-align: center;
@@ -571,6 +588,8 @@ body {
 
     .profile-info {
         width: 100%;
+        padding-left: 0; /* Remove o padding à esquerda em telas pequenas */
+        text-align: center; /* Centraliza o texto */
     }
 }
 

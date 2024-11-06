@@ -9,6 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
   
@@ -16,21 +18,22 @@
     <?php include 'includes/sidebar.php'; ?>
 
     <div class="content d-flex flex-column align-items-center flex-grow-1">
-    <h1>Início</h1>
-    <div class="d-flex justify-content-center mb-4">
-        <div class="form-group me-3">
-            <label for="searchFilter">Filtrar por</label>
-            <select class="form-select aumentar" id="searchFilter" onchange="toggleSearchInput()">
-                <option value="name">Nome</option>
-                <option value="profession">Profissão</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="searchInput">Digite para buscar</label>
-            <input type="text" class="form-control aumentar" id="searchInput" onkeyup="carregarOpcoes()" placeholder="Comece a digitar...">
-            <ul id="searchResults" class="list-group position-absolute z-index-100" style="display: none;"></ul>
-        </div>
+    <h1 >INÍCIO</h1>
+    <div class="d-flex justify-content-center mb-4" style="text-align: center;">
+    <div class="me-3" >
+        <label for="searchFilter" >Filtrar por</label>
+        <select class="form-select aumentar" id="searchFilter" onchange="toggleSearchInput()">
+            <option value="name">Nome</option>
+            <option value="profession">Profissão</option>
+        </select>
     </div>
+    <div class="">
+        <label for="searchInput">Digite para buscar</label>
+        <input type="text" class="form-control aumentar"  id="searchInput" onkeyup="carregarOpcoes()" placeholder="Comece a digitar...">
+        <ul id="searchResults" class="list-group position-absolute z-index-100" style="display: none;"></ul>
+    </div>
+</div>
+
 
 <br>
 <br>

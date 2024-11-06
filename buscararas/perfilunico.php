@@ -62,6 +62,7 @@ include 'includes/busca_profissionais.php';
     <title>BuscAraras - <?php echo htmlspecialchars($profissional['nome_profissional']); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v17.0" nonce="Zt9PfOj5"></script>
 </head>
@@ -79,7 +80,13 @@ include 'includes/busca_profissionais.php';
             </div>
             <div class="col-md-8 perfil-info">
                 <h4 class="text-center"><?php echo htmlspecialchars($profissional['nome_profissional']); ?></h4>
-                <p><strong>Telefone:</strong> <?php echo htmlspecialchars($profissional['tel_profissional']); ?></p>
+           <!-- Exibe o telefone com o ícone e o link do WhatsApp -->
+                <p><strong>Telefone:</strong>
+                    <a href="https://wa.me/55<?php echo htmlspecialchars($profissional['tel_profissional']); ?>" target="_blank">
+                        <i class="fab fa-whatsapp text-success"></i> <?php echo htmlspecialchars($profissional['tel_profissional']); ?>
+                    </a>
+                </p>
+
                 <p><strong>Profissão:</strong>
                     <?php
                     // Consultar a profissão do profissional

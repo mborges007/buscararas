@@ -18,7 +18,7 @@ try {
                    d.nome_area
             FROM profissional p
             JOIN profissoes pr ON pr.id_profissao = p.fk_profissoes_id_profissao
-            JOIN departamentos d ON d.id_area = p.fk_departamentos_id_area  -- Correção aqui
+            JOIN departamentos d ON d.id_area = p.fk_departamentos_id_area
             WHERE p.id_profissional = :id_profissional";
 
     $stmt = $conn->prepare($sql);
@@ -45,6 +45,7 @@ try {
     <title>BuscAraras - Meu Perfil</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="sidebar d-flex flex-column p-3">
@@ -52,16 +53,16 @@ try {
         <a class="btn btn-light no-border mb-2 tamanho" href="index.php">Início</a>
         <h3 class="text-danger text-left">Meu Perfil</h3>
         <div class="mt-auto">
-        <a class="btn btn-primary w-100 mb-2" href="editar_perfil.php">Alterar</a>
+            <a class="btn btn-primary w-100 mb-2" href="editar_perfil.php">Alterar</a>
             <a class="btn btn-secondary w-100" href="logout.php">Sair</a>
         </div>
     </div>
           
     <div class="content d-flex flex-column align-items-center flex-grow-1">
         <h1>Meu Perfil</h1>
-        <div class="card form-card w-150 p-8 perfil-container">
-            <div class="row align-items-center-perfil mb-4">
-                <div class="col-md-6 text-center">
+        <div class="card form-card w-100 p-4 perfil-container">
+            <div class="row align-items-center mb-4">
+                <div class="col-md-4 text-center">
                     <img src="img/luka.jpg" alt="Foto do Profissional" class="img-fluid rounded-circle perfil-photo">
                 </div>
                 <div class="col-md-8 perfil-info">
@@ -69,7 +70,7 @@ try {
                     <p><strong>Telefone:</strong> <?php echo htmlspecialchars($profissional['tel_profissional']); ?></p>
                     <p><strong>Email:</strong> <?php echo htmlspecialchars($profissional['email_profissional']); ?></p>
                     <p><strong>Profissão:</strong> <?php echo htmlspecialchars($profissional['nome_profissao']); ?></p>
-                    <p><strong>Departamento:</strong> <?php echo htmlspecialchars($profissional['nome_area']); ?></p> <!-- Correção aqui -->
+                    <p><strong>Departamento:</strong> <?php echo htmlspecialchars($profissional['nome_area']); ?></p>
                     <h5>Descrição</h5>
                     <p><?php echo htmlspecialchars($profissional['descricao_profissional']); ?></p>
                 </div>
