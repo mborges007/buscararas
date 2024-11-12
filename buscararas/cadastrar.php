@@ -1,4 +1,5 @@
 <?php
+session_start(); // Começar a sessão no início do script
 include 'db.php'; // Incluindo a conexão com o banco de dados
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -41,9 +42,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Executando a consulta
             $stmt->execute();
 
-            // Redirecionando para a página meuperfil.php
-            header("Location: meuperfil.php");
-            exit; // Encerra o script para evitar execução adicional
+            // Armazenar o ID do profissional na sessão após o cadastro
+            $_SESSION['id_profissional'] = $conn->lastInsertId(); // Salva o ID do profissional recém-cadastrado
+
+// Exibe o ID do profissional na sessão (para fins de debug)
+echo "ID do Profissional: " . $_SESSION['id_profissional'];
+
+// Redirecionando para a página meuperfil.php
+header("Location: meuperfil.php");
+exit; // Encerra o script para evitar execução adicional
+
         } catch (PDOException $e) {
             echo "Erro ao cadastrar: " . $e->getMessage();
         }

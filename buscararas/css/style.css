@@ -1,4 +1,44 @@
-/* Fundo geral */
+/* Estilos gerais para as estrelas */
+.stars {
+    display: flex;
+    cursor: pointer;
+}
+
+.stars input {
+    display: none; /* Escondemos os inputs do tipo radio */
+}
+
+.stars label {
+    font-size: 30px;
+    color: white; /* Cor das estrelas inicialmente */
+    margin-right: 5px;
+}
+
+/* Estrelas selecionadas (amarelas) */
+.stars input:checked ~ label {
+    color: gold;
+}
+
+/* Estrela no hover (também amarela enquanto passa o mouse) */
+.stars label:hover,
+.stars label:hover ~ label {
+    color: gold;
+}
+
+/* Estrela quando o usuário passa o mouse, mas não selecionou */
+.stars input:hover ~ label {
+    color: gold;
+}
+
+.fas.fa-star, .fas.fa-star-half-alt {
+    color: gold; 
+}
+
+.far.fa-star {
+    color: #000000; 
+}
+
+
 
 .sidebar, .content, .dropdown-item, .profile-container {
     cursor: default; /* Define o cursor padrão */
@@ -144,8 +184,7 @@ body {
     padding: 5px;
 }
 
-            
-/*Filtro */
+    
 
 /* Card de formulário */
 .form-card {
@@ -187,15 +226,7 @@ body {
     font-size: 12px;
     margin-bottom: 12px; /* Espaçamento entre os inputs */
 }
-.form-control.aumentar,
-.form-select.aumentar {
-    width: 150%; /* Para que o input e o select ocupem o mesmo espaço */
-    max-width: 300px; /* Ajustar largura máxima */
-    border: 2px solid #84B0B5; /* Borda de 2px com a cor #84B0B5 */
-    border-radius: 20px;       /* Bordas arredondadas */            /* Espaçamento interno */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar um efeito elevado */
 
-}
 
 /* Estilo do botão Início */
 .no-border {
@@ -291,62 +322,33 @@ body {
 
 
 /* Estilo do Filtro de Busca */
-#searchResults {
-    display: block !important; /* Apenas para teste */
-    position: absolute;
-    z-index: 100;
-    background-color: white; /* Para ver os itens */
-}
-.search-container {
-    width: 90%;
-    display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    margin-top: -40px;
+
+.form-control.aumentar,
+.form-select.aumentar {
+    width: 120%;
+    max-width: 300px;
+    border: 2px solid #84B0B5; 
+    border-radius: 20px;                
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
-.search-input {
-    width: 70%; /* Ajuste a largura conforme necessário */
-    padding: 10px 20px;
-    border: 2px solid #84B0B5; /* Cor da borda */
-    background-color: #F5F5E6; /* Cor de fundo */
-    border-radius: 20px; /* Borda arredondada */
-    outline: none; /* Remove a borda de foco padrão */
-    font-size: 16px; /* Tamanho da fonte */
-    box-shadow: none; /* Remove a sombra padrão */
-}
-
-.search-input::placeholder {
-    color: #BF4341; /* Cor do texto do placeholder */
-}
-
-
-
-/* Estilo dos radio buttons */
-.form-check-input {
-    accent-color: #84B0B5; /* Cor do radio button */
-}
-
-.form-check-label {
-    font-size: 16px; /* Tamanho da fonte */
-    margin-left: 5px; /* Espaçamento entre o radio button e o texto */
-}
 
 /* Estilo para os resultados da busca */
 .results-container {
     width: 90%;
-    margin: 20px auto; /* Centraliza os resultados */
-    background-color: #F5F5E6; /* Fundo dos resultados */
-    border-radius: 10px; /* Borda arredondada */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
-    padding: 10px; /* Espaçamento interno */
+    margin: 20px auto; 
+    background-color: #F5F5E6; 
+    border-radius: 10px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    padding: 10px;
 }
 
 .result-item {
     display: block;
-    padding: 10px; /* Espaçamento interno dos itens */
-    text-decoration: none; /* Remove sublinhado */
-    color: #333; /* Cor do texto */
-    border-bottom: 1px solid #ccc; /* Linha divisória entre os itens */
+    padding: 10px; 
+    text-decoration: none; 
+    color: #333; 
+    border-bottom: 1px solid #ccc; 
 }
 
 .result-item:hover {

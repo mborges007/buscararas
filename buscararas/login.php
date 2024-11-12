@@ -1,59 +1,57 @@
 <?php
-$host = 'localhost'; // ou o endereço do seu servidor de banco de dados
-$db = 'busca'; // substitua pelo nome do seu banco de dados
-$user = 'root'; // substitua pelo seu usuário do banco de dados
-$pass = ''; // substitua pela sua senha do banco de dados
-
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = $_POST['email_profissional'];
-        $senha = $_POST['senha_profissional'];
-    
-        // Consulta para verificar as credenciais
-        $stmt = $conn->prepare("SELECT * FROM profissional WHERE email_profissional = :email");
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-    
-        if ($stmt->rowCount() > 0) {
-            $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-            // Verifique a senha usando password_verify
-            if (password_verify($senha, $usuario['senha_profissional'])) {
-                // Credenciais corretas, faça o login
-                session_start();
-                $_SESSION['user'] = $usuario['id_profissional']; // Armazene o ID do profissional
-                header("Location: meuperfil.php"); // Redireciona para a página do painel
-                exit;
-            } else {
-                echo "Email ou senha incorretos.";
-            }
-        } else {
-            echo "Email ou senha incorretos.";
-        }
-    }
-    
-} catch (PDOException $e) {
-    echo "Erro na conexão: " . $e->getMessage();
-}
-
-// Mensagens de erro amigáveis
-if ($stmt->rowCount() > 0) {
-    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (password_verify($senha, $usuario['senha_profissional'])) {
-        session_start();
-        $_SESSION['user'] = $email; // ou outra informação do usuário
-        header("Location: meuperfil.php");
-        exit;
-    } else {
-        echo "<script>alert('Email ou senha incorretos.'); window.location.href='login.html';</script>";
-    }
-} else {
-    echo "<script>alert('Email ou senha incorretos.'); window.location.href='login.html';</script>";
-}
-
-
+session_start();
+ob_start(); // Inicia o buffer de saída
 ?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuscAraras Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+<body>
+    <div class="container-fluid p-0 vh-100 d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar d-flex flex-column p-3">
+            <h1 class="text-light text-left">BuscAraras</h1>
+            
+            <!-- Botão Início -->
+            <a class="btn btn-light no-border mb-2 tamanho" href="index.php">Início</a>
+            <h3 class="text-danger text-left">Login</h3>
+            
+            <!-- Botões de Login e Cadastro -->
+            <div class="mt-auto">
+                <a class="btn btn-primary w-100 mb-2" href="login.php">Login</a>
+                <a class="btn btn-secondary w-100" href="cadastro.php">Cadastro</a>
+            </div>
+        </div>                     
+
+        <!-- Main Content -->
+        <div class="main-content d-flex justify-content-center align-items-center">
+            <div class="card form-card">
+                <div class="card-body">
+                    <h4 class="card-title text-center">Login</h4>
+                    <form action="processa_login.php" method="POST"> <!-- Ação do formulário -->
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email_profissional" required placeholder="Digite seu email">
+                        </div>
+                        <div class="form-group">
+                            <label for="senha">Senha</label>
+                            <input type="password" class="form-control" id="senha" name="senha_profissional" required placeholder="Máx. 8">
+                        </div>
+                        <div class="btn-container">
+                            <button type="submit" class="btn btn-success btn-sm btn-block">Entrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

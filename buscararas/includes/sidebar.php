@@ -29,7 +29,7 @@
 
         <!-- Botões de Login e Cadastro -->
         <div class="mt-auto">
-            <a class="btn btn-primary w-100 mb-2" href="login.html">Login</a>
+            <a class="btn btn-primary w-100 mb-2" href="login.php">Login</a>
             <a class="btn btn-secondary w-100" href="cadastro.php">Cadastro</a>
         </div>
     </div>

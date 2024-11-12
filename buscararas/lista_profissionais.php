@@ -15,7 +15,7 @@ $ordenar = isset($_GET['ordenar']) ? $_GET['ordenar'] : 'nome'; // Valor padrão
 
 // Modificando a consulta de acordo com a ordenação escolhida
 if ($ordenar == 'avaliacao') {
-    $orderBy = 'media_avaliacao DESC'; // Ordena pela média de avaliação (decrescente)
+    $orderBy = 'media_estrelas DESC'; // Ordena pela média de estrelas (decrescente)
 } else {
     $orderBy = 'p.nome_profissional ASC'; // Ordena pelo nome do profissional (crescente)
 }
@@ -24,7 +24,7 @@ try {
     // Consultar os profissionais relacionados à profissão selecionada com a ordenação
     $query = "
         SELECT p.*, 
-        (SELECT AVG(a.notas_avaliacao) FROM avaliacao a WHERE a.fk_profissional_id_profissional = p.id_profissional) AS media_avaliacao 
+        (SELECT AVG(a.estrelas_avaliacao) FROM avaliacao a WHERE a.fk_profissional_id_profissional = p.id_profissional) AS media_estrelas 
         FROM profissional p
         WHERE p.fk_profissoes_id_profissao = 
               (SELECT id_profissao FROM profissoes WHERE nome_profissao = :nome_profissao)
@@ -61,28 +61,29 @@ include 'includes/busca_profissionais.php';
         <div class="container mt-5">
             <h1 style="text-align: center; text-transform: uppercase;"><?php echo htmlspecialchars($profissaoName); ?></h1>
             <br>
-       <!-- Formulário de Ordenação -->
-        <form method="GET" action="" style="text-align: center;">
-            <input type="hidden" name="profissao" value="<?php echo urlencode($profissaoName); ?>" />
-            <label for="ordenar" style="margin-bottom: 10px;">Ordenar por:</label>
+            <!-- Formulário de Ordenação -->
+            <form method="GET" action="" style="text-align: center;">
+                <input type="hidden" name="profissao" value="<?php echo urlencode($profissaoName); ?>" />
+                <label for="ordenar" style="margin-bottom: 10px;">Ordenar por:</label>
 
-            <!-- Contêiner para o select e botão -->
-            <div class="select-container" style="display: flex; justify-content: center; align-items: center; width: 100%; gap: 10px; margin: 0 auto;">
-                <!-- Select com bordas, arredondamento e altura ajustada -->
-                <select class="form-select custom-select" name="ordenar" id="ordenar" style="width: 150px; height: 38px; border: 2px solid #84B0B5; border-radius: 20px; padding: 5px 10px; margin: 0; box-sizing: border-box;">
-                    <option value="nome" <?php echo isset($_GET['ordenar']) && $_GET['ordenar'] == 'nome' ? 'selected' : ''; ?>>Nome</option>
-                    <option value="avaliacao" <?php echo isset($_GET['ordenar']) && $_GET['ordenar'] == 'avaliacao' ? 'selected' : ''; ?>>Média de Avaliação</option>
-                </select>
+                <!-- Contêiner para o select e botão -->
+                <div class="select-container" style="display: flex; justify-content: center; align-items: center; width: 100%; gap: 10px; margin: 0 auto;">
+                    <!-- Select com bordas, arredondamento e altura ajustada -->
+                    <select class="form-select custom-select" name="ordenar" id="ordenar" style="width: 150px; height: 38px; border: 2px solid #84B0B5; border-radius: 20px; padding: 5px 10px; margin: 0; box-sizing: border-box;">
+                        <option value="nome" <?php echo isset($_GET['ordenar']) && $_GET['ordenar'] == 'nome' ? 'selected' : ''; ?>>Nome</option>
+                        <option value="avaliacao" <?php echo isset($_GET['ordenar']) && $_GET['ordenar'] == 'avaliacao' ? 'selected' : ''; ?>>Média de Avaliação</option>
+                    </select>
 
-                <!-- Botão de Ordenar com altura ajustada e largura reduzida -->
-                <button type="submit" class="btn btn-primary" style="border-radius: 20px; height: 38px; padding: 5px 15px; margin: 0; box-sizing: border-box; width: auto;">Ordenar</button>
-            </div>
-        </form>
-
+                    <!-- Botão de Ordenar com altura ajustada e largura reduzida -->
+                    <button type="submit" class="btn btn-primary" style="border-radius: 20px; height: 38px; padding: 5px 15px; margin: 0; box-sizing: border-box; width: auto;">Ordenar</button>
+                </div>
+            </form>
 
             <!-- Verifica se há profissionais cadastrados -->
             <?php if (count($profissionais) > 0): ?>
                 <?php foreach ($profissionais as $profissional): ?>
+                    
+
                     
                     <div class="w-100 mb-4">
                         
@@ -95,7 +96,7 @@ include 'includes/busca_profissionais.php';
                                 <div class="col-md-8 profile-info">
                                         <h4 class="text-center" style="text-transform: capitalize;"><?php echo htmlspecialchars($profissional['nome_profissional']); ?></h4>
                                         <p><strong>Telefone:</strong> 
-                                            <a href="https://wa.me/55<?php echo htmlspecialchars($profissional['tel_profissional']); ?>" target="_blank">
+                                        <a href="https://wa.me/55<?php echo htmlspecialchars($profissional['tel_profissional']);?>" target="_blank">
                                                 <i class="fab fa-whatsapp text-success"></i> <?php echo htmlspecialchars($profissional['tel_profissional']); ?>
                                             </a>
                                         </p>
@@ -105,18 +106,36 @@ include 'includes/busca_profissionais.php';
                                         <p><?php echo htmlspecialchars($profissional['descricao_profissional']); ?></p>
                                         
                                         <h5>Avaliação</h5>
-                                        <p>
-                                            <?php
-                                            $media_avaliacao = isset($profissional['media_avaliacao']) ? $profissional['media_avaliacao'] : null;
-                                            if ($media_avaliacao !== null) {
-                                                echo htmlspecialchars(number_format($media_avaliacao, 1)) . " de média";
-                                            } else {
-                                                echo "Profissional não avaliado";
-                                            }
-                                            ?>
-                                        </p>
-                                    </div>
+                                                <p>
+                                                    <?php
+                                                    
+                                                    $media_estrelas = isset($profissional['media_estrelas']) ? $profissional['media_estrelas'] : null;
+                                                    if ($media_estrelas !== null) {
+                                                        
+                                                        $stars_full = floor($media_estrelas); 
+                                                        $stars_half = ($media_estrelas - $stars_full >= 0.5) ? 1 : 0; 
+                                                        $stars_empty = 5 - ($stars_full + $stars_half); 
 
+                                                        // Exibe as estrelas
+                                                        for ($i = 0; $i < $stars_full; $i++) {
+                                                            echo '<i class="fas fa-star"></i>'; 
+                                                        }
+                                                        if ($stars_half) {
+                                                            echo '<i class="fas fa-star-half-alt"></i>'; 
+                                                        }
+                                                        for ($i = 0; $i < $stars_empty; $i++) {
+                                                            echo '<i class="far fa-star"></i>'; 
+                                                        }
+                                                        
+                                                        echo " (" . htmlspecialchars(number_format($media_estrelas, 1)) . " estrelas)";
+                                                    } else {
+                                                        echo "Profissional não avaliado";
+                                                    }
+                                                    ?>
+                                                </p>
+
+
+                                    </div>
                             </div>
                         </div>
                     </div>

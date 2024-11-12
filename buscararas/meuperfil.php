@@ -3,13 +3,13 @@ session_start();
 include 'db.php';
 
 // Verifica se o usuário está autenticado
-if (!isset($_SESSION['user'])) {
-    header("Location: login.html"); // Redireciona para a página de login se não estiver autenticado
+if (!isset($_SESSION['id'])) {
+    header("Location: login.php"); // Redireciona para a página de login se não estiver autenticado
     exit;
 }
 
 // Obtendo o ID do profissional da sessão
-$profissional_id = $_SESSION['user']; // 'user' armazena o ID do profissional
+$profissional_id = $_SESSION['id']; // 'user' armazena o ID do profissional
 
 try {
     // Consulta SQL para obter as informações do profissional
@@ -35,6 +35,9 @@ try {
 } catch (PDOException $e) {
     echo "Erro na consulta: " . $e->getMessage();
 }
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -60,6 +63,7 @@ try {
           
     <div class="content d-flex flex-column align-items-center flex-grow-1">
         <h1>Meu Perfil</h1>
+        
         <div class="card form-card w-100 p-4 perfil-container">
             <div class="row align-items-center mb-4">
                 <div class="col-md-4 text-center">

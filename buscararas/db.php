@@ -5,17 +5,13 @@ $user = 'root'; // substitua pelo seu usuário do banco de dados
 $pass = ''; // substitua pela sua senha do banco de dados
 
 try {
+    // Criando a conexão PDO de forma única
     $conn = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
+    
     // Definindo o modo de erro do PDO para exceções
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); // Definindo o modo de busca dos dados
 } catch (PDOException $e) {
     echo "Erro na conexão: " . $e->getMessage();
-}
-
-try {
-    $pdo = new PDO('mysql:host=localhost;dbname=busca', 'root', '');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo 'Conexão falhou: ' . $e->getMessage();
 }
 ?>

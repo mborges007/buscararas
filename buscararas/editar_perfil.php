@@ -1,85 +1,73 @@
 <?php
-session_start();
-include 'db.php';
+session_start(); // Inicia a sessão para usar a variável $_SESSION
 
-// Verifica se o usuário está autenticado
-if (!isset($_SESSION['user'])) {
-    header("Location: login.html");
-    exit;
+include 'db.php'; // Inclui a conexão com o banco de dados
+
+// Verifique se o usuário está logado
+if (!isset($_SESSION['id'])) {
+    header('Location: login.php'); // Redireciona para a página de login se não estiver logado
+    exit();
 }
 
-$profissional_id = $_SESSION['user'];
+$usuario_id = $_SESSION['id']; 
 
-try {
-    // Obtém as informações do profissional
-    $sql = "SELECT nome_profissional, tel_profissional, email_profissional, descricao_profissional, fk_profissoes_id_profissao, fk_departamentos_id_area FROM profissional WHERE id_profissional = :id_profissional";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':id_profissional', $profissional_id, PDO::PARAM_INT);
-    $stmt->execute();
+// Consultar os dados do usuário logado
+$query = "SELECT profissional.*, departamentos.nome_area, profissoes.nome_profissao 
+          FROM profissional 
+          LEFT JOIN departamentos ON profissional.fk_departamentos_id_area = departamentos.id_area 
+          LEFT JOIN profissoes ON profissional.fk_profissoes_id_profissao = profissoes.id_profissao 
+          WHERE id_profissional = :id";
+$stmt = $conn->prepare($query);
+$stmt->bindParam(':id', $usuario_id);
+$stmt->execute();
+$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($stmt->rowCount() > 0) {
-        $profissional = $stmt->fetch(PDO::FETCH_ASSOC);
+// Consultar departamentos e profissões (usado nos selects)
+$departamentos = $conn->query("SELECT * FROM departamentos")->fetchAll(PDO::FETCH_ASSOC);
+$profissoes = $conn->query("SELECT * FROM profissoes")->fetchAll(PDO::FETCH_ASSOC);
+
+// Lógica de atualização de perfil
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nome = trim($_POST['nome_profissional']);
+    $email = trim($_POST['email_profissional']);
+    $telefone = trim($_POST['tel_profissional']);
+    $descricao = trim($_POST['descricao_profissional']);
+    $senha = trim($_POST['senha_profissional']);
+    $area_atuacao = $_POST['fk_departamentos_id_area'];
+    $profissao = $_POST['fk_profissoes_id_profissao'];
+
+    // Validação da descrição (mínimo de 80 caracteres)
+    if (strlen($descricao) < 80) {
+        $error_message = "A descrição deve ter pelo menos 80 caracteres.";
     } else {
-        echo "Profissional não encontrado!";
-        exit;
-    }
-} catch (PDOException $e) {
-    echo "Erro na consulta: " . $e->getMessage();
-}
-
-// Verifica se o formulário foi enviado
-// Verifica se o formulário foi enviado
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Obtém os dados do formulário
-    $nome = $_POST['nome'];
-    $telefone = $_POST['telefone'];
-    $email = $_POST['email'];
-    $descricao = $_POST['descricao'];
-    $profissao = $_POST['profissao'];
-    $departamento = $_POST['departamento'];
-    
-    // Captura a nova senha e a confirmação
-    $senha = $_POST['senha'];
-    $confirmar_senha = $_POST['confirmar_senha'];
-
-    // Valida se os campos estão vazios
-    if (empty($nome) || empty($telefone) || empty($email) || empty($descricao) || empty($profissao) || empty($departamento)) {
-        $error_message = "Por favor, preencha todos os campos!";
-    } elseif (!empty($senha) && $senha !== $confirmar_senha) {
-        $error_message = "As senhas não coincidem!";
-    } else {
-        // Atualiza as informações do profissional no banco de dados
-        try {
-            $updateSql = "UPDATE profissional SET nome_profissional = :nome, tel_profissional = :telefone, email_profissional = :email, descricao_profissional = :descricao, fk_profissoes_id_profissao = :profissao, fk_departamentos_id_area = :departamento";
-            
-            // Adiciona a parte da senha se ela não estiver vazia
-            if (!empty($senha)) {
-                $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-                $updateSql .= ", senha_profissional = :senha";
-            }
-            
-            $updateSql .= " WHERE id_profissional = :id_profissional";
-            $updateStmt = $conn->prepare($updateSql);
-            $updateStmt->bindParam(':nome', $nome);
-            $updateStmt->bindParam(':telefone', $telefone);
-            $updateStmt->bindParam(':email', $email);
-            $updateStmt->bindParam(':descricao', $descricao);
-            $updateStmt->bindParam(':profissao', $profissao);
-            $updateStmt->bindParam(':departamento', $departamento);
-            $updateStmt->bindParam(':id_profissional', $profissional_id, PDO::PARAM_INT);
-
-            // Vincula a senha, se não estiver vazia
-            if (!empty($senha)) {
-                $updateStmt->bindParam(':senha', $senha_hash);
-            }
-
-            $updateStmt->execute();
-
-            // Redireciona após a atualização
-            header("Location: meuperfil.php");
-            exit;
-        } catch (PDOException $e) {
-            echo "Erro ao atualizar: " . $e->getMessage();
+        // Atualizar o perfil do usuário no banco de dados
+        $update_query = "UPDATE profissional SET 
+                            nome_profissional = :nome, 
+                            email_profissional = :email, 
+                            tel_profissional = :telefone, 
+                            descricao_profissional = :descricao, 
+                            senha_profissional = :senha, 
+                            fk_departamentos_id_area = :area_atuacao, 
+                            fk_profissoes_id_profissao = :profissao 
+                         WHERE id_profissional = :id";
+        
+        $stmt = $conn->prepare($update_query);
+        $stmt->bindParam(':nome', $nome);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':telefone', $telefone);
+        $stmt->bindParam(':descricao', $descricao);
+        $stmt->bindParam(':senha', password_hash($senha, PASSWORD_DEFAULT)); // Hash de senha para segurança
+        $stmt->bindParam(':area_atuacao', $area_atuacao);
+        $stmt->bindParam(':profissao', $profissao);
+        $stmt->bindParam(':id', $usuario_id);
+        
+        if ($stmt->execute()) {
+            $success_message = "Perfil atualizado com sucesso!";
+            // Redireciona para a página do perfil do usuário
+            header('Location: meuperfil.php');
+            exit();
+        } else {
+            $error_message = "Ocorreu um erro ao atualizar o perfil. Tente novamente.";
         }
     }
 }
@@ -91,52 +79,116 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Perfil</title>
+    <title>Editar Perfil - BuscAraras</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
-    <div class="container">
-        <h1>Editar Perfil</h1>
-        <form method="post">
-            <div class="mb-3">
-                <label for="nome" class="form-label">Nome</label>
-                <input type="text" id="nome" name="nome" class="form-control" value="<?php echo htmlspecialchars($profissional['nome_profissional']); ?>" required>
+    <div class="container-fluid p-0 vh-100 d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar d-flex flex-column p-3">
+            <h1 class="text-light text-left">BuscAraras</h1>
+            <a class="btn btn-light no-border mb-2 tamanho" href="index.php">Início</a>
+            <h3 class="text-danger text-left">Editar Perfil</h3>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content d-flex justify-content-center align-items-center">
+            <div class="card form-card">
+                <div class="card-body">
+                    <h4 class="card-title text-center">Editar Perfil</h4>
+                    <?php if (isset($error_message)): ?>
+                        <div class="alert alert-danger"><?= $error_message ?></div>
+                    <?php elseif (isset($success_message)): ?>
+                        <div class="alert alert-success"><?= $success_message ?></div>
+                    <?php endif; ?>
+                    <form action="editar_perfil.php" method="POST">
+                        <!-- Nome -->
+                        <div class="form-group">
+                            <label for="nome">Nome</label>
+                            <input type="text" class="form-control" id="nome" name="nome_profissional" value="<?= htmlspecialchars($usuario['nome_profissional']) ?>" required>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email_profissional" value="<?= htmlspecialchars($usuario['email_profissional']) ?>" required>
+                        </div>
+                        
+                        <!-- Telefone -->
+                        <div class="form-group">
+                            <label for="telefone">Telefone com Whatsapp</label>
+                            <small class="form-text text-muted" style="margin-top: -6px;">Insira apenas números (sem espaços ou caracteres especiais).</small>
+                            <input type="tel" class="form-control" id="telefone" maxlength="11" name="tel_profissional" value="<?= htmlspecialchars($usuario['tel_profissional']) ?>" required pattern="[0-9]{11}">
+                        </div>
+                        
+                        <!-- Área de atuação -->
+                        <div class="form-group">
+                            <label for="area-atuacao">Área de atuação</label>
+                            <select class="form-select" id="area-atuacao" name="fk_departamentos_id_area" required onchange="carregarProfissoes()">
+                                <option selected value="<?= $usuario['fk_departamentos_id_area'] ?>"><?= $usuario['nome_area'] ?></option>
+                                <?php foreach ($departamentos as $departamento): ?>
+                                    <option value="<?= $departamento['id_area'] ?>"><?= $departamento['nome_area'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        
+                        <!-- Profissão -->
+                        <div class="form-group">
+                            <label for="profissao">Profissão</label>
+                            <select class="form-select" id="profissao" name="fk_profissoes_id_profissao" required>
+                                <option selected value="<?= $usuario['fk_profissoes_id_profissao'] ?>"><?= $usuario['nome_profissao'] ?></option>
+                                <?php foreach ($profissoes as $profissao): ?>
+                                    <option value="<?= $profissao['id_profissao'] ?>"><?= $profissao['nome_profissao'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        
+                        <!-- Descrição Profissional -->
+                        <div class="form-group">
+                            <label for="descricao">Descrição Profissional</label>
+                            <small class="form-text text-muted" style="margin-top: -6px;">Mínimo 80 caracteres.</small>
+                            <textarea class="form-control" id="descricao" name="descricao_profissional" rows="3" minlength="80" required><?= htmlspecialchars($usuario['descricao_profissional']) ?></textarea>
+                        </div>
+                        
+                        <!-- Senha -->
+                        <div class="form-group">
+                            <label for="senha">Senha</label>
+                            <input type="password" class="form-control" id="senha" name="senha_profissional" required maxlength="8" pattern=".{6,8}" title="A senha deve ter entre 6 e 8 caracteres.">
+                        </div>
+                        
+                        <div class="btn-container">
+                            <button type="submit" class="btn btn-danger btn-sm btn-block">Atualizar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="telefone" class="form-label">Telefone</label>
-                <input type="text" id="telefone" name="telefone" class="form-control" value="<?php echo htmlspecialchars($profissional['tel_profissional']); ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" name="email" class="form-control" value="<?php echo htmlspecialchars($profissional['email_profissional']); ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="descricao" class="form-label">Descrição</label>
-                <textarea id="descricao" name="descricao" class="form-control" required><?php echo htmlspecialchars($profissional['descricao_profissional']); ?></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="profissao" class="form-label">Profissão</label>
-                <input type="text" id="profissao" name="profissao" class="form-control" value="<?php echo htmlspecialchars($profissional['fk_profissoes_id_profissao']); ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="departamento" class="form-label">Departamento</label>
-                <input type="text" id="departamento" name="departamento" class="form-control" value="<?php echo htmlspecialchars($profissional['fk_departamentos_id_area']); ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="senha" class="form-label">Nova Senha</label>
-                <input type="password" id="senha" name="senha" class="form-control" placeholder="Digite uma nova senha (opcional)">
-            </div>
-            <div class="mb-3">
-                <label for="confirmar_senha" class="form-label">Confirmar Nova Senha</label>
-                <input type="password" id="confirmar_senha" name="confirmar_senha" class="form-control" placeholder="Confirme a nova senha (opcional)">
-            </div>
-            <button type="submit" class="btn btn-primary">Salvar</button>
-        </form>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function carregarProfissoes() {
+            const idArea = document.getElementById('area-atuacao').value;
+            const profissaoSelect = document.getElementById('profissao');
+
+            // Limpa as opções anteriores
+            profissaoSelect.innerHTML = '<option selected>Selecione uma opção</option>';
+
+            if (idArea) {
+                fetch(`carregar_profissoes.php?id_area=${idArea}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(profissao => {
+                            const option = document.createElement('option');
+                            option.value = profissao.id_profissao;
+                            option.textContent = profissao.nome_profissao;
+                            profissaoSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Erro ao carregar profissões:', error));
+            }
+        }
+    </script>
+
 </body>
 </html>
