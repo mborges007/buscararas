@@ -26,7 +26,7 @@ try {
 
             // Verifica se a senha está correta
             if (password_verify($senha, $usuario['senha_profissional'])) {
-                $_SESSION['id'] = $usuario['id_profissional'];
+                $_SESSION['id_profissional'] = $usuario['id_profissional'];
                 header("Location: meuperfil.php");
                 exit; // Encerra o script após o redirecionamento
             } else {

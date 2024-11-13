@@ -4,7 +4,7 @@ session_start(); // Inicia a sessão para usar a variável $_SESSION
 include 'db.php'; // Inclui a conexão com o banco de dados
 
 // Verifique se o usuário está logado
-if (!isset($_SESSION['id'])) {
+if (!isset($_SESSION['id_profissional'])) {
     header('Location: login.php'); // Redireciona para a página de login se não estiver logado
     exit();
 }

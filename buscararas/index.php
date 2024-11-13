@@ -1,4 +1,10 @@
-<?php include 'includes/busca_profissionais.php'; ?>
+
+
+<?php 
+include('db.php'); // Certifique-se de que o caminho esteja correto
+
+include 'includes/busca_profissionais.php'; 
+?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -81,39 +87,38 @@
     }
 
     fetch(`buscar.php?filter=${filtro}&query=${query}`)
-        .then(response => {
-            console.log('Resposta do servidor:', response);
-            return response.json();
-        })
-        .then(data => {
-            const resultsContainer = document.getElementById('searchResults');
-            resultsContainer.innerHTML = ''; // Limpa resultados anteriores
+    .then(response => response.json())
+    .then(data => {
+        console.log(data); // Verifique o que está sendo retornado
+        const resultsContainer = document.getElementById('searchResults');
+        resultsContainer.innerHTML = ''; // Limpa resultados anteriores
 
-            if (data.length > 0) {
-                data.forEach(item => {
-                    const li = document.createElement('li');
-                    li.classList.add('list-group-item');
-                    li.textContent = filtro === 'name' ? item.nome_profissional : item.nome_profissao;
+        if (data.length > 0) {
+            data.forEach(item => {
+                const li = document.createElement('li');
+                li.classList.add('list-group-item');
+                li.textContent = filtro === 'name' ? item.nome_profissional : item.nome_profissao;
 
-                    // Lógica para redirecionar ao clicar
-                    li.onclick = () => {
-                        if (filtro === 'name') {
-                            // Redirecionar para o perfil do profissional
-                            window.location.href = `perfilunico.php?id=${item.id_profissional}`; // Altere para a sua estrutura de URL
-                        } else if (filtro === 'profession') {
-                            // Redirecionar para a lista de profissionais por profissão
-                            window.location.href = `lista_profissionais.php?profissao=${item.nome_profissao}`; // Altere para a sua estrutura de URL
-                        }
-                    };
+                // Lógica para redirecionar ao clicar
+                li.onclick = () => {
+                    if (filtro === 'name') {
+                        // Redirecionar para o perfil do profissional
+                        window.location.href = `perfilunico.php?id=${item.id_profissional}`;
+                    } else if (filtro === 'profession') {
+                        // Redirecionar para a lista de profissionais por profissão
+                        window.location.href = `lista_profissionais.php?profissao=${item.nome_profissao}`;
+                    }
+                };
 
-                    resultsContainer.appendChild(li);
-                });
-                resultsContainer.style.display = 'block'; // Exibe resultados
-            } else {
-                resultsContainer.style.display = 'none'; // Oculta se não houver resultados
-            }
-        })
-        .catch(error => console.error('Erro ao buscar opções:', error));
+                resultsContainer.appendChild(li);
+            });
+            resultsContainer.style.display = 'block'; // Exibe resultados
+        } else {
+            resultsContainer.style.display = 'none'; // Oculta se não houver resultados
+        }
+    })
+    .catch(error => console.error('Erro ao buscar opções:', error));
+
 }
 
  

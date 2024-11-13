@@ -1,4 +1,24 @@
-/* Estilos gerais para as estrelas */
+
+/* Estilo para o container de fotos */
+.fotos-profissionais {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Espaçamento entre as fotos */
+    justify-content: center; /* Centraliza as imagens */
+    margin-top: 20px; /* Espaço superior */
+}
+
+/* Estilo para cada foto individual */
+.foto-profissional {
+    width: 150px; /* Define a largura da imagem */
+    height: 150px; /* Define a altura da imagem */
+    object-fit: cover; /* Garante que a imagem cubra o espaço sem distorcer */
+    border-radius: 8px; /* Bordas arredondadas */
+    border: 2px solid #ddd; /* Borda leve para a imagem */
+}
+
+
+
 .stars {
     display: flex;
     cursor: pointer;
