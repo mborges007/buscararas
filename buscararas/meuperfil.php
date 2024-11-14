@@ -105,9 +105,14 @@ try {
 }
 
 
+// Consulta para obter as fotos enviadas pelo profissional
+$sql_fotos = "SELECT * FROM fotos_profissionais WHERE fk_profissional_id_profissional = :id_profissional";
+$stmt_fotos = $conn->prepare($sql_fotos);
+$stmt_fotos->bindParam(':id_profissional', $profissional_id, PDO::PARAM_INT);
+$stmt_fotos->execute();
 
-
-
+// Verifica se há fotos enviadas
+$fotos = $stmt_fotos->fetchAll(PDO::FETCH_ASSOC);
 
 
 
@@ -164,7 +169,24 @@ try {
                     <button type="submit" class="btn btn-danger btn-sm btn-block">Enviar</button>
                 </div>
             </form>
+            
             </div>
+            <?php if ($fotos): ?>
+    <h5>Fotos enviadas</h5>
+    <div class="row">
+        <?php foreach ($fotos as $foto): ?>
+            <div class="col-md-4 mb-3">
+                <img src="<?php echo htmlspecialchars($foto['caminho_foto']); ?>" class="img-fluid rounded mb-2" alt="Foto do Profissional">
+                <form action="deletar_foto.php" method="POST">
+                    <input type="hidden" name="foto_id" value="<?php echo $id_foto; ?>"> <!-- A ID da foto a ser deletada -->
+                    <button type="submit" class="btn btn-danger btn-sm">Deletar Foto</button>
+                </form>
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php else: ?>
+    <p>Você não enviou nenhuma foto ainda.</p>
+<?php endif; ?>
         </div>
     </div>
 

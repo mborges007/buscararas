@@ -36,7 +36,7 @@ include 'includes/busca_profissionais.php';
     <div class="">
         <label for="searchInput">Digite para buscar</label>
         <input type="text" class="form-control aumentar"  id="searchInput" onkeyup="carregarOpcoes()" placeholder="Comece a digitar...">
-        <ul id="searchResults" class="list-group position-absolute z-index-100" style="display: none;"></ul>
+        <ul id="searchResults" class="list-group position-absolute fundinho z-index-100" style="display: none; "></ul>
     </div>
 </div>
 
@@ -75,7 +75,7 @@ include 'includes/busca_profissionais.php';
     function toggleSearchInput() {
     document.getElementById('searchInput').value = '';
     document.getElementById('searchResults').style.display = 'none';
-}
+    }
 
     function carregarOpcoes() {
     const filtro = document.getElementById('searchFilter').value;
@@ -118,23 +118,18 @@ include 'includes/busca_profissionais.php';
         }
     })
     .catch(error => console.error('Erro ao buscar opções:', error));
-
 }
 
- 
+document.addEventListener('click', function(event) {
+    const searchResults = document.getElementById('searchResults');
+    const searchInput = document.getElementById('searchInput');
     
-    function redirecionar() {
-        const filtro = document.getElementById('searchFilter').value;
-        const searchInput = document.getElementById('searchInput').value;
-
-        if (filtro === 'name') {
-            // Redirecionar para o perfil do profissional
-            window.location.href = `perfilunico.php?id=${searchInput}`;
-        } else if (filtro === 'profession') {
-            // Redirecionar para a lista de profissionais por profissão
-            window.location.href = `lista_profissionais.php?profissao=${searchInput}`;
-        }
+    if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+        searchResults.style.display = 'none';
     }
-    </script>
+});
+
+</script>
 </body>
 </html>
+

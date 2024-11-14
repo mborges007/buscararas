@@ -145,16 +145,80 @@ $fotos_profissional = $stmt_fotos->fetchAll(PDO::FETCH_ASSOC);
                     </form>
                 <?php endif; ?>
 
-                <!-- Exibição das fotos do profissional -->
-                <div class="fotos-profissionais">
-                    <?php foreach ($fotos_profissional as $foto): ?>
-                        <img src="uploads/<?php echo htmlspecialchars($foto['caminho_foto']); ?>" alt="Foto do profissional" class="img-fluid rounded mb-2">
-                    <?php endforeach; ?>
+                <br>
+                <p><strong>Trabalhos feitos</strong></p>
+<?php if (!empty($fotos_profissional)): ?> <!-- Verifica se há fotos -->
+    <div class="fotos-profissionais">
+        <div id="fotoCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" style="text-align: center;">
+                <?php $first = true; ?>
+                <?php foreach ($fotos_profissional as $foto): ?>
+                    <div class="carousel-item <?php echo $first ? 'active' : ''; ?>">
+                        <img src="<?php echo htmlspecialchars($foto['caminho_foto']); ?>" alt="Foto do profissional" class="img-fluid rounded mb-2" data-bs-toggle="modal" data-bs-target="#fotoModal" data-foto="<?php echo htmlspecialchars($foto['caminho_foto']); ?>">
+                    </div>
+                    <?php $first = false; ?>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Indicadores (Pontos) -->
+                            <div class="carousel-indicators">
+                                <?php $first = true; ?>
+                                <?php foreach ($fotos_profissional as $index => $foto): ?>
+                                    <button type="button" data-bs-target="#fotoCarousel" data-bs-slide-to="<?php echo $index; ?>" class="<?php echo $first ? 'active' : ''; ?>" aria-current="true" aria-label="Slide <?php echo $index + 1; ?>"></button>
+                                    <?php $first = false; ?>
+                                <?php endforeach; ?>
+                            </div>
+
+                            <!-- Controles de Navegação (Setas) -->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#fotoCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#fotoCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+
+                        <!-- Miniaturas abaixo do carrossel -->
+                        <div id="fotoThumbnails" class="d-flex justify-content-center mt-3">
+                            <?php foreach ($fotos_profissional as $index => $foto): ?>
+                                <div class="thumbnail-item">
+                                    <img src="<?php echo htmlspecialchars($foto['caminho_foto']); ?>" class="img-thumbnail" data-bs-target="#fotoCarousel" data-bs-slide-to="<?php echo $index; ?>" alt="Miniatura da foto" style="cursor: pointer; width: 100px; height: 100px; object-fit: cover;">
+                                </div>
+                            <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            <?php else: ?>
+                                <p>Este profissional ainda não possui fotos cadastradas.</p> <!-- Mensagem caso não haja fotos -->
+                            <?php endif; ?>
+
+                                </div>
+
+                                <!-- Modal para exibir imagem em tamanho grande -->
+                                <div class="modal fade" id="fotoModal" tabindex="-1" aria-labelledby="fotoModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img src="" id="imagemGrande" class="img-fluid" alt="Imagem Grande">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        <div class="fb-comments" 
+                                data-href="https://www.seusite.com/perfil_profissional.php?id=<?php echo $profissionalId; ?>" 
+                                data-width="100%" 
+                                data-numposts="5">
+                            </div>
+                    </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 </div>
+
 
 <script>
     function setRating(rating) {
@@ -168,7 +232,34 @@ $fotos_profissional = $stmt_fotos->fetchAll(PDO::FETCH_ASSOC);
             }
         });
     }
+
+  // Script para carregar a imagem no modal
+  var modal = document.getElementById('fotoModal');
+    modal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget; // Botão que abriu o modal
+    var foto = button.getAttribute('data-foto'); // Caminho da foto
+    var modalImg = document.getElementById('imagemGrande');
+    
+    modalImg.src = foto; // Atualiza a imagem no modal
+
+    // Limita o tamanho da imagem a 1920x1080
+    modalImg.style.width = "auto";  // Define largura automática para manter a proporção
+    modalImg.style.height = "auto"; // Define altura automática para manter a proporção
+
+    // Verifica se a largura ou altura excede 1920x1080 e ajusta
+    if (modalImg.naturalWidth > 1920 || modalImg.naturalHeight > 1080) {
+        var ratio = Math.min(1920 / modalImg.naturalWidth, 1080 / modalImg.naturalHeight);
+        modalImg.style.width = (modalImg.naturalWidth * ratio) + 'px';
+        modalImg.style.height = (modalImg.naturalHeight * ratio) + 'px';
+    }
+});
+
+    
 </script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

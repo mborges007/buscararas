@@ -9,7 +9,7 @@ if (!isset($_SESSION['id_profissional'])) {
     exit();
 }
 
-$usuario_id = $_SESSION['id']; 
+$usuario_id = $_SESSION['id_profissional']; 
 
 // Consultar os dados do usuário logado
 $query = "SELECT profissional.*, departamentos.nome_area, profissoes.nome_profissao 
@@ -159,6 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         
                         <div class="btn-container">
                             <button type="submit" class="btn btn-danger btn-sm btn-block">Atualizar</button>
+                            <a href="deletar_perfil.php" class="btn btn-danger btn-sm btn-block mt-2" onclick="return confirm('Tem certeza que deseja deletar seu perfil?')">Deletar Perfil</a>
                         </div>
                     </form>
                 </div>

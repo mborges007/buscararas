@@ -1,23 +1,21 @@
-
-/* Estilo para o container de fotos */
-.fotos-profissionais {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px; /* Espaçamento entre as fotos */
-    justify-content: center; /* Centraliza as imagens */
-    margin-top: 20px; /* Espaço superior */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5); /* cor de fundo das setas */
+    border-radius: 50%; /* faz as setas ficarem arredondadas */
 }
 
-/* Estilo para cada foto individual */
-.foto-profissional {
-    width: 150px; /* Define a largura da imagem */
-    height: 150px; /* Define a altura da imagem */
-    object-fit: cover; /* Garante que a imagem cubra o espaço sem distorcer */
-    border-radius: 8px; /* Bordas arredondadas */
-    border: 2px solid #ddd; /* Borda leve para a imagem */
+.carousel-control-prev,
+.carousel-control-next {
+    top: 50%; /* centraliza as setas verticalmente */
+    transform: translateY(-50%); /* Ajusta a posição exata */
 }
 
-
+.testao {
+    max-width: 100%;     /* A imagem nunca ultrapassará a largura do carrossel */
+    max-height: 360px;   /* Define uma altura máxima para as imagens */
+    object-fit: cover;   /* Garante que a imagem se ajuste corretamente ao espaço sem distorcer */
+    align-items: center;
+}
 
 .stars {
     display: flex;
@@ -424,7 +422,7 @@ body {
     align-items: flex-start;
     background-color: #84B0B5;
     border-radius: 20px;
-    padding: 20px;
+    padding: 15px;
     width: 90%;
     max-width: 800px;
     margin-top: 30px;

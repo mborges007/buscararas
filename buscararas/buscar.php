@@ -10,7 +10,7 @@ if ($filter === 'name') {
     $sql = "SELECT id_profissional, nome_profissional FROM profissional WHERE nome_profissional LIKE :query LIMIT 10";
 } else {
     // Busca por nome de profissão
-    $sql = "SELECT nome_profissao FROM profissao WHERE nome_profissao LIKE :query LIMIT 10";
+    $sql = "SELECT nome_profissao FROM profissoes WHERE nome_profissao LIKE :query LIMIT 10";
 }
 
 try {
