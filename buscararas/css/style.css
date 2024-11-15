@@ -1,3 +1,41 @@
+.lupas-fundo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/svgs/solid/search.svg');
+    background-repeat: repeat;
+    background-size: 50px 50px; /* Controla o tamanho da lupa */
+    opacity: 0.1; /* Torna as lupas bem suaves */
+    pointer-events: none; /* Impede que a marca d'água interfira nas interações */
+    z-index: -1; /* Garante que o fundo fique atrás de outros conteúdos */
+}
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden; /* Remove rolagem horizontal */
+    position: relative;
+}
+
+body {
+    background-color: #f0f0f0;
+    height: 100%;
+    overflow: auto;
+}
+
+
+.saltando{
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    
+}
+.saltando:hover{
+    transform: scale(1.01); /* Aumenta levemente a div (5%) */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Adiciona um efeito de sombra */
+}
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
     background-color: rgba(0, 0, 0, 0.5); /* cor de fundo das setas */
@@ -19,17 +57,21 @@
 
 .stars {
     display: flex;
-    cursor: pointer;
+    cursor:pointer;
+
+    
 }
 
 .stars input {
     display: none; /* Escondemos os inputs do tipo radio */
+
 }
 
 .stars label {
     font-size: 30px;
-    color: white; /* Cor das estrelas inicialmente */
+    color: white; /* Cor inicial das estrelas */
     margin-right: 5px;
+    
 }
 
 /* Estrelas selecionadas (amarelas) */
@@ -41,20 +83,45 @@
 .stars label:hover,
 .stars label:hover ~ label {
     color: gold;
+    transform: scale(1.2); /* Aumenta as estrelas */
 }
 
 /* Estrela quando o usuário passa o mouse, mas não selecionou */
 .stars input:hover ~ label {
     color: gold;
+    transform: scale(1.2); /* Aumenta as estrelas */
 }
-
 .fas.fa-star, .fas.fa-star-half-alt {
     color: gold; 
+    
 }
 
 .far.fa-star {
     color: #000000; 
+    
 }
+
+.saltandoestrela {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Quando o mouse passa sobre a estrela, ela aumenta e as estrelas à esquerda também aumentam */
+.saltandoestrela:hover,
+.saltandoestrela:hover ~ .saltandoestrela {
+    transform: scale(1.05); /* Aumenta as estrelas */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Adiciona sombra */
+}
+
+/* Aplica o efeito de hover na estrela selecionada e todas as anteriores */
+.saltandoestrela:hover,
+.saltandoestrela:hover ~ .saltandoestrela {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
 
 
 
@@ -62,23 +129,20 @@
     cursor: default; /* Define o cursor padrão */
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow-x: hidden; /* Remove rolagem horizontal */
-}
-
-body {
-    background-color: #f0f0f0;
-    height: 100%;
-    overflow: auto;
-}
 
 
 .scrollable-menu {
     max-height: 200px; /* Defina a altura máxima desejada */
     overflow-y: auto; /* Habilita a barra de rolagem vertical */
+}
+
+.verdinho{
+    background-color: #84B0B5; /* Cor da sidebar */
+    color: #F5F5E6; /* Cor do texto */
+}
+
+.verdinho:hover{
+    background-color: #78a1a5;
 }
 
 .content {
@@ -95,7 +159,7 @@ body {
 .sidebar {
     background-color: #84B0B5;
     padding: 20px;
-    border-radius: 0 20px 20px 0;
+    border-radius: 0px 20px 20px 0px;
     height: 100vh;
     width: 250px;
     position: fixed;
@@ -103,7 +167,10 @@ body {
     left: 0;
     overflow: hidden;
     z-index: 1000;
+    transform: scale(1.01); /* Aumenta levemente a div (5%) */
+    
 }
+
 
 
 /* Dropdown */
@@ -111,8 +178,15 @@ body {
     border: none;
     background-color: #84B0B5; /* Cor da sidebar */
     color: #F5F5E6; /* Cor do texto */
+    border-radius: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição suave */
 }
 
+
+.dropdown-toggle:hover {
+    transform: scale(1.01); /* Aumenta levemente a div (5%) */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Adiciona um efeito de sombra */
+}
 .dropdown-menu {
     max-height: 200px; /* Altura máxima para o dropdown */
     overflow-y: auto; /* Habilita a rolagem vertical */
@@ -125,12 +199,12 @@ body {
 
 .dropdown-menu::-webkit-scrollbar-track {
     background: #84B0B5; /* Cor do fundo da barra de rolagem */
-    border-radius: 10px; /* Bordas arredondadas da trilha da barra de rolagem */
+    border-radius: 20px; /* Bordas arredondadas da trilha da barra de rolagem */
 }
 
 .dropdown-menu::-webkit-scrollbar-thumb {
     background-color: #F5F5E6; /* Cor da barra de rolagem */
-    border-radius: 10px; /* Bordas arredondadas do indicador da barra de rolagem */
+    border-radius: 20px; /* Bordas arredondadas do indicador da barra de rolagem */
     border: 2px solid #84B0B5; /* Espaço ao redor do indicador */
 }
 
@@ -145,7 +219,7 @@ body {
 }
 
 .dropdown-item:hover {
-    background-color: #6e8e8e; /* Cor de fundo ao passar o mouse sobre o item do menu */
+    background-color: #78a1a5; /* Cor de fundo ao passar o mouse sobre o item do menu */
 }
 
 .dropdown-menu.show {
@@ -171,13 +245,13 @@ body {
 }
 
 .sidebar .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #00408b;
+    background-color: #78a1a5;
+    border-color: #78a1a5;
 }
 
 .sidebar .btn-secondary:hover {
-    background-color: #5a6268;
-    border-color: #545b62;
+    background-color: #78a1a5;
+    border-color: #78a1a5;
 }
 
 
@@ -257,15 +331,24 @@ body {
     font-size: 18px; /* Aumenta o tamanho da fonte */
     text-transform: uppercase; /* Deixa o texto em maiúsculas */
     font-weight: bold; /* Deixa o texto em negrito */
+    border-radius: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição suave */
 }
+
+
+
+
 
 .no-border:hover {
     background-color: #6e8e8e; /* Cor ao passar o mouse */
+    transform: scale(1.01); /* Aumenta levemente a div (5%) */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Adiciona um efeito de sombra */
 }
 
 .btn-light {
     background-color: transparent; /* Remove a cor padrão do Bootstrap */
     border: none; /* Remove a borda padrão do Bootstrap */
+    
 }
 
 .mb-2 {
@@ -351,6 +434,7 @@ body {
 }
 
 
+
 /* Estilo para os resultados da busca */
 .results-container {
     width: 90%;
@@ -426,7 +510,14 @@ body {
     width: 90%;
     max-width: 800px;
     margin-top: 30px;
-    min-height: 200px; /* Define uma altura mínima para garantir espaço */
+    min-height: 200px; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.profile-container:hover{
+    background-color: #78a1a5;
+    transform: scale(1.02); /* Aumenta levemente a div (5%) */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Adiciona um efeito de sombra */
 }
 
 .profile-photo {

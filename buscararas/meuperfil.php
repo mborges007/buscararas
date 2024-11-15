@@ -166,7 +166,7 @@ $fotos = $stmt_fotos->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 
                 <div class="btn-container">
-                    <button type="submit" class="btn btn-danger btn-sm btn-block">Enviar</button>
+                    <button type="submit"class="btn btn-danger btn-sm btn-block">Enviar</button>
                 </div>
             </form>
             
@@ -179,7 +179,7 @@ $fotos = $stmt_fotos->fetchAll(PDO::FETCH_ASSOC);
                 <img src="<?php echo htmlspecialchars($foto['caminho_foto']); ?>" class="img-fluid rounded mb-2" alt="Foto do Profissional">
                 <form action="deletar_foto.php" method="POST">
                     <input type="hidden" name="foto_id" value="<?php echo $id_foto; ?>"> <!-- A ID da foto a ser deletada -->
-                    <button type="submit" class="btn btn-danger btn-sm">Deletar Foto</button>
+                    <button type="submit" class="btn btn-danger btn-sm" style="border-radius:20px; background-color:#BF4341;" >Deletar</button>
                 </form>
             </div>
         <?php endforeach; ?>

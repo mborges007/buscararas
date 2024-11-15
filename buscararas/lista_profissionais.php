@@ -75,7 +75,7 @@ include 'includes/busca_profissionais.php';
                     </select>
 
                     <!-- Botão de Ordenar com altura ajustada e largura reduzida -->
-                    <button type="submit" class="btn btn-primary" style="border-radius: 20px; height: 38px; padding: 5px 15px; margin: 0; box-sizing: border-box; width: auto;">Ordenar</button>
+                    <button type="submit" class="btn verdinho" style="border-radius: 20px; height: 38px; padding: 5px 15px; margin: 0; box-sizing: border-box; width: auto;">Ordenar</button>
                 </div>
             </form>
 

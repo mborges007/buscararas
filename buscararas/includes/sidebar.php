@@ -24,7 +24,7 @@ foreach ($areas as $area) {
 ?>
 
 <div class="sidebar d-flex flex-column p-3">
-    <h1 class="text-light text-left">BuscAraras</h1>
+    <h1 class="text-light text-left" style="color:#F5F5E6;">BuscAraras</h1>
 
     <!-- Botão Início -->
     <a class="btn btn-light no-border mb-2 tamanho" href="index.php">Início</a>

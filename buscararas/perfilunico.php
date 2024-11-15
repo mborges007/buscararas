@@ -121,12 +121,13 @@ $fotos_profissional = $stmt_fotos->fetchAll(PDO::FETCH_ASSOC);
                             <label for="nota" class="form-label">Estrelas (0 a 5):</label>
                             <div id="avaliacao" class="star-rating">
                                 <?php for ($i = 1; $i <= 5; $i++): ?>
-                                    <i class="fa fa-star <?php echo ($i <= $avaliacaoExistente['estrelas_avaliacao']) ? 'text-warning' : ''; ?>" data-value="<?php echo $i; ?>"></i>
+                                    <i style="cursor: pointer;" class="fa fa-star saltandoestrela <?php echo ($i <= $avaliacaoExistente['estrelas_avaliacao']) ? 'text-warning' : ''; ?>"
+                                    data-value="<?php echo $i; ?>" onclick="setRating(<?php echo $i; ?>)"></i>
                                 <?php endfor; ?>
                             </div>
-                            <input type="hidden" name="estrelas" id="estrelas" value="<?php echo htmlspecialchars($avaliacaoExistente['estrelas_avaliacao']); ?>">
+                            <input type="hidden"  name="estrelas" id="estrelas" value="<?php echo htmlspecialchars($avaliacaoExistente['estrelas_avaliacao']); ?>">
                         </div>
-                        <button type="submit" class="btn btn-primary">Atualizar Avaliação</button>
+                        <button type="submit" class="btn saltando btn-light" style="color: #ffffff; background-color:#66888b; border-radius: 20px;">Atualizar Avaliação</button>
                     </form>
                 <?php else: ?>
                     <form method="POST" action="avaliar.php">
@@ -136,29 +137,29 @@ $fotos_profissional = $stmt_fotos->fetchAll(PDO::FETCH_ASSOC);
                             <label for="nota" class="form-label">Nota (0 a 5):</label>
                             <div id="avaliacao" class="star-rating">
                                 <?php for ($i = 1; $i <= 5; $i++): ?>
-                                    <i class="fa fa-star" data-value="<?php echo $i; ?>" onclick="setRating(<?php echo $i; ?>)"></i>
+                                    <i class="fa fa-star saltandoestrela" data-value="<?php echo $i; ?>" onclick="setRating(<?php echo $i; ?>)"></i>
                                 <?php endfor; ?>
                             </div>
                             <input type="hidden" name="estrelas" id="estrelas" value="">
                         </div>
-                        <button type="submit" class="btn btn-primary">Avaliar</button>
+                        <button type="submit" class="btn btn-primary btn-light saltando" style="color: #ffffff; background-color:#66888b; border-radius: 20px;">Avaliar</button>
                     </form>
                 <?php endif; ?>
 
                 <br>
                 <p><strong>Trabalhos feitos</strong></p>
-<?php if (!empty($fotos_profissional)): ?> <!-- Verifica se há fotos -->
-    <div class="fotos-profissionais">
-        <div id="fotoCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner" style="text-align: center;">
-                <?php $first = true; ?>
-                <?php foreach ($fotos_profissional as $foto): ?>
-                    <div class="carousel-item <?php echo $first ? 'active' : ''; ?>">
-                        <img src="<?php echo htmlspecialchars($foto['caminho_foto']); ?>" alt="Foto do profissional" class="img-fluid rounded mb-2" data-bs-toggle="modal" data-bs-target="#fotoModal" data-foto="<?php echo htmlspecialchars($foto['caminho_foto']); ?>">
-                    </div>
-                    <?php $first = false; ?>
-                <?php endforeach; ?>
-            </div>
+                    <?php if (!empty($fotos_profissional)): ?> <!-- Verifica se há fotos -->
+                        <div class="fotos-profissionais">
+                            <div id="fotoCarousel" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner" style="text-align: center;">
+                                    <?php $first = true; ?>
+                                    <?php foreach ($fotos_profissional as $foto): ?>
+                                        <div class="carousel-item <?php echo $first ? 'active' : ''; ?>">
+                                            <img src="<?php echo htmlspecialchars($foto['caminho_foto']); ?>" alt="Foto do profissional" class="img-fluid rounded mb-2" data-bs-toggle="modal" data-bs-target="#fotoModal" data-foto="<?php echo htmlspecialchars($foto['caminho_foto']); ?>">
+                                        </div>
+                                        <?php $first = false; ?>
+                                    <?php endforeach; ?>
+                                </div>
 
             <!-- Indicadores (Pontos) -->
                             <div class="carousel-indicators">
@@ -221,17 +222,18 @@ $fotos_profissional = $stmt_fotos->fetchAll(PDO::FETCH_ASSOC);
 
 
 <script>
-    function setRating(rating) {
-        document.getElementById('estrelas').value = rating;
-        const stars = document.querySelectorAll('#avaliacao i');
-        stars.forEach(star => {
-            if (parseInt(star.getAttribute('data-value')) <= rating) {
-                star.classList.add('text-warning');
-            } else {
-                star.classList.remove('text-warning');
-            }
-        });
-    }
+  function setRating(rating) {
+    document.getElementById('estrelas').value = rating;
+    const stars = document.querySelectorAll('#avaliacao i');
+    stars.forEach(star => {
+        if (parseInt(star.getAttribute('data-value')) <= rating) {
+            star.classList.add('text-warning');  // Destaca as estrelas selecionadas
+        } else {
+            star.classList.remove('text-warning');  // Remove o destaque das estrelas não selecionadas
+        }
+    });
+}
+
 
   // Script para carregar a imagem no modal
   var modal = document.getElementById('fotoModal');
