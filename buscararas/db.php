@@ -1,16 +1,22 @@
 <?php
-$host = 'localhost'; // ou o endereço do seu servidor de banco de dados
-$db = 'busca'; // substitua pelo nome do seu banco de dados
-$user = 'root'; // substitua pelo seu usuário do banco de dados
-$pass = ''; // substitua pela sua senha do banco de dados
+$host = 'busca.mysql.database.azure.com'; // Nome do servidor do banco de dados no Azure
+$db = 'busca'; // Nome do banco de dados (substitua conforme necessário)
+$user = 'kfzftclrbr'; // Nome de usuário
+$pass = 'xRZCifXw5$Ba3SY9'; // Senha do banco de dados (substitua pela sua senha real)
+
+// Configuração de SSL
+$options = [
+    PDO::MYSQL_ATTR_SSL_CA => '/caminho/para/certificado.pem' // Caminho para o certificado SSL
+];
 
 try {
-    // Criando a conexão PDO de forma única
-    $conn = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
+    // Criando a conexão PDO com SSL
+    $conn = new PDO("mysql:host=$host;dbname=$db;port=3306;charset=utf8", $user, $pass, $options);
     
     // Definindo o modo de erro do PDO para exceções
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); // Definindo o modo de busca dos dados
+    $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    echo "Conexão bem-sucedida!";
 } catch (PDOException $e) {
     echo "Erro na conexão: " . $e->getMessage();
 }
