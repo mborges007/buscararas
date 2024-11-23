@@ -8,13 +8,17 @@ if (!isset($_SESSION['id_profissional'])) {
     exit;
 }
 
+var_dump($_POST); // Para ver o conteúdo do array $_POST
+
+
 // Obtém o ID do profissional logado
 $id_profissional_logado = $_SESSION['id_profissional'];
 
-// Verifica se o ID da foto foi passado via POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_foto'])) {
-    // Obtém o ID da foto a ser deletada
-    $id_foto = $_POST['id_foto'];
+    $id_foto = $_POST['id_foto'];  // Obtém o ID da foto a ser deletada
+
+    // Depuração: verificar se o ID da foto está sendo passado corretamente
+    var_dump($id_foto);
 
     try {
         // Consulta para pegar o caminho da foto e verificar se ela pertence ao profissional logado
@@ -26,6 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_foto'])) {
         if ($stmt_foto->rowCount() > 0) {
             // Obter o caminho da foto e o ID do profissional
             $foto = $stmt_foto->fetch(PDO::FETCH_ASSOC);
+
+            // Depuração: verificar se a foto foi encontrada
+            var_dump($foto);
+
             $caminho_foto = $foto['caminho_foto'];
             $foto_id_profissional = $foto['fk_profissional_id_profissional'];
 
@@ -50,13 +58,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_foto'])) {
                 echo "Você não tem permissão para excluir esta foto.";
             }
         } else {
+            // Caso a foto não seja encontrada
             echo "Foto não encontrada!";
         }
     } catch (PDOException $e) {
-        echo "Erro ao excluir a foto: " . $e->getMessage();
+        echo "Erro ao tentar excluir a foto: " . $e->getMessage();
     }
-} else {
-    // Caso o ID da foto não tenha sido passado
-    echo "ID da foto não fornecido!";
 }
+
+
+
 ?>

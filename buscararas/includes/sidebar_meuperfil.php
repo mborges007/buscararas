@@ -1,5 +1,7 @@
 <?php
 
+// Inicia a sessão
+session_start();
 
 // Incluindo o arquivo de conexão com o banco de dados
 include 'db.php';
@@ -90,24 +92,24 @@ foreach ($areas as $area) {
 
     <!-- Botões de Login e Cadastro ou Logout -->
     <?php if (!$isProfissional && !$isUsuario): ?>
-        <div class="mt-auto ">
-            <a class="btn btn-primary hoverando w-100 mb-2" href="login.php">Login</a>
-            <a class="btn btn-secondary hoverando  w-100" href="cadastro.php">Cadastro</a>
+        <div class="mt-auto">
+            <a class="btn btn-primary w-100 mb-2" href="login.php">Login</a>
+            <a class="btn btn-secondary w-100" href="cadastro.php">Cadastro</a>
         </div>
     <?php else: ?>
         <!-- Se o usuário ou profissional estiver logado, exibe o nome e a opção de sair -->
        <!-- Exibição do nome como botão para edição de perfil -->
 <div class="mt-auto">
     <?php if ($isProfissional && isset($_SESSION['nome_profissional'])): ?>
-        <a class="btn btn-primary w-100 mb-2" href="editar_perfil.php">
+        <a class="btn btn-outline-light w-100 mb-2" href="editar_perfil.php">
             <?php echo htmlspecialchars($_SESSION['nome_profissional']); ?>
         </a>
     <?php elseif ($isUsuario && isset($_SESSION['nome_usuario'])): ?>
-        <a class="btn btn-primary hoverando w-100 mb-2" href="editar_perfil_usuarios.php">
+        <a class="btn btn-outline-light w-100 mb-2" href="editar_perfil_usuarios.php">
             <?php echo htmlspecialchars($_SESSION['nome_usuario']); ?>
         </a>
     <?php endif; ?>
-    <a class="btn btn-secondary hoverando w-100" href="logout.php">Sair</a>
+    <a class="btn btn-danger w-100" href="logout.php">Sair</a>
 </div>
     <?php endif; ?>
 </div>

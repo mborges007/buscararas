@@ -82,6 +82,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Editar Perfil - BuscAraras</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <style>
+        body {
+            background-image: url('img/lupa.svg');
+            background-repeat: repeat;
+            background-size: 30px 30px;
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid p-0 vh-100 d-flex">

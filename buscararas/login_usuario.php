@@ -1,4 +1,12 @@
 <?php
+ini_set('session.cookie_domain', '.ngrok.io'); // Define o domínio de cookies para ngrok (se necessário)
+ini_set('session.cookie_path', '/');  // Garante que o cookie da sessão seja válido para todo o site
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+
+
 session_start();
 ob_start(); // Inicia o buffer de saída
 ?>
@@ -31,8 +39,8 @@ ob_start(); // Inicia o buffer de saída
             
             <!-- Botões de Login e Cadastro -->
             <div class="mt-auto">
-                <a class="btn btn-primary w-100 mb-2 " href="login.php">Login</a>
-                <a href="cadastro.php" class="btn btn-secondary w-100">Cadastro</a>
+                <a class="btn btn-primary w-100 mb-2" href="login.php">Login</a>
+                <a class="btn btn-secondary w-100" href="cadastro.php">Cadastro</a>
             </div>
         </div>                     
 
@@ -40,19 +48,19 @@ ob_start(); // Inicia o buffer de saída
         <div class="main-content d-flex justify-content-center align-items-center">
             <div class="card form-card">
                 <div class="card-body">
-                <h4 class="card-title text-center">Login| <span class="text" style="color: #BF4341;">Profissional</span></h4>
-                     <div class="text-center mb-3">
-                        <a href="login.php" class="btn btn-primary hoverando" style="background-color: #66888b; border-radius:25px;border-color: #66888b">Login Profissional</a>
-                        <a href="login_usuario.php"class="btn btn-primary hoverando" style="background-color: #66888b; border-radius:25px;border-color: #66888b">Login Usuário</a>
+                <h4 class="card-title text-center">Login|<span class="text" style="color:#BF4341;"> Usuário</span></h4>
+                    <div class="text-center mb-3">
+                    <a href="login.php" class="btn btn-primary hoverando" style="background-color: #66888b; border-radius:25px;border-color: #66888b">Login Profissional</a>
+                    <a href="login_usuario.php"class="btn btn-primary hoverando" style="background-color: #66888b; border-radius:25px;border-color: #66888b">Login Usuário</a>
                     </div>
-                    <form action="processa_login.php" method="POST"> <!-- Ação do formulário -->
+                    <form action="processa_login_usuario.php" method="POST"> <!-- Ação do formulário -->
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email_profissional" required placeholder="Digite seu email">
+                            <input type="email" class="form-control" id="email_usuario" name="email_usuario" required placeholder="Digite seu email">
                         </div>
                         <div class="form-group">
                             <label for="senha">Senha</label>
-                            <input type="password" class="form-control" id="senha" name="senha_profissional" required placeholder="Máx. 8">
+                            <input type="password" class="form-control" id="senha_usuario" name="senha_usuario" required placeholder="Máx. 8">
                         </div>
                         <div class="btn-container">
                             <button type="submit" class="btn btn-success hoverando btn-sm btn-block">Entrar</button>
@@ -62,7 +70,6 @@ ob_start(); // Inicia o buffer de saída
             </div>
         </div>
     </div>
-    
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

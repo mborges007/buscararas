@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13/11/2024 às 20:44
+-- Tempo de geração: 22/11/2024 às 03:55
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -29,8 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `avaliacao` (
   `id_avaliacao` int(11) NOT NULL,
-  `notas_avaliacao` float NOT NULL CHECK (`notas_avaliacao` >= 0 and `notas_avaliacao` <= 10),
-  `usuario_ip` varchar(45) NOT NULL,
+  `fk_usuario_id_usuario` int(11) NOT NULL,
   `data_avaliacao` timestamp NOT NULL DEFAULT current_timestamp(),
   `fk_profissional_id_profissional` int(11) NOT NULL,
   `estrelas_avaliacao` int(1) NOT NULL CHECK (`estrelas_avaliacao` >= 0 and `estrelas_avaliacao` <= 5)
@@ -40,16 +39,23 @@ CREATE TABLE `avaliacao` (
 -- Despejando dados para a tabela `avaliacao`
 --
 
-INSERT INTO `avaliacao` (`id_avaliacao`, `notas_avaliacao`, `usuario_ip`, `data_avaliacao`, `fk_profissional_id_profissional`, `estrelas_avaliacao`) VALUES
-(9, 0, '::1', '2024-11-12 18:05:09', 5, 4),
-(10, 0, '::1', '2024-11-12 18:09:21', 10, 4),
-(11, 0, '::1', '2024-11-12 18:11:18', 9, 4),
-(12, 0, '::1', '2024-11-12 18:11:46', 11, 4),
-(13, 0, '::1', '2024-11-12 18:13:17', 7, 3),
-(14, 0, '::1', '2024-11-12 18:15:24', 16, 4),
-(15, 0, '::1', '2024-11-12 18:16:06', 17, 2),
-(16, 0, '::1', '2024-11-12 18:22:05', 8, 4),
-(17, 0, '::1', '2024-11-12 20:18:20', 15, 4);
+INSERT INTO `avaliacao` (`id_avaliacao`, `fk_usuario_id_usuario`, `data_avaliacao`, `fk_profissional_id_profissional`, `estrelas_avaliacao`) VALUES
+(23, 2, '2024-11-20 19:38:08', 20, 3),
+(24, 2, '2024-11-19 20:16:54', 15, 4),
+(25, 2, '2024-11-19 21:02:09', 23, 4),
+(26, 2, '2024-11-19 20:35:57', 21, 4),
+(27, 2, '2024-11-19 20:39:59', 13, 3),
+(28, 2, '2024-11-19 21:26:24', 5, 4),
+(29, 2, '2024-11-20 14:08:36', 11, 4),
+(30, 2, '2024-11-20 14:30:24', 9, 4),
+(31, 2, '2024-11-20 15:08:57', 8, 4),
+(32, 2, '2024-11-20 15:14:10', 19, 4),
+(33, 2, '2024-11-20 16:52:26', 7, 4),
+(34, 2, '2024-11-20 17:02:21', 6, 4),
+(35, 2, '2024-11-20 19:37:42', 17, 3),
+(36, 2, '2024-11-20 22:02:48', 10, 4),
+(37, 2, '2024-11-20 22:03:36', 14, 4),
+(38, 2, '2024-11-21 15:27:15', 16, 4);
 
 -- --------------------------------------------------------
 
@@ -74,6 +80,37 @@ INSERT INTO `departamentos` (`id_area`, `nome_area`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `fotos_perfil`
+--
+
+CREATE TABLE `fotos_perfil` (
+  `id_foto_perfil` int(11) NOT NULL,
+  `caminho_foto_perfil` varchar(255) DEFAULT NULL,
+  `fk_profissional_id_profissional` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `fotos_perfil`
+--
+
+INSERT INTO `fotos_perfil` (`id_foto_perfil`, `caminho_foto_perfil`, `fk_profissional_id_profissional`) VALUES
+(1, 'uploads/fotos_perfil/673f3ec4a7d8d.jpg', 5),
+(2, 'uploads/fotos_perfil/673f3ee805401.jpg', 5),
+(3, 'uploads/fotos_perfil/673f3ef4d5891.jpg', 5),
+(4, 'uploads/fotos_perfil/673f3f351be38.jpg', 5),
+(5, 'uploads/fotos_perfil/673f3f4f30ba8.jpg', 5),
+(6, 'uploads/fotos_perfil/673f3f720ffd2.jpg', 5),
+(7, 'uploads/fotos_perfil/673f3f75d6e08.jpg', 5),
+(8, 'uploads/fotos_perfil/673f3fc464554.jpg', 5),
+(9, 'uploads/fotos_perfil/673f3fccf0311.jpg', 5),
+(10, 'uploads/fotos_perfil/673f3fd260c01.jpg', 5),
+(11, 'uploads/fotos_perfil/673f3fdcb48f9.jpg', 5),
+(12, 'uploads/fotos_perfil/673f4d63d370f.jpg', 5),
+(13, 'uploads/fotos_perfil/673f4d67024ab.jpg', 5);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `fotos_profissionais`
 --
 
@@ -88,7 +125,8 @@ CREATE TABLE `fotos_profissionais` (
 --
 
 INSERT INTO `fotos_profissionais` (`id_foto`, `caminho_foto`, `fk_profissional_id_profissional`) VALUES
-(1, 'uploads/fotos_profissionais/6734fc9282389.jpg', NULL);
+(10, 'uploads/fotos_profissionais/673e4899c9348.png', 5),
+(15, 'uploads/fotos_profissionais/673f4e9782d9d.png', 5);
 
 -- --------------------------------------------------------
 
@@ -113,7 +151,7 @@ CREATE TABLE `profissional` (
 --
 
 INSERT INTO `profissional` (`id_profissional`, `nome_profissional`, `senha_profissional`, `descricao_profissional`, `email_profissional`, `tel_profissional`, `ranking_profissional`, `fk_departamentos_id_area`, `fk_profissoes_id_profissao`) VALUES
-(5, 'Ma', '$2y$10$W1e9nr2plOQsK8XqQbg2WeNqKymjvhydR35sdn9pXVbOp79EOt.m2', 'Maecenas ipsum velit, consectetuer eu, lobortis ut, dictum at, dui. In rutrum Maecenas ipsum velit,', 'ma@gmail.com', '19998414123', 0, 2, 2),
+(5, 'Ma', '$2y$10$07XqXBQglq4Sfg0uBGzgnulbWxlmZ0xZDLNTUP/T94yplqjSM.i..', 'Maecenas ipsum velit, consectetuer eu, lobortis ut, dictum at, dui. In rutrum Maecenas ipsum velit,', 'ma@gmail.com', '19998414123', 0, 1, 1),
 (6, 'rafa', '$2y$10$75mO/bepgvrN0vEOOoB5B.4BrIoeAsrWMa7KccWHQ6XVUuGWMEkj6', 'Maecenas ipsum velit, consectetuer eu, lobortis ut, dictum at, dui. In rutrum', 'rafa@gmail.com', '19999098889', 0, 3, 7),
 (7, 'Jose', '$2y$10$tyiu6vwmivn9J/dymecMnO0KA3lCHuu8apuFIw4ozUFazTty7g8ny', 'Maecenas ipsum velit, consectetuer eu, lobortis ut, dictum at, dui. In rutrum. Sed ac dolor sit amet purus malesuada congue. In laoreet, magna id viverra tincidunt, sem odio bibendum justo, vel imperdiet sapien wisi sed libero. Suspendisse sagittis ultrices augue. Mauris metus.ss', 'jose@gmaisl', '12312321322', 0, 3, 7),
 (8, 'mariana', '$2y$10$ecaeyJmMi.zNZhvLVDSTI.zDNuPzfCOJARRi4m62bDrUA8LqNRAjm', 'Maecenas ipsum velit, consectetuer eu, lobortis ut, dictum at, dui. In rutrum. Sed ac dolor sit amet purus malesuada congue. In laoreet, magna id viverra tincidunt, sem odio bibendum justo, vel imperdiet sapien wisi sed libero. Suspendisse sagittis ultrices augue. Mauris metus.ss', 'marianam@gmails', '1293923923', 0, 3, 7),
@@ -129,7 +167,9 @@ INSERT INTO `profissional` (`id_profissional`, `nome_profissional`, `senha_profi
 (18, 'Ivo Onofre', '$2y$10$25PGdnXXw6xQXoBRLHMTZOtcwkIZZbhDWvqxl6v5OQj5HbN8eTbpq', 'Ivo OnofreIvo OnofreIvo OnofreIvo OnofreIvo OnofreIvo OnofreIvo OnofreIvo OnofreIvo OnofreIvo Onofre', 'onofre@gmail.com', '19998414123', 0, 2, 2),
 (19, 'talita', '$2y$10$63j6U5SzjyEFLKOwq9maQ.yv6xTDFpnpXdU9FB72ba7k3V7a16rAW', 'Caso o problema persista, por favor, compartilhe mais detalhes para que eu possa ajudar a diagnosticar melhor. Caso o problema persista, por favor, compartilhe mais detalhes para que eu possa ajudar a diagnosticar melhor.', 'talita@gmail.com', '19999998884', 0, 1, 1),
 (20, 'descia', '$2y$10$AAD3yQLLQIfkw/hEhDgM2.v4gLI2OgH.9ZGZ8x89lcy6u12zfRe8m', 'desciadesciadesciadesciadesciadesciadesciadesciadesciadesciadesciadesciadesciadesciadescia', 'descia@gmail.com', '19555555555', 0, 2, 5),
-(21, 'lima', '$2y$10$z1s/HdmvnXpgVlL/nvbnd.bZfJQkzpqKZvvLZI1VkoBiWnk7Amzq2', 'limalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalima', 'correa@gmail.com', '12345647897', 0, 1, 4);
+(21, 'lima', '$2y$10$z1s/HdmvnXpgVlL/nvbnd.bZfJQkzpqKZvvLZI1VkoBiWnk7Amzq2', 'limalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalima', 'correa@gmail.com', '12345647897', 0, 1, 4),
+(22, 'luiza', '$2y$10$ATjYyMElI2Gyo9V3AXK4KeXpwtgNg5eghs1XjcuIN.zqGOLYFYUAO', 'luizaluizaluizaluizaluizaluizaluizaluizaluizaluizaluizaluizaluizaluizaluizaluiza', 'lu2@gmail.com', '19998414123', 0, 2, 2),
+(23, 'genilda', '$2y$10$MyFT1g7PYr6rmn6kClXBuudoOCbPeIa/5XSaTcPnHAF.RrUQvCXjO', 'genildagenildagenildagenildagenildagenildagenildagenildagenildagenildagenildagenilda', 'gege@gmail.com', '12345678955', 0, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -156,6 +196,28 @@ INSERT INTO `profissoes` (`id_profissao`, `nome_profissao`, `fk_departamentos_id
 (6, 'Jardineiro', 2),
 (7, 'Borracheiro', 3);
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id_usuario` int(11) NOT NULL,
+  `email_usuario` varchar(255) NOT NULL,
+  `nome_usuario` varchar(100) NOT NULL,
+  `senha_usuario` varchar(255) NOT NULL,
+  `criado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  `atualizado_em` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`id_usuario`, `email_usuario`, `nome_usuario`, `senha_usuario`, `criado_em`, `atualizado_em`) VALUES
+(2, 'juris@gmail.com', 'juris', '$2y$10$XGMFSck4UwbiIoyJgTDjgeVBSw/CKXL6Ku7DnolxqEsjQ2KQ9uDtu', '2024-11-19 17:05:35', '2024-11-19 17:05:35');
+
 --
 -- Índices para tabelas despejadas
 --
@@ -165,8 +227,8 @@ INSERT INTO `profissoes` (`id_profissao`, `nome_profissao`, `fk_departamentos_id
 --
 ALTER TABLE `avaliacao`
   ADD PRIMARY KEY (`id_avaliacao`),
-  ADD UNIQUE KEY `unique_ip_profissional` (`usuario_ip`,`fk_profissional_id_profissional`),
-  ADD KEY `fk_profissional_id_profissional` (`fk_profissional_id_profissional`);
+  ADD KEY `fk_profissional_id_profissional` (`fk_profissional_id_profissional`),
+  ADD KEY `fk_avaliacao_usuario` (`fk_usuario_id_usuario`);
 
 --
 -- Índices de tabela `departamentos`
@@ -175,11 +237,18 @@ ALTER TABLE `departamentos`
   ADD PRIMARY KEY (`id_area`);
 
 --
+-- Índices de tabela `fotos_perfil`
+--
+ALTER TABLE `fotos_perfil`
+  ADD PRIMARY KEY (`id_foto_perfil`),
+  ADD KEY `fk_profissional_id_profissional_idx` (`fk_profissional_id_profissional`);
+
+--
 -- Índices de tabela `fotos_profissionais`
 --
 ALTER TABLE `fotos_profissionais`
   ADD PRIMARY KEY (`id_foto`),
-  ADD KEY `fk_profissional_id_profissional` (`fk_profissional_id_profissional`);
+  ADD KEY `fk_profissional` (`fk_profissional_id_profissional`);
 
 --
 -- Índices de tabela `profissional`
@@ -197,6 +266,13 @@ ALTER TABLE `profissoes`
   ADD KEY `FK_profissoes_2` (`fk_departamentos_id_area`);
 
 --
+-- Índices de tabela `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD UNIQUE KEY `email_usuario` (`email_usuario`);
+
+--
 -- AUTO_INCREMENT para tabelas despejadas
 --
 
@@ -204,7 +280,7 @@ ALTER TABLE `profissoes`
 -- AUTO_INCREMENT de tabela `avaliacao`
 --
 ALTER TABLE `avaliacao`
-  MODIFY `id_avaliacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_avaliacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de tabela `departamentos`
@@ -213,22 +289,34 @@ ALTER TABLE `departamentos`
   MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de tabela `fotos_perfil`
+--
+ALTER TABLE `fotos_perfil`
+  MODIFY `id_foto_perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
 -- AUTO_INCREMENT de tabela `fotos_profissionais`
 --
 ALTER TABLE `fotos_profissionais`
-  MODIFY `id_foto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_foto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela `profissional`
 --
 ALTER TABLE `profissional`
-  MODIFY `id_profissional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_profissional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de tabela `profissoes`
 --
 ALTER TABLE `profissoes`
   MODIFY `id_profissao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de tabela `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restrições para tabelas despejadas
@@ -238,12 +326,20 @@ ALTER TABLE `profissoes`
 -- Restrições para tabelas `avaliacao`
 --
 ALTER TABLE `avaliacao`
-  ADD CONSTRAINT `avaliacao_ibfk_1` FOREIGN KEY (`fk_profissional_id_profissional`) REFERENCES `profissional` (`id_profissional`);
+  ADD CONSTRAINT `avaliacao_ibfk_1` FOREIGN KEY (`fk_profissional_id_profissional`) REFERENCES `profissional` (`id_profissional`),
+  ADD CONSTRAINT `fk_avaliacao_usuario` FOREIGN KEY (`fk_usuario_id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restrições para tabelas `fotos_perfil`
+--
+ALTER TABLE `fotos_perfil`
+  ADD CONSTRAINT `fk_profissional_id_profissional` FOREIGN KEY (`fk_profissional_id_profissional`) REFERENCES `profissional` (`id_profissional`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Restrições para tabelas `fotos_profissionais`
 --
 ALTER TABLE `fotos_profissionais`
+  ADD CONSTRAINT `fk_profissional` FOREIGN KEY (`fk_profissional_id_profissional`) REFERENCES `profissional` (`id_profissional`),
   ADD CONSTRAINT `fotos_profissionais_ibfk_1` FOREIGN KEY (`fk_profissional_id_profissional`) REFERENCES `profissional` (`id_profissional`) ON DELETE CASCADE;
 
 --

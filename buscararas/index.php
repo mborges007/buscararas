@@ -2,7 +2,7 @@
 
 <?php 
 include('db.php'); // Certifique-se de que o caminho esteja correto
-
+session_start();
 include 'includes/busca_profissionais.php'; 
 ?>
 
@@ -19,11 +19,18 @@ include 'includes/busca_profissionais.php';
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
+
+    <style>
+        body {
+            background-image: url('img/lupa.svg');
+            background-repeat: repeat;
+            background-size: 30px 30px;
+        }
+    </style>
 </head>
 <body>
   
     <!-- Incluir a sidebar -->
-    <div class="lupas-fundo"></div>
     <?php include 'includes/sidebar.php'; ?>
     
     <div class="content d-flex flex-column align-items-center flex-grow-1">

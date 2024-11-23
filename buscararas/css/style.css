@@ -1,16 +1,48 @@
-.lupas-fundo {
-    position: absolute;
-    top: 0;
+/* Estilo do Modal */
+.modal {
+    display: none; /* Inicialmente o modal está oculto */
+    position: fixed;
+    z-index: 1; /* Fica por cima de outros elementos */
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/svgs/solid/search.svg');
-    background-repeat: repeat;
-    background-size: 50px 50px; /* Controla o tamanho da lupa */
-    opacity: 0.1; /* Torna as lupas bem suaves */
-    pointer-events: none; /* Impede que a marca d'água interfira nas interações */
-    z-index: -1; /* Garante que o fundo fique atrás de outros conteúdos */
+    top: 0;
+    width: 100%; /* Ocupa toda a largura da tela */
+    height: 100%; /* Ocupa toda a altura da tela */
+    background-color: rgba(0, 0, 0, 0.4); /* Fundo semi-transparente */
+    padding-top: 60px;
 }
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Tamanho do modal */
+    max-width: 400px;
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#modalMessage {
+    font-size: 18px;
+    color: #333;
+}
+
+
 
 
 html, body {
@@ -19,23 +51,70 @@ html, body {
     height: 100%;
     overflow-x: hidden; /* Remove rolagem horizontal */
     position: relative;
-}
-
-body {
     background-color: #f0f0f0;
     height: 100%;
     overflow: auto;
+    
+
+}
+
+
+.hoverando{
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+.hoverando:hover{
+    transform: scale(1.01); /* Aumenta levemente a div (5%) */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Adiciona um efeito de sombra */
 }
 
 
 .saltando{
     transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    background-color: #526e70;
+    border: none;
+    border-radius: 20px;
     
 }
 .saltando:hover{
     transform: scale(1.01); /* Aumenta levemente a div (5%) */
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Adiciona um efeito de sombra */
+    background-color: #526e70;
 }
+
+
+#avaliacao i.filled {
+    color: gold;
+}
+
+#avaliacao i {
+    font-size: 16px; /* Tamanho padrão */
+    color: #ccc; /* Cor padrão */
+    transition: transform 0.2s, color 0.2s; /* Animação para suavizar */
+    cursor: pointer;
+}
+
+
+
+#avaliacao i:hover, #avaliacao i.hovered {
+    transform: scale(1.3); /* Aumentar o tamanho */
+    color: #ffcc00; /* Cor ao passar o mouse */
+}
+
+#avaliacao i.filled {
+    color: #ffcc00; /* Cor das estrelas selecionadas */
+}
+
+
+/* Estilo para estrelas acesas */
+.fa-star, .fa-star-half-alt {
+    color: #ffcc00; /* Cor amarela para estrelas acesas */
+}
+
+/* Estilo para estrelas não acesas */
+.far.fa-star {
+    color: #070707; /* Cor cinza para o preenchimento das estrelas apagadas */
+}
+
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
     background-color: rgba(0, 0, 0, 0.5); /* cor de fundo das setas */
@@ -55,75 +134,6 @@ body {
     align-items: center;
 }
 
-.stars {
-    display: flex;
-    cursor:pointer;
-
-    
-}
-
-.stars input {
-    display: none; /* Escondemos os inputs do tipo radio */
-
-}
-
-.stars label {
-    font-size: 30px;
-    color: white; /* Cor inicial das estrelas */
-    margin-right: 5px;
-    
-}
-
-/* Estrelas selecionadas (amarelas) */
-.stars input:checked ~ label {
-    color: gold;
-}
-
-/* Estrela no hover (também amarela enquanto passa o mouse) */
-.stars label:hover,
-.stars label:hover ~ label {
-    color: gold;
-    transform: scale(1.2); /* Aumenta as estrelas */
-}
-
-/* Estrela quando o usuário passa o mouse, mas não selecionou */
-.stars input:hover ~ label {
-    color: gold;
-    transform: scale(1.2); /* Aumenta as estrelas */
-}
-.fas.fa-star, .fas.fa-star-half-alt {
-    color: gold; 
-    
-}
-
-.far.fa-star {
-    color: #000000; 
-    
-}
-
-.saltandoestrela {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Quando o mouse passa sobre a estrela, ela aumenta e as estrelas à esquerda também aumentam */
-.saltandoestrela:hover,
-.saltandoestrela:hover ~ .saltandoestrela {
-    transform: scale(1.05); /* Aumenta as estrelas */
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Adiciona sombra */
-}
-
-/* Aplica o efeito de hover na estrela selecionada e todas as anteriores */
-.saltandoestrela:hover,
-.saltandoestrela:hover ~ .saltandoestrela {
-    transform: scale(1.05);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-}
-
-
-
-
-
-
 
 .sidebar, .content, .dropdown-item, .profile-container {
     cursor: default; /* Define o cursor padrão */
@@ -140,10 +150,10 @@ body {
     background-color: #84B0B5; /* Cor da sidebar */
     color: #F5F5E6; /* Cor do texto */
 }
-
-.verdinho:hover{
-    background-color: #78a1a5;
+.hoverando:hover{
+    background-color: #526e70
 }
+
 
 .content {
     flex: 1;
@@ -634,6 +644,7 @@ body {
     width: 60%;
     max-width: 1000px; /* Define uma largura máxima para alinhar com a seção passo a passo */
     margin-top: 30px; /* Espaço superior */
+    text-align: center; /* Alinha o conteúdo ao centro */
 }
 
 .perfil-photo {
@@ -643,6 +654,7 @@ body {
     width: 150px;
     margin-bottom: 20px;
 }
+
 
 .perfil-photo img {
     max-width: 80%;
@@ -674,35 +686,6 @@ body {
     margin-top: 20px;
 }
 
-@media (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .main-content {
-        margin-left: 0;
-        width: 100%;
-    }
-
-    .profile-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .profile-photo {
-        margin-right: 0;
-        margin-bottom: 20px;
-    }
-
-    .profile-info {
-        width: 100%;
-        padding-left: 0; /* Remove o padding à esquerda em telas pequenas */
-        text-align: center; /* Centraliza o texto */
-    }
-}
 
 
 /* Ajuste da responsividade */
@@ -718,6 +701,301 @@ body {
         margin-left: 0; /* Remove a margem à esquerda para dispositivos móveis */
         width: 100%; /* Ajusta a largura do conteúdo principal */
     }
+    .sidebar {
+        width: 200px;
+    }
+
+    /* Adiciona um botão para abrir e fechar a sidebar em telas menores */
+    .sidebar .btn-primary, .sidebar .btn-secondary {
+        width: 90%; /* Aumenta a largura dos botões em telas menores */
+    }
+
+    /* Ajuste do conteúdo do dropdown para não ser muito largo */
+    .dropdown-menu {
+        width: 100%;
+    }
+
+    /* Ajusta o layout do conteúdo principal */
+    .main-content {
+        margin-left: 0; /* Remove a margem esquerda para dispositivos menores */
+        padding: 10px; /* Reduz o padding */
+    }
+
+    /* Ajusta a largura do card de formulário */
+    .form-card {
+        width: 90%; /* Ajusta a largura para 90% em telas menores */
+        max-width: 100%; /* Remover o limite de largura máximo */
+    }
+
+    /* Ajusta a altura e o tamanho dos inputs e selects */
+    .form-control,
+    .form-select {
+        font-size: 14px; /* Aumenta o tamanho da fonte para melhor leitura */
+        padding: 12px; /* Ajusta o padding para melhor usabilidade */
+    }
+
+    /* Ajuste do botão 'no-border' */
+    .no-border {
+        font-size: 16px; /* Reduz o tamanho da fonte */
+    }
+
+    /* Ajuste do título do formulário */
+    .form-card .card-title {
+        font-size: 20px; /* Ajusta o tamanho do título */
+    }
+    /* Ajusta a disposição dos passos */
+    .steps-container {
+        flex-direction: column; /* Alinha os passos em coluna */
+        align-items: center; /* Centraliza os passos */
+    }
+
+    /* Ajusta o tamanho das imagens e conteúdo dos passos */
+    .step {
+        max-width: 100%; /* Deixa os passos ocuparem toda a largura disponível */
+        margin: 10px 0; /* Adiciona espaçamento entre os passos */
+        padding: 15px;
+    }
+
+    /* Ajuste da imagem dentro de cada passo */
+    .step-image {
+        width: 120px; /* Ajusta o tamanho da imagem */
+        height: 120px;
+    }
+
+    /* Ajusta o layout do conteúdo principal */
+    .content {
+        margin-left: 0; /* Remove a margem esquerda para dispositivos menores */
+        width: 100%; /* Garante que ocupe toda a largura disponível */
+    }
+
+    /* Ajusta o tamanho da imagem do card */
+    #cards img {
+        max-width: 80px; /* Reduz o tamanho da imagem para telas menores */
+    }
+
+    /* Ajuste da largura dos inputs e selects */
+    .form-control.aumentar,
+    .form-select.aumentar {
+        width: 100%; /* Ajusta a largura para 100% */
+        max-width: 100%; /* Remove a largura máxima */
+    }
+
+    /* Ajuste do contêiner de resultados */
+    .results-container {
+        width: 100%; /* O contêiner de resultados ocupa toda a largura */
+    }
+
+    /* Ajuste do botão Enviar */
+    .btn-block {
+        width: 100%; /* O botão ocupa toda a largura */
+        padding: 12px; /* Aumenta o padding para mais conforto */
+    }
+    .profile-container {
+        flex-direction: column; /* Muda para coluna em telas menores */
+        align-items: center; /* Alinha ao centro */
+        padding: 20px;
+        min-height: auto; /* Deixa a altura mínima flexível */
+    }
+
+    .profile-photo {
+        height: 120px;
+        width: 120px;
+    }
+
+    .profile-info {
+        min-height: 200px; /* Ajuste a altura mínima para dispositivos menores */
+    }
+
+    .profile-description {
+        min-height: 120px; /* Ajusta a altura mínima para a descrição */
+    }
+
+    .profile-carousel {
+        height: 180px; /* Reduz a altura do carousel */
+        font-size: 16px; /* Ajusta o tamanho da fonte */
+    }
+
+    .profile-carousel button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .centrinho {
+        font-size: 16px;
+    }
+    .perfil-container {
+        width: 90%; /* Aumenta a largura para aproveitar mais o espaço */
+        padding: 20px; /* Ajusta o padding */
+    }
+
+    .perfil-photo {
+        height: 120px; /* Reduz o tamanho da imagem */
+        width: 120px; /* Reduz o tamanho da imagem */
+    }
+
+    .perfil-info {
+        padding-left: 15px; /* Ajuste no padding */
+    }
+
+    .perfil-description {
+        min-height: 120px; /* Ajusta a altura da descrição */
+    }
+
 }
+
+
+
+@media (max-width: 576px) {
+    /* Reduz o tamanho da sidebar em telas pequenas */
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        transform: none;
+        border-radius: 0;
+    }
+
+    /* Ajusta o comportamento dos botões */
+    .sidebar .btn-primary, .sidebar .btn-secondary {
+        width: 100%; /* Os botões ficam com largura total em telas pequenas */
+    }
+
+    /* Ajusta a visibilidade do dropdown */
+    .dropdown-toggle.no-border {
+        font-size: 14px; /* Reduz o tamanho do texto */
+    }
+
+    .dropdown-menu {
+        width: 100%;
+        max-height: 150px; /* Reduz a altura do dropdown */
+    }
+
+    .form-card {
+        width: 100%; /* Largura total em telas muito pequenas */
+        padding: 10px; /* Ajuste do padding */
+    }
+
+    /* Aumenta a legibilidade dos inputs e selects */
+    .form-control,
+    .form-select {
+        font-size: 16px; /* Aumenta o tamanho da fonte */
+        padding: 15px; /* Maior espaço nos campos */
+    }
+
+    /* Ajuste do botão 'no-border' */
+    .no-border {
+        font-size: 14px; /* Ajuste do tamanho da fonte */
+        padding: 12px; /* Aumenta o padding */
+    }
+
+    /* Título do formulário */
+    .form-card .card-title {
+        font-size: 18px; /* Ajusta o título */
+    }
+
+    /* Ajusta o espaço inferior */
+    .mb-2 {
+        margin-bottom: 1rem; /* Aumenta o espaço abaixo do botão */
+    }
+
+    .step {
+        max-width: 100%; /* Ocupa toda a largura */
+        margin: 5px 0; /* Reduz o espaço entre os passos */
+        padding: 10px; /* Menos padding para melhor aproveitamento do espaço */
+    }
+
+    /* Reduz o tamanho da imagem dos passos */
+    .step-image {
+        width: 100px; /* Ajusta o tamanho da imagem */
+        height: 100px;
+    }
+
+    /* Ajuste do card de passo */
+    #cards .col-md-3 {
+        padding: 1rem; /* Menos padding */
+        margin: 0.5rem; /* Menos espaço entre os cards */
+    }
+
+    /* Ajuste do conteúdo para dispositivos menores */
+    .content {
+        width: 100%; /* Garante que o conteúdo ocupe toda a largura */
+    }
+
+    /* Ajuste das imagens */
+    #cards img {
+        max-width: 60px; /* Imagens ainda menores */
+    }
+
+    .result-item {
+        padding: 8px; /* Menos padding para se ajustar ao espaço */
+    }
+
+    /* Ajuste do botão */
+    .btn-block {
+        width: 100%; /* Ocupa toda a largura disponível */
+        padding: 14px; /* Aumenta o padding para maior conforto */
+    }
+
+    /* Ajusta a largura do contêiner de resultados */
+    .results-container {
+        width: 100%; /* Ocupa toda a largura */
+    }
+
+    .profile-container {
+        padding: 15px; /* Reduz o padding para ajustar o espaço */
+        min-height: auto;
+    }
+
+    .profile-photo {
+        height: 100px;
+        width: 100px; /* Reduz a imagem */
+    }
+
+    .profile-info {
+        min-height: auto; /* Ajusta a altura das informações */
+    }
+
+    .profile-description {
+        min-height: 100px;
+    }
+
+    .profile-carousel {
+        height: 150px; /* Reduz a altura do carousel */
+    }
+
+    .profile-carousel button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .centrinho {
+        font-size: 14px;
+    }
+
+    .perfil-container {
+        width: 95%; /* Ocupa quase toda a largura da tela */
+        padding: 15px; /* Menos padding em telas muito pequenas */
+    }
+
+    .perfil-photo {
+        height: 100px; /* Reduz ainda mais o tamanho da imagem */
+        width: 100px; /* Reduz ainda mais o tamanho da imagem */
+    }
+
+    .perfil-info {
+        padding-left: 10px; /* Menos padding nas informações */
+    }
+
+    .perfil-description {
+        min-height: 100px; /* Ajusta a altura mínima da descrição */
+    }
+
+    .perfil-info input,
+    .perfil-info textarea {
+        font-size: 14px; /* Reduz o tamanho da fonte para telas pequenas */
+        padding: 8px; /* Menos padding para economizar espaço */
+    }
+}
+
 
 

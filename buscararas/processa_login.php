@@ -33,7 +33,16 @@ try {
                 echo "<script>alert('Email ou senha incorretos.'); window.location.href='login.php';</script>";
             }
         } else {
-            echo "<script>alert('Email ou senha incorretos.'); window.location.href='login.php';</script>";
+            // Verifica se o email pertence a um usuário (tabela de usuários)
+            $stmt_user = $conn->prepare("SELECT * FROM usuarios WHERE email_usuario = :email");
+            $stmt_user->bindParam(':email', $email);
+            $stmt_user->execute();
+
+            if ($stmt_user->rowCount() > 0) {
+                echo "<script>alert('Este email pertence a um usuário, vou te redirecionar para a página correta.'); window.location.href='login_usuario.php';</script>";
+            } else {
+                echo "<script>alert('Email ou senha incorretos.'); window.location.href='login_usuarios.php';</script>";
+            }
         }
     }
 } catch (PDOException $e) {

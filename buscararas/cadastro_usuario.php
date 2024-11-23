@@ -1,22 +1,6 @@
 <?php
 include 'db.php'; // Incluindo a conexão com o banco de dados
 
-// Consultando os departamentos
-$departamentos = $conn->query("SELECT * FROM departamentos")->fetchAll(PDO::FETCH_ASSOC);
-
-// Consultando as profissões
-$profissoes = $conn->query("SELECT * FROM profissoes")->fetchAll(PDO::FETCH_ASSOC);
-
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $descricao = trim($_POST['descricao_profissional']);
-    
-    if (strlen($descricao) < 80) {
-        $error_message = "A descrição deve ter pelo menos 80 caracteres.";
-    } else {
-        // Processar o formulário
-    }
-}
 
 ?>
 
@@ -64,53 +48,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <div class="main-content d-flex justify-content-center align-items-center">
             <div class="card form-card">
                 <div class="card-body">
-                <h4 class="card-title text-center">Cadastro|<span class="text" style="color:#BF4341;"> Profissional</span></h4>
+                <h4 class="card-title text-center">Cadastro|<span class="text" style="color:#BF4341;"> Usuário</span></h4>
                     <div class="text-center mb-3">
                     <a href="cadastro.php" class="btn btn-primary hoverando" style="background-color: #66888b; border-radius:25px;border-color: #66888b">Cadastro Profissional</a>
                     <a href="cadastro_usuario.php"class="btn btn-primary hoverando" style="background-color: #66888b; border-radius:25px;border-color: #66888b">Cadastro Usuário</a>
                     </div>
-                    <form action="cadastrar.php" method="POST">
+                    <form action="cadastrar_usuario.php" method="POST">
                         <div class="form-group">
                             <label for="nome">Nome</label>
-                            <input type="text" class="form-control" id="nome" name="nome_profissional" required>
+                            <input type="text" class="form-control" id="nome_usuario" name="nome_usuario" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email_profissional" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="telefone">Telefone com Whatsapp</label>
-                            <small class="form-text text-muted" style="margin-top: -6px;">Insira apenas números (sem espaços ou caracteres especiais).</small>
-                            <input type="tel" class="form-control" id="telefone" maxlength="11" name="tel_profissional" required pattern="[0-9]{11}">
-                            
-                        </div>
-                        <div class="form-group">
-                            <label for="area-atuacao">Área de atuação</label>
-                            <select class="form-select" id="area-atuacao" name="fk_departamentos_id_area" required onchange="carregarProfissoes()">
-                                <option selected>Selecione uma opção</option>
-                                <?php foreach ($departamentos as $departamento): ?>
-                                    <option value="<?= $departamento['id_area'] ?>"><?= $departamento['nome_area'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="profissao">Profissão</label>
-                            <select class="form-select" id="profissao" name="fk_profissoes_id_profissao" required>
-                                <option selected>Selecione uma opção</option>
-                                <!-- Profissões serão carregadas aqui -->
-                            </select>
-                        </div>
+                            <input type="email" class="form-control" id="email_usuario" name="email_usuario" required>
+                        </div>                                        
                         <div class="form-group">
                             <label for="senha">Senha</label>
                             <small class="form-text text-muted" style="margin-top: -6px;">A senha deve ter entre 6 e 8 caracteres.</small>
-                            <input type="password" class="form-control" id="senha" name="senha_profissional" required maxlength="8" pattern=".{6,8}" title="A senha deve ter entre 6 e 8 caracteres.">
-                            
+                            <input type="password" class="form-control" id="senha_usuario" name="senha_usuario" required maxlength="8" pattern=".{6,8}" title="A senha deve ter entre 6 e 8 caracteres.">            
                         </div>
-                        <div class="form-group">
-                                <label for="descricao">Descrição Profissional</label>
-                                <small class="form-text text-muted"style="margin-top: -6px;">Mínimo 80 caracteres.</small>
-                                <textarea class="form-control" id="descricao" name="descricao_profissional" rows="3" placeholder="Breve relato sobre seu ofício" minlength="80" required></textarea>
-                            </div>
                             <div class="btn-container">
                                 <button type="submit" class="btn btn-danger btn-sm btn-block">Enviar</button>
                             </div>

@@ -4,86 +4,78 @@ include 'db.php';
 
 // Verifica se o usuário está autenticado
 if (!isset($_SESSION['id_profissional'])) {
-    header("Location: login.php"); // Redireciona para a página de login se não estiver autenticado
+    header("Location: login.php");
     exit;
 }
 
 // Obtendo o ID do profissional da sessão
-$profissional_id = $_SESSION['id_profissional']; // Usando o id correto da sessão
+$profissional_id = $_SESSION['id_profissional'];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+// Função para verificar e salvar imagens no servidor
+function salvarImagem($arquivo, $diretorio, $tabela, $coluna, $profissional_id, $conn) {
     // Verifica se o arquivo foi enviado
-    if (isset($_FILES['foto_profissional']) && $_FILES['foto_profissional']['error'] == 0) {
-        $arquivo_tmp = $_FILES['foto_profissional']['tmp_name'];
-        $nome_arquivo = basename($_FILES['foto_profissional']['name']);
-        $extensao = strtolower(pathinfo($nome_arquivo, PATHINFO_EXTENSION));
+    if (empty($arquivo['name'])) {
+        return "Nenhuma imagem foi selecionada para envio. Por favor, escolha um arquivo.";
+    }
 
-        // Verifica o tipo MIME da imagem
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $tipo_arquivo = finfo_file($finfo, $arquivo_tmp);
-        finfo_close($finfo);
-        
-        // Tipos MIME permitidos
-        $tipos_permitidos = ['image/jpeg', 'image/png'];
-        
-        if (in_array($tipo_arquivo, $tipos_permitidos)) {
-            // Define as extensões permitidas
-            $extensoes_permitidas = ['jpg', 'jpeg', 'png'];
-            if (in_array($extensao, $extensoes_permitidas)) {
-                // Verifica o tamanho do arquivo (5MB máximo)
-                if ($_FILES['foto_profissional']['size'] <= 5 * 1024 * 1024) {
-                    // Define o diretório e nome final do arquivo
-                    $diretorio_upload = 'uploads/fotos_profissionais/';
-                    
-                    // Verifica se o diretório existe, senão, cria
-                    if (!is_dir($diretorio_upload)) {
-                        mkdir($diretorio_upload, 0777, true);
-                    }
+    $extensoes_permitidas = ['jpg', 'jpeg', 'png'];
+    $tipos_permitidos = ['image/jpeg', 'image/png'];
 
-                    $caminho_foto = $diretorio_upload . uniqid() . '.' . $extensao;
+    $arquivo_tmp = $arquivo['tmp_name'];
+    $nome_arquivo = basename($arquivo['name']);
+    $extensao = strtolower(pathinfo($nome_arquivo, PATHINFO_EXTENSION));
 
-                    // Move o arquivo para o diretório de uploads
-                    if (move_uploaded_file($arquivo_tmp, $caminho_foto)) {
-                        // Insere a foto no banco de dados
-                        $inserir_foto_query = "INSERT INTO fotos_profissionais (caminho_foto, fk_profissional_id_profissional) VALUES (:caminho_foto, :id_profissional)";
-                        $stmt = $conn->prepare($inserir_foto_query);
-                        $stmt->bindParam(':caminho_foto', $caminho_foto);
-                        $stmt->bindParam(':id_profissional', $profissional_id); // Usando a variável correta para o ID do profissional
-                        
-                        if ($stmt->execute()) {
-                            // Redireciona para a página 'meuperfil.php' após o sucesso
-                            header("Location: meuperfil.php");
-                            exit(); // Garante que o script pare após o redirecionamento
-                        } else {
-                            $error_message = "Erro ao salvar a foto no banco de dados.";
-                        }
-                    } else {
-                        $error_message = "Falha ao mover o arquivo de upload.";
-                    }
-                } else {
-                    $error_message = "O arquivo é muito grande. O tamanho máximo permitido é 5MB.";
-                }
-            } else {
-                $error_message = "Formato de arquivo não permitido. Use JPG, JPEG ou PNG.";
-            }
+    // Validações
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $tipo_arquivo = finfo_file($finfo, $arquivo_tmp);
+    finfo_close($finfo);
+
+    if (!in_array($tipo_arquivo, $tipos_permitidos) || !in_array($extensao, $extensoes_permitidas)) {
+        return "Formato inválido. Por favor, envie um arquivo nos formatos JPG, JPEG ou PNG.";
+    }
+
+    if ($arquivo['size'] > 5 * 1024 * 1024) {
+        return "O arquivo excede o tamanho máximo de 5MB. Por favor, envie um arquivo menor.";
+    }
+
+    if (!is_dir($diretorio)) {
+        mkdir($diretorio, 0777, true);
+    }
+
+    $caminho_foto = $diretorio . uniqid() . '.' . $extensao;
+
+    if (move_uploaded_file($arquivo_tmp, $caminho_foto)) {
+        // Insere ou atualiza a foto no banco de dados
+        $sql = "INSERT INTO $tabela ($coluna, fk_profissional_id_profissional) VALUES (:caminho_foto, :id_profissional)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':caminho_foto', $caminho_foto);
+        $stmt->bindParam(':id_profissional', $profissional_id);
+
+        if ($stmt->execute()) {
+            return "Imagem salva com sucesso! Sua imagem foi enviada e está visível no seu perfil.";
         } else {
-            $error_message = "O arquivo enviado não é uma imagem válida.";
+            return "Houve um erro ao salvar a imagem no banco de dados. Tente novamente.";
         }
-    } else {
-        $error_message = "Nenhum arquivo foi enviado ou houve um erro no envio.";
     }
 
-    // Exibe mensagens de erro, se houver
-    if (isset($error_message)) {
-        echo "<p style='color:red;'>$error_message</p>";
-    }
+    return "Erro ao mover a imagem para o diretório de destino. Tente novamente.";
 }
 
+
+// Processando upload de foto de perfil
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['perfilFoto'])) {
+    $mensagem_perfil = salvarImagem($_FILES['perfilFoto'], 'uploads/fotos_perfil/', 'fotos_perfil', 'caminho_foto_perfil', $profissional_id, $conn);
+}
+
+// Processando upload de fotos para a galeria
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto_profissional'])) {
+    $mensagem_galeria = salvarImagem($_FILES['foto_profissional'], 'uploads/fotos_profissionais/', 'fotos_profissionais', 'caminho_foto', $profissional_id, $conn);
+}
+
+// Consulta para obter as informações do profissional
 try {
-    // Consulta SQL para obter as informações do profissional
     $sql = "SELECT p.nome_profissional, p.tel_profissional, p.descricao_profissional, p.email_profissional,
-                   pr.nome_profissao,
-                   d.nome_area
+                   pr.nome_profissao, d.nome_area
             FROM profissional p
             JOIN profissoes pr ON pr.id_profissao = p.fk_profissoes_id_profissao
             JOIN departamentos d ON d.id_area = p.fk_departamentos_id_area
@@ -92,32 +84,35 @@ try {
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id_profissional', $profissional_id, PDO::PARAM_INT);
     $stmt->execute();
+    $profissional = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Verifica se o profissional foi encontrado
-    if ($stmt->rowCount() > 0) {
-        $profissional = $stmt->fetch(PDO::FETCH_ASSOC); // Pega o resultado como array associativo
-    } else {
-        echo "Profissional não encontrado!";
+    if (!$profissional) {
+        echo "Profissional não encontrado.";
         exit;
     }
 } catch (PDOException $e) {
-    echo "Erro na consulta: " . $e->getMessage();
+    echo "Erro: " . $e->getMessage();
 }
 
+// Obter foto de perfil
+$sql_foto_perfil = "SELECT caminho_foto_perfil FROM fotos_perfil 
+                    WHERE fk_profissional_id_profissional = :id_profissional
+                    ORDER BY id_foto_perfil DESC LIMIT 1";
+$stmt_foto_perfil = $conn->prepare($sql_foto_perfil);
+$stmt_foto_perfil->bindParam(':id_profissional', $profissional_id, PDO::PARAM_INT);
+$stmt_foto_perfil->execute();
+$foto_perfil = $stmt_foto_perfil->fetch(PDO::FETCH_ASSOC);
+$fotoPerfilCaminho = $foto_perfil ? htmlspecialchars($foto_perfil['caminho_foto_perfil']) : 'img/default_profile.jpg';
 
-// Consulta para obter as fotos enviadas pelo profissional
-$sql_fotos = "SELECT * FROM fotos_profissionais WHERE fk_profissional_id_profissional = :id_profissional";
-$stmt_fotos = $conn->prepare($sql_fotos);
-$stmt_fotos->bindParam(':id_profissional', $profissional_id, PDO::PARAM_INT);
-$stmt_fotos->execute();
-
-// Verifica se há fotos enviadas
-$fotos = $stmt_fotos->fetchAll(PDO::FETCH_ASSOC);
-
-
-
+// Obter fotos da galeria
+$sql_fotos_galeria = "SELECT id_foto, caminho_foto FROM fotos_profissionais WHERE fk_profissional_id_profissional = :id_profissional";
+$stmt_fotos_galeria = $conn->prepare($sql_fotos_galeria);
+$stmt_fotos_galeria->bindParam(':id_profissional', $profissional_id, PDO::PARAM_INT);
+$stmt_fotos_galeria->execute();
+$fotos_galeria = $stmt_fotos_galeria->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -128,6 +123,13 @@ $fotos = $stmt_fotos->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-image: url('img/lupa.svg');
+            background-repeat: repeat;
+            background-size: 30px 30px;
+        }
+    </style>
 </head>
 <body>
     <div class="sidebar d-flex flex-column p-3">
@@ -141,13 +143,32 @@ $fotos = $stmt_fotos->fetchAll(PDO::FETCH_ASSOC);
     </div>
           
     <div class="content d-flex flex-column align-items-center flex-grow-1">
-        <h1>Meu Perfil</h1>
+    <h1>Meu Perfil</h1>
+
+    <div class="card form-card w-100 p-4 perfil-container">
+        <div class="row align-items-center mb-4">
+            <div class="col-md-4 text-center">
+                <!-- Exibição da foto de perfil -->
+                <img src="<?php echo isset($fotoPerfilCaminho) && !empty($fotoPerfilCaminho) ? $fotoPerfilCaminho : 'img/perfilpadrao.jpg'; ?>" 
+                     alt="Foto do Profissional" 
+                     class="img-fluid rounded-circle perfil-photo">
+
+                <!-- Botão "Alterar Foto" abaixo da imagem -->
+                <button type="button" style="width: 49%;" class="btn btn-secondary  saltando mt-3" onclick="mostrarFormulario()">Alterar Foto Perfil</button>
+
+                <!-- Formulário para alterar a foto -->
+                <form action="meuperfil.php" method="POST" enctype="multipart/form-data" class="mt-3" id="formFoto" style="display: none;">
+                    <div class="form-group">
+                        <label for="perfilFoto" class="form-label">Alterar Foto Perfil</label>
+                        <input type="file" class="form-control" id="perfilFoto" name="perfilFoto" required>
+                    </div>
+                    <button type="submit" class="btn btn-danger btn-sm btn-block">Enviar</button>
+                </form>
+            </div>
         
-        <div class="card form-card w-100 p-4 perfil-container">
-            <div class="row align-items-center mb-4">
-                <div class="col-md-4 text-center">
-                    <img src="img/luka.jpg" alt="Foto do Profissional" class="img-fluid rounded-circle perfil-photo">
-                </div>
+   
+
+
                 <div class="col-md-8 perfil-info">
                     <h4 class="text-center"><?php echo htmlspecialchars($profissional['nome_profissional']); ?></h4>
                     <p><strong>Telefone:</strong> <?php echo htmlspecialchars($profissional['tel_profissional']); ?></p>
@@ -157,40 +178,51 @@ $fotos = $stmt_fotos->fetchAll(PDO::FETCH_ASSOC);
                     <h5>Descrição</h5>
                     <p><?php echo htmlspecialchars($profissional['descricao_profissional']); ?></p>
                 </div>
-                <form action="meuperfil.php" method="POST" enctype="multipart/form-data">
-                <!-- Campo para upload de fotos -->
-                <div class="form-group">
-                    <label for="foto">Enviar Foto</label>
-                    <input type="file" class="form-control" id="foto" name="foto_profissional">
-                    <small class="form-text text-muted">Você pode enviar uma imagem no formato JPG, JPEG ou PNG.</small>
-                </div>
-                
-                <div class="btn-container">
-                    <button type="submit"class="btn btn-danger btn-sm btn-block">Enviar</button>
-                </div>
-            </form>
-            
-            </div>
-            <?php if ($fotos): ?>
-    <h5>Fotos enviadas</h5>
-    <div class="row">
-        <?php foreach ($fotos as $foto): ?>
-            <div class="col-md-4 mb-3">
-                <img src="<?php echo htmlspecialchars($foto['caminho_foto']); ?>" class="img-fluid rounded mb-2" alt="Foto do Profissional">
-                <form action="deletar_foto.php" method="POST">
-                    <input type="hidden" name="foto_id" value="<?php echo $id_foto; ?>"> <!-- A ID da foto a ser deletada -->
-                    <button type="submit" class="btn btn-danger btn-sm" style="border-radius:20px; background-color:#BF4341;" >Deletar</button>
-                </form>
-            </div>
-        <?php endforeach; ?>
-    </div>
-<?php else: ?>
-    <p>Você não enviou nenhuma foto ainda.</p>
-<?php endif; ?>
+
+    
+              <hr>
+    </br>
+                    <form action="meuperfil.php" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="foto">Enviar Foto de trabalhos anteriores</label>
+                            <input type="file" class="form-control" id="foto" name="foto_profissional">
+                            <small class="form-text text-muted">Você pode enviar uma imagem no formato JPG, JPEG ou PNG.</small>
+                        </div>
+
+                        <div class="btn-container">
+                            <button type="submit" class="btn btn-danger btn-sm btn-block">Enviar trabalhos</button>
+                        </div>
+                    </form>
+
+                    <!-- Exibição das fotos enviadas -->
+                    <?php if (!empty($fotos_galeria)): ?>
+                        <h5>Fotos enviadas</h5>
+                        <div class="row">
+                            <?php foreach ($fotos_galeria as $foto): ?>
+                                <div class="col-md-4 mb-3">
+                                    <img src="<?php echo htmlspecialchars($foto['caminho_foto']); ?>" class="img-fluid rounded mb-2" alt="Foto do Profissional">
+                                    <form action="deletar_foto.php" method="POST">
+                                    <input type="hidden" name="id_foto" value="<?php echo htmlspecialchars($foto['id_foto']); ?>">
+                                    <button type="submit" class="btn btn-danger btn-sm" style="border-radius:20px; background-color:#BF4341;">Deletar</button>
+                                </form>
+
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <p>Você não enviou nenhuma foto ainda.</p>
+                    <?php endif; ?>
         </div>
-    </div>
+ </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    function mostrarFormulario() {
+    var form = document.getElementById('formFoto');
+    form.style.display = 'block'; // Torna o formulário visível
+}
+</script>
 </body>
 </html>
