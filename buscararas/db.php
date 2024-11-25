@@ -1,23 +1,39 @@
 <?php
-$host = 'busca.mysql.database.azure.com'; // Nome do servidor do banco de dados no Azure
-$db = 'busca'; // Nome do banco de dados (substitua conforme necessário)
+$host = 'busca.mysql.database.azure.com'; // Nome do servidor
+$db = 'busca'; // Nome do banco de dados
 $user = 'kfzftclrbr'; // Nome de usuário
-$pass = 'xRZCifXw5$Ba3SY9'; // Senha do banco de dados (substitua pela sua senha real)
+$pass = 'GremiO@10'; // Senha do banco de dados
 
-// Configuração de SSL
+// Caminho para o certificado SSL
+$certPath = 'C:/xampp/htdocs/DigiCertGlobalRootG2.crt'; // Certificado SSL no Windows
+
 $options = [
-    PDO::MYSQL_ATTR_SSL_CA => '/caminho/para/certificado.pem' // Caminho para o certificado SSL
+    PDO::MYSQL_ATTR_SSL_CA => $certPath, // Configuração de SSL para PDO
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // Habilitar exceções
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC // Modo de busca padrão
 ];
 
 try {
-    // Criando a conexão PDO com SSL
+    // Conexão usando PDO
     $conn = new PDO("mysql:host=$host;dbname=$db;port=3306;charset=utf8", $user, $pass, $options);
-    
-    // Definindo o modo de erro do PDO para exceções
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    echo "Conexão bem-sucedida!";
+    echo "Conexão bem-sucedida com PDO!";
 } catch (PDOException $e) {
-    echo "Erro na conexão: " . $e->getMessage();
+    echo "Erro na conexão PDO: " . $e->getMessage();
 }
+
+// Conexão usando mysqli
+$connMysqli = mysqli_init();
+
+// Configuração SSL para mysqli
+mysqli_ssl_set($connMysqli, NULL, NULL, $certPath, NULL, NULL);
+
+// Tentativa de conexão
+if (!mysqli_real_connect($connMysqli, $host, $user, $pass, $db, 3306, NULL, MYSQLI_CLIENT_SSL)) {
+    die('Erro na conexão mysqli: ' . mysqli_connect_error());
+} else {
+    echo "Conexão bem-sucedida com mysqli!";
+}
+
+// Fechar conexões
+$connMysqli->close();
 ?>
