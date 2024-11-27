@@ -1,25 +1,22 @@
 <?php
 session_start();
-include 'db.php'; // Inclui a conexão com o banco de dados
+include 'db.php'; 
 
-// Verifica se o usuário está logado
+// usuario está logado
 if (!isset($_SESSION['id_profissional'])) {
-    header('Location: login.php'); // Redireciona para a página de login se não estiver logado
+    header('Location: login.php'); // pagina de login se não estiver logado
     exit();
 }
 
 $usuario_id = $_SESSION['id_profissional'];
 
-// Deletar o perfil do profissional
 $query = "DELETE FROM profissional WHERE id_profissional = :id";
 $stmt = $conn->prepare($query);
 $stmt->bindParam(':id', $usuario_id);
 
-// Executa a exclusão
 if ($stmt->execute()) {
-    // Destrua a sessão após a exclusão do perfil
     session_destroy();
-    header('Location: index.php'); // Redireciona para a página inicial após excluir o perfil
+    header('Location: index.php'); 
     exit();
 } else {
     // Caso ocorra algum erro, redireciona de volta para a página de edição de perfil

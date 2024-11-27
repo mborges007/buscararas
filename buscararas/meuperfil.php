@@ -2,18 +2,17 @@
 session_start();
 include 'db.php';
 
-// Verifica se o usuário está autenticado
 if (!isset($_SESSION['id_profissional'])) {
     header("Location: login.php");
     exit;
 }
 
-// Obtendo o ID do profissional da sessão
 $profissional_id = $_SESSION['id_profissional'];
+
 
 // Função para verificar e salvar imagens no servidor
 function salvarImagem($arquivo, $diretorio, $tabela, $coluna, $profissional_id, $conn) {
-    // Verifica se o arquivo foi enviado
+    // verificação se arquivo foi enviado
     if (empty($arquivo['name'])) {
         return "Nenhuma imagem foi selecionada para envio. Por favor, escolha um arquivo.";
     }
@@ -25,7 +24,6 @@ function salvarImagem($arquivo, $diretorio, $tabela, $coluna, $profissional_id, 
     $nome_arquivo = basename($arquivo['name']);
     $extensao = strtolower(pathinfo($nome_arquivo, PATHINFO_EXTENSION));
 
-    // Validações
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $tipo_arquivo = finfo_file($finfo, $arquivo_tmp);
     finfo_close($finfo);
@@ -45,7 +43,6 @@ function salvarImagem($arquivo, $diretorio, $tabela, $coluna, $profissional_id, 
     $caminho_foto = $diretorio . uniqid() . '.' . $extensao;
 
     if (move_uploaded_file($arquivo_tmp, $caminho_foto)) {
-        // Insere ou atualiza a foto no banco de dados
         $sql = "INSERT INTO $tabela ($coluna, fk_profissional_id_profissional) VALUES (:caminho_foto, :id_profissional)";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':caminho_foto', $caminho_foto);
@@ -62,17 +59,17 @@ function salvarImagem($arquivo, $diretorio, $tabela, $coluna, $profissional_id, 
 }
 
 
-// Processando upload de foto de perfil
+//  upload de foto de perfil
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['perfilFoto'])) {
     $mensagem_perfil = salvarImagem($_FILES['perfilFoto'], 'uploads/fotos_perfil/', 'fotos_perfil', 'caminho_foto_perfil', $profissional_id, $conn);
 }
 
-// Processando upload de fotos para a galeria
+//  upload de fotos para a galeria
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto_profissional'])) {
     $mensagem_galeria = salvarImagem($_FILES['foto_profissional'], 'uploads/fotos_profissionais/', 'fotos_profissionais', 'caminho_foto', $profissional_id, $conn);
 }
 
-// Consulta para obter as informações do profissional
+// informações do prof
 try {
     $sql = "SELECT p.nome_profissional, p.tel_profissional, p.descricao_profissional, p.email_profissional,
                    pr.nome_profissao, d.nome_area
@@ -94,7 +91,7 @@ try {
     echo "Erro: " . $e->getMessage();
 }
 
-// Obter foto de perfil
+// puxando foto profissional
 $sql_foto_perfil = "SELECT caminho_foto_perfil FROM fotos_perfil 
                     WHERE fk_profissional_id_profissional = :id_profissional
                     ORDER BY id_foto_perfil DESC LIMIT 1";
@@ -104,12 +101,15 @@ $stmt_foto_perfil->execute();
 $foto_perfil = $stmt_foto_perfil->fetch(PDO::FETCH_ASSOC);
 $fotoPerfilCaminho = $foto_perfil ? htmlspecialchars($foto_perfil['caminho_foto_perfil']) : 'img/default_profile.jpg';
 
-// Obter fotos da galeria
+// puxando fotos da galeria
 $sql_fotos_galeria = "SELECT id_foto, caminho_foto FROM fotos_profissionais WHERE fk_profissional_id_profissional = :id_profissional";
 $stmt_fotos_galeria = $conn->prepare($sql_fotos_galeria);
 $stmt_fotos_galeria->bindParam(':id_profissional', $profissional_id, PDO::PARAM_INT);
 $stmt_fotos_galeria->execute();
 $fotos_galeria = $stmt_fotos_galeria->fetchAll(PDO::FETCH_ASSOC);
+
+
+
 
 ?>
 
@@ -133,11 +133,14 @@ $fotos_galeria = $stmt_fotos_galeria->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
     <div class="sidebar d-flex flex-column p-3">
-        <h1 class="text-light text-left">BuscAraras</h1>
+    <h1 class="text-light text-left" style="color:#F5F5E6; display: flex; align-items: center;">
+                    <span class="text" style="color: #F5F5E6;"> Busc</span><span class="text" style="color: #BF4341;">Araras</span>
+                        <img src="img/lupasidebar.svg" alt="Lupa" style="width: 25px; height: 25px; margin-right: -5px; margin-top:9px;">                
+            </h1>
         <a class="btn btn-light no-border mb-2 tamanho" href="index.php">Início</a>
         <h3 class="text-danger text-left">Meu Perfil</h3>
         <div class="mt-auto">
-            <a class="btn btn-primary w-100 mb-2" href="editar_perfil.php">Alterar</a>
+            <a class="btn btn-primary w-100 mb-2" href="editar_perfil.php">Editar Perfil</a>
             <a class="btn btn-secondary w-100" href="logout.php">Sair</a>
         </div>
     </div>
@@ -148,15 +151,12 @@ $fotos_galeria = $stmt_fotos_galeria->fetchAll(PDO::FETCH_ASSOC);
     <div class="card form-card w-100 p-4 perfil-container">
         <div class="row align-items-center mb-4">
             <div class="col-md-4 text-center">
-                <!-- Exibição da foto de perfil -->
                 <img src="<?php echo isset($fotoPerfilCaminho) && !empty($fotoPerfilCaminho) ? $fotoPerfilCaminho : 'img/perfilpadrao.jpg'; ?>" 
                      alt="Foto do Profissional" 
                      class="img-fluid rounded-circle perfil-photo">
 
-                <!-- Botão "Alterar Foto" abaixo da imagem -->
                 <button type="button" style="width: 49%;" class="btn btn-secondary  saltando mt-3" onclick="mostrarFormulario()">Alterar Foto Perfil</button>
 
-                <!-- Formulário para alterar a foto -->
                 <form action="meuperfil.php" method="POST" enctype="multipart/form-data" class="mt-3" id="formFoto" style="display: none;">
                     <div class="form-group">
                         <label for="perfilFoto" class="form-label">Alterar Foto Perfil</label>
@@ -179,6 +179,10 @@ $fotos_galeria = $stmt_fotos_galeria->fetchAll(PDO::FETCH_ASSOC);
                     <p><?php echo htmlspecialchars($profissional['descricao_profissional']); ?></p>
                 </div>
 
+  
+
+
+
     
               <hr>
     </br>
@@ -194,7 +198,6 @@ $fotos_galeria = $stmt_fotos_galeria->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     </form>
 
-                    <!-- Exibição das fotos enviadas -->
                     <?php if (!empty($fotos_galeria)): ?>
                         <h5>Fotos enviadas</h5>
                         <div class="row">
@@ -221,8 +224,9 @@ $fotos_galeria = $stmt_fotos_galeria->fetchAll(PDO::FETCH_ASSOC);
     <script>
     function mostrarFormulario() {
     var form = document.getElementById('formFoto');
-    form.style.display = 'block'; // Torna o formulário visível
-}
+    form.style.display = 'block'; 
+    }
+
 </script>
 </body>
 </html>

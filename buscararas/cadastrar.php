@@ -13,17 +13,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descricao_profissional = $_POST['descricao_profissional'];
     $ranking_profissional = 0; // Inicializando o ranking como 0 (ou outro valor padrão)
 
-    // Verificando se o email já está cadastrado
+   
     $checkEmail = $conn->prepare("SELECT * FROM profissional WHERE email_profissional = :email");
     $checkEmail->bindParam(':email', $email_profissional);
     $checkEmail->execute();
 
     if ($checkEmail->rowCount() > 0) {
-        // Email já cadastrado
+        
         echo "<script>alert('Esse e-mail já está cadastrado. Por favor, utilize outro.'); window.history.back();</script>";
-        exit; // Encerra a execução
+        exit; 
     } else {
-        // Preparando a consulta SQL para inserir o novo profissional
+        
         $sql = "INSERT INTO profissional (nome_profissional, senha_profissional, descricao_profissional, email_profissional, tel_profissional, ranking_profissional, fk_departamentos_id_area, fk_profissoes_id_profissao) 
                 VALUES (:nome, :senha, :descricao, :email, :telefone, :ranking, :id_area, :id_profissao)";
         
@@ -42,15 +42,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Executando a consulta
             $stmt->execute();
 
-            // Armazenar o ID do profissional na sessão após o cadastro
             $_SESSION['id_profissional'] = $conn->lastInsertId(); // Salva o ID do profissional recém-cadastrado
 
-// Exibe o ID do profissional na sessão (para fins de debug)
-echo "ID do Profissional: " . $_SESSION['id_profissional'];
 
-// Redirecionando para a página meuperfil.php
+
 header("Location: meuperfil.php");
-exit; // Encerra o script para evitar execução adicional
+exit; 
 
         } catch (PDOException $e) {
             echo "Erro ao cadastrar: " . $e->getMessage();

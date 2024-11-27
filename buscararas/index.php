@@ -1,9 +1,15 @@
 
 
 <?php 
-include('db.php'); // Certifique-se de que o caminho esteja correto
+include('db.php'); 
 session_start();
 include 'includes/busca_profissionais.php'; 
+
+require 'vendor/autoload.php';
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +36,6 @@ include 'includes/busca_profissionais.php';
 </head>
 <body>
   
-    <!-- Incluir a sidebar -->
     <?php include 'includes/sidebar.php'; ?>
     
     <div class="content d-flex flex-column align-items-center flex-grow-1">
@@ -38,14 +43,14 @@ include 'includes/busca_profissionais.php';
         <h1 >INÍCIO</h1>
          <div class="d-flex justify-content-center mb-4" style="text-align: center;">
             <div class="me-4" >
-                <label for="searchFilter" style="margin-left: 10px;" >Filtrar por</label>
+                <label for="searchFilter" style="margin-left: 10px; font-weight: bold" >Filtrar por</label>
                 <select class="form-select aumentar" id="searchFilter" onchange="toggleSearchInput()">
                     <option value="name">Nome</option>
                     <option value="profession">Profissão</option>
                 </select>
             </div>
             <div class="">
-                <label for="searchInput" style="margin-left: 30px;">Digite para buscar</label>
+                <label for="searchInput" style="margin-left: 30px; font-weight: bold">Digite para buscar</label>
                 <input type="text" class="form-control aumentar"  id="searchInput" onkeyup="carregarOpcoes()" placeholder="Comece a digitar...">
                 <ul id="searchResults" class="list-group position-absolute fundinho z-index-100" style="display: none; "></ul>
             </div>
@@ -59,17 +64,18 @@ include 'includes/busca_profissionais.php';
 <br>
 <br>
 
-        <!-- Passo a Passo -->
         <div class="steps-container d-flex justify-content-around w-100 p-4">
             <div class="step text-center">
                 <img src="img/4.passo1.svg" alt="Passo 1" class="step-image mb-2">
                 <h4>PASSO 1</h4>
-                <p>Use o nosso menu lateral para encontrar a área de atendimento que precisa</p>
+                <p>No menu lateral encontre o departamento que precisa ou digite o nome do profissional ou a profissão que deseja procurar em nossa
+                    caixa de pesquisa acima
+                </p>
             </div>
             <div class="step text-center">
                 <img src="img/5.passo2.svg" alt="Passo 2" class="step-image mb-2">
                 <h4>PASSO 2</h4>
-                <p>Clique em um de nossos departamentos para selecionar a área desejada</p>
+                <p>Clique em um de nossos departamentos para selecionar a profissão</p>
             </div>
             <div class="step text-center">
                 <img src="img/6.passo3.svg" alt="Passo 3" class="step-image mb-2">
@@ -110,22 +116,21 @@ include 'includes/busca_profissionais.php';
                 li.classList.add('list-group-item');
                 li.textContent = filtro === 'name' ? item.nome_profissional : item.nome_profissao;
 
-                // Lógica para redirecionar ao clicar
                 li.onclick = () => {
                     if (filtro === 'name') {
-                        // Redirecionar para o perfil do profissional
+                        // manda para o perfil do profissional
                         window.location.href = `perfilunico.php?id=${item.id_profissional}`;
                     } else if (filtro === 'profession') {
-                        // Redirecionar para a lista de profissionais por profissão
+                        // manda para a lista_profissionais por profissão
                         window.location.href = `lista_profissionais.php?profissao=${item.nome_profissao}`;
                     }
                 };
 
                 resultsContainer.appendChild(li);
             });
-            resultsContainer.style.display = 'block'; // Exibe resultados
+            resultsContainer.style.display = 'block'; // mostra resultado
         } else {
-            resultsContainer.style.display = 'none'; // Oculta se não houver resultados
+            resultsContainer.style.display = 'none'; //apaga se nada de resultado
         }
     })
     .catch(error => console.error('Erro ao buscar opções:', error));

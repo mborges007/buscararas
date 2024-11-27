@@ -94,8 +94,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="container-fluid p-0 vh-100 d-flex">
         <!-- Sidebar -->
         <div class="sidebar d-flex flex-column p-3">
-            <h1 class="text-light text-left">BuscAraras</h1>
-            <a class="btn btn-light no-border mb-2 tamanho" href="index.php">Início</a>
+        <h1 class="text-light text-left" style="color:#F5F5E6;">Busc<span class="text" style="color: #BF4341;">Araras</span></h1>
+        <a class="btn btn-light no-border mb-2 tamanho" href="index.php">Início</a>
             <h3 class="text-danger text-left">Editar Perfil</h3>
         </div>
 
@@ -110,26 +110,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class="alert alert-success"><?= $success_message ?></div>
                     <?php endif; ?>
                     <form action="editar_perfil.php" method="POST">
-                        <!-- Nome -->
                         <div class="form-group">
                             <label for="nome">Nome</label>
                             <input type="text" class="form-control" id="nome" name="nome_profissional" value="<?= htmlspecialchars($usuario['nome_profissional']) ?>" required>
                         </div>
                         
-                        <!-- Email -->
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email_profissional" value="<?= htmlspecialchars($usuario['email_profissional']) ?>" required>
                         </div>
                         
-                        <!-- Telefone -->
                         <div class="form-group">
                             <label for="telefone">Telefone com Whatsapp</label>
                             <small class="form-text text-muted" style="margin-top: -6px;">Insira apenas números (sem espaços ou caracteres especiais).</small>
                             <input type="tel" class="form-control" id="telefone" maxlength="11" name="tel_profissional" value="<?= htmlspecialchars($usuario['tel_profissional']) ?>" required pattern="[0-9]{11}">
                         </div>
                         
-                        <!-- Área de atuação -->
                         <div class="form-group">
                             <label for="area-atuacao">Área de atuação</label>
                             <select class="form-select" id="area-atuacao" name="fk_departamentos_id_area" required onchange="carregarProfissoes()">
@@ -140,7 +136,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </select>
                         </div>
                         
-                        <!-- Profissão -->
                         <div class="form-group">
                             <label for="profissao">Profissão</label>
                             <select class="form-select" id="profissao" name="fk_profissoes_id_profissao" required>
@@ -151,14 +146,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </select>
                         </div>
                         
-                        <!-- Descrição Profissional -->
                         <div class="form-group">
                             <label for="descricao">Descrição Profissional</label>
                             <small class="form-text text-muted" style="margin-top: -6px;">Mínimo 80 caracteres.</small>
                             <textarea class="form-control" id="descricao" name="descricao_profissional" rows="3" minlength="80" required><?= htmlspecialchars($usuario['descricao_profissional']) ?></textarea>
                         </div>
                         
-                        <!-- Senha -->
                         <div class="form-group">
                             <label for="senha">Senha</label>
                             <input type="password" class="form-control" id="senha" name="senha_profissional" required maxlength="8" pattern=".{6,8}" title="A senha deve ter entre 6 e 8 caracteres.">
@@ -177,10 +170,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script>
         function carregarProfissoes() {
             const idArea = document.getElementById('area-atuacao').value;
-            const profissaoSelect = document.getElementById('profissao');
+            const  selecionarProfissao= document.getElementById('profissao');
 
             // Limpa as opções anteriores
-            profissaoSelect.innerHTML = '<option selected>Selecione uma opção</option>';
+            selecionarProfissao.innerHTML = '<option selected>Selecione uma opção</option>';
 
             if (idArea) {
                 fetch(`carregar_profissoes.php?id_area=${idArea}`)
@@ -190,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             const option = document.createElement('option');
                             option.value = profissao.id_profissao;
                             option.textContent = profissao.nome_profissao;
-                            profissaoSelect.appendChild(option);
+                            selecionarProfissao.appendChild(option);
                         });
                     })
                     .catch(error => console.error('Erro ao carregar profissões:', error));

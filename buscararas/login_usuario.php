@@ -1,6 +1,4 @@
 <?php
-ini_set('session.cookie_domain', '.ngrok.io'); // Define o domínio de cookies para ngrok (se necessário)
-ini_set('session.cookie_path', '/');  // Garante que o cookie da sessão seja válido para todo o site
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -8,7 +6,7 @@ error_reporting(E_ALL);
 
 
 session_start();
-ob_start(); // Inicia o buffer de saída
+ob_start(); 
 ?>
 
 <!DOCTYPE html>
@@ -29,22 +27,21 @@ ob_start(); // Inicia o buffer de saída
 </head>
 <body>
     <div class="container-fluid p-0 vh-100 d-flex">
-        <!-- Sidebar -->
         <div class="sidebar d-flex flex-column p-3">
-            <h1 class="text-light text-left">BuscAraras</h1>
+        <h1 class="text-light text-left" style="color:#F5F5E6; display: flex; align-items: center;">
+                    <span class="text" style="color: #F5F5E6;"> Busc</span><span class="text" style="color: #BF4341;">Araras</span>
+                        <img src="img/lupasidebar.svg" alt="Lupa" style="width: 25px; height: 25px; margin-right: -5px; margin-top:9px;">                
+            </h1>
             
-            <!-- Botão Início -->
             <a class="btn btn-light no-border mb-2 tamanho" href="index.php">Início</a>
             <h3 class="text-danger text-left">Login</h3>
             
-            <!-- Botões de Login e Cadastro -->
             <div class="mt-auto">
                 <a class="btn btn-primary w-100 mb-2" href="login.php">Login</a>
                 <a class="btn btn-secondary w-100" href="cadastro.php">Cadastro</a>
             </div>
         </div>                     
 
-        <!-- Main Content -->
         <div class="main-content d-flex justify-content-center align-items-center">
             <div class="card form-card">
                 <div class="card-body">
@@ -62,6 +59,9 @@ ob_start(); // Inicia o buffer de saída
                             <label for="senha">Senha</label>
                             <input type="password" class="form-control" id="senha_usuario" name="senha_usuario" required placeholder="Máx. 8">
                         </div>
+                        <p class="text-center mt-3">
+                            <a href="esqueci_senha_usuario.php" class="text-decoration-none" style="color:#66888b;">Esqueci minha senha</a>
+                        </p>
                         <div class="btn-container">
                             <button type="submit" class="btn btn-success hoverando btn-sm btn-block">Entrar</button>
                         </div>

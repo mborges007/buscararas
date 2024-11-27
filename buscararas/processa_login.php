@@ -1,6 +1,6 @@
 <?php
 session_start();
-ob_start(); // Inicia o buffer de saída
+ob_start();
 
 $host = 'localhost';
 $db = 'busca';
@@ -11,12 +11,16 @@ try {
     $conn = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Verifica se o formulário foi enviado via POST
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = $_POST['email_profissional'];
+        $email = filter_var($_POST['email_profissional'], FILTER_SANITIZE_EMAIL);
         $senha = $_POST['senha_profissional'];
 
-        // Busca o profissional pelo email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['erro'] = "E-mail inválido!";
+            header("Location: login.php");
+            exit;
+        }
+
         $stmt = $conn->prepare("SELECT * FROM profissional WHERE email_profissional = :email");
         $stmt->bindParam(':email', $email);
         $stmt->execute();
@@ -24,28 +28,35 @@ try {
         if ($stmt->rowCount() > 0) {
             $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Verifica se a senha está correta
             if (password_verify($senha, $usuario['senha_profissional'])) {
                 $_SESSION['id_profissional'] = $usuario['id_profissional'];
+                $_SESSION['sucesso'] = "Login bem-sucedido!";
                 header("Location: meuperfil.php");
-                exit; // Encerra o script após o redirecionamento
+                exit; 
             } else {
-                echo "<script>alert('Email ou senha incorretos.'); window.location.href='login.php';</script>";
+                $_SESSION['erro'] = "E-mail ou senha incorretos.";
+                header("Location: login.php");
+                exit;
             }
         } else {
-            // Verifica se o email pertence a um usuário (tabela de usuários)
             $stmt_user = $conn->prepare("SELECT * FROM usuarios WHERE email_usuario = :email");
             $stmt_user->bindParam(':email', $email);
             $stmt_user->execute();
 
             if ($stmt_user->rowCount() > 0) {
-                echo "<script>alert('Este email pertence a um usuário, vou te redirecionar para a página correta.'); window.location.href='login_usuario.php';</script>";
+                $_SESSION['erro'] = "Este e-mail pertence a um usuário, vou te redirecionar para a página correta.";
+                header("Location: login_usuario.php");
+                exit;
             } else {
-                echo "<script>alert('Email ou senha incorretos.'); window.location.href='login_usuarios.php';</script>";
+                $_SESSION['erro'] = "E-mail ou senha incorretos.";
+                header("Location: login.php");
+                exit;
             }
         }
     }
 } catch (PDOException $e) {
-    echo "<script>alert('Erro ao conectar com o banco de dados: " . $e->getMessage() . "');</script>";
+    $_SESSION['erro'] = "Erro ao conectar com o banco de dados: " . $e->getMessage();
+    header("Location: login.php");
+    exit;
 }
 ?>

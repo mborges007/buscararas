@@ -4,6 +4,7 @@
 // Incluindo o arquivo de conexão com o banco de dados
 include 'db.php';
 
+
 // Verificando as variáveis de sessão para identificar o tipo de usuário
 $isProfissional = isset($_SESSION['id_profissional']);
 $isUsuario = isset($_SESSION['id_usuario']);
@@ -34,7 +35,7 @@ if ($isUsuario) {
 }
 
 // Consultando as áreas e profissões
-$query = "SELECT nome_area FROM departamentos";
+$query = "SELECT nome_area FROM departamentos ORDER BY nome_area ASC";
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $areas = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -45,7 +46,8 @@ foreach ($areas as $area) {
     $areaNome = $area['nome_area'];
 
     // Consulta para obter as profissões da área
-    $queryProf = "SELECT nome_profissao FROM profissoes WHERE fk_departamentos_id_area = (SELECT id_area FROM departamentos WHERE nome_area = :area_departamento)";
+    $queryProf = "SELECT nome_profissao FROM profissoes 
+    WHERE fk_departamentos_id_area = (SELECT id_area FROM departamentos WHERE nome_area = :area_departamento) ORDER BY nome_profissao ASC";
     $stmtProf = $conn->prepare($queryProf);
     $stmtProf->bindParam(':area_departamento', $areaNome, PDO::PARAM_STR);
     $stmtProf->execute();
@@ -55,7 +57,14 @@ foreach ($areas as $area) {
 ?>
 
 <div class="sidebar d-flex flex-column p-3">
-    <h1 class="text-light text-left" style="color:#F5F5E6;">BuscAraras</h1>
+
+        <h1 class="text-light text-left" style="color:#F5F5E6; display: flex; align-items: center;">
+                    <span class="text" style="color: #F5F5E6;"> Busc</span><span class="text" style="color: #BF4341;">Araras</span>
+                        <img src="img/lupasidebar.svg" alt="Lupa" style="width: 25px; height: 25px; margin-right: -5px; margin-top:9px;">                
+            </h1>
+
+
+
 
     <!-- Botão Início -->
     <a class="btn btn-light no-border mb-2 tamanho" href="index.php">Início</a>
@@ -70,14 +79,14 @@ foreach ($areas as $area) {
     <?php foreach ($profissoes as $area => $profissaoList): ?>
         <div class="dropdown">
             <button class="btn dropdown-toggle no-border" type="button" id="dropdown<?php echo $area; ?>" data-bs-toggle="dropdown" aria-expanded="false">
-                <?php echo htmlspecialchars($area); ?>
+               <span> <?php echo htmlspecialchars($area); ?></span>
             </button>
             <ul class="dropdown-menu no-border" aria-labelledby="dropdown<?php echo $area; ?>">
                 <?php if (!empty($profissaoList)): ?>
                     <?php foreach ($profissaoList as $profissao): ?>
                         <li>
-                            <a class="dropdown-item" href="lista_profissionais.php?profissao=<?php echo urlencode($profissao); ?>">
-                                <?php echo htmlspecialchars($profissao); ?>
+                            <a class="dropdown-item ladinho" href="lista_profissionais.php?profissao=<?php echo urlencode($profissao); ?>">
+                              <span> <?php echo htmlspecialchars($profissao); ?></span> 
                             </a>
                         </li>
                     <?php endforeach; ?>
@@ -100,14 +109,17 @@ foreach ($areas as $area) {
 <div class="mt-auto">
     <?php if ($isProfissional && isset($_SESSION['nome_profissional'])): ?>
         <a class="btn btn-primary w-100 mb-2" href="editar_perfil.php">
-            <?php echo htmlspecialchars($_SESSION['nome_profissional']); ?>
+            <?php echo htmlspecialchars($_SESSION['nome_profissional']). " - Editar Perfil"; ?>
         </a>
+        
     <?php elseif ($isUsuario && isset($_SESSION['nome_usuario'])): ?>
         <a class="btn btn-primary hoverando w-100 mb-2" href="editar_perfil_usuarios.php">
-            <?php echo htmlspecialchars($_SESSION['nome_usuario']); ?>
-        </a>
+        <?php echo htmlspecialchars($_SESSION['nome_usuario']) . " - Editar Perfil"; ?>
+    </a>
     <?php endif; ?>
     <a class="btn btn-secondary hoverando w-100" href="logout.php">Sair</a>
 </div>
     <?php endif; ?>
 </div>
+
+

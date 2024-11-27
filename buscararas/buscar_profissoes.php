@@ -2,7 +2,7 @@
 include 'db.php';
 
 if (isset($_GET['query'])) {
-    $query = $_GET['query'] . '%'; // Usar % para o LIKE
+    $query = $_GET['query'] . '%'; 
 
     try {
         $stmt = $conn->prepare("SELECT id_profissao, nome_profissao FROM profissoes WHERE nome_profissao LIKE :query");

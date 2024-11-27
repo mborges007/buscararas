@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 22/11/2024 às 03:55
+-- Tempo de geração: 27/11/2024 às 04:17
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -40,14 +40,14 @@ CREATE TABLE `avaliacao` (
 --
 
 INSERT INTO `avaliacao` (`id_avaliacao`, `fk_usuario_id_usuario`, `data_avaliacao`, `fk_profissional_id_profissional`, `estrelas_avaliacao`) VALUES
-(23, 2, '2024-11-20 19:38:08', 20, 3),
+(23, 2, '2024-11-24 23:02:20', 20, 4),
 (24, 2, '2024-11-19 20:16:54', 15, 4),
 (25, 2, '2024-11-19 21:02:09', 23, 4),
 (26, 2, '2024-11-19 20:35:57', 21, 4),
 (27, 2, '2024-11-19 20:39:59', 13, 3),
 (28, 2, '2024-11-19 21:26:24', 5, 4),
 (29, 2, '2024-11-20 14:08:36', 11, 4),
-(30, 2, '2024-11-20 14:30:24', 9, 4),
+(30, 2, '2024-11-24 03:36:14', 9, 3),
 (31, 2, '2024-11-20 15:08:57', 8, 4),
 (32, 2, '2024-11-20 15:14:10', 19, 4),
 (33, 2, '2024-11-20 16:52:26', 7, 4),
@@ -55,7 +55,8 @@ INSERT INTO `avaliacao` (`id_avaliacao`, `fk_usuario_id_usuario`, `data_avaliaca
 (35, 2, '2024-11-20 19:37:42', 17, 3),
 (36, 2, '2024-11-20 22:02:48', 10, 4),
 (37, 2, '2024-11-20 22:03:36', 14, 4),
-(38, 2, '2024-11-21 15:27:15', 16, 4);
+(38, 2, '2024-11-21 15:27:15', 16, 4),
+(39, 2, '2024-11-26 15:23:54', 24, 4);
 
 -- --------------------------------------------------------
 
@@ -75,7 +76,12 @@ CREATE TABLE `departamentos` (
 INSERT INTO `departamentos` (`id_area`, `nome_area`) VALUES
 (1, 'Cuidados Pessoais'),
 (2, 'Residencial'),
-(3, 'Cuidado Automotivo');
+(3, 'Cuidado Automotivo'),
+(4, 'Educação e Aulas Particulares'),
+(5, 'Saúde e Bem-Estar'),
+(6, 'Tecnologia e Serviços Digitais'),
+(7, 'Eventos e Festas'),
+(8, 'Serviços Gerais');
 
 -- --------------------------------------------------------
 
@@ -106,7 +112,24 @@ INSERT INTO `fotos_perfil` (`id_foto_perfil`, `caminho_foto_perfil`, `fk_profiss
 (10, 'uploads/fotos_perfil/673f3fd260c01.jpg', 5),
 (11, 'uploads/fotos_perfil/673f3fdcb48f9.jpg', 5),
 (12, 'uploads/fotos_perfil/673f4d63d370f.jpg', 5),
-(13, 'uploads/fotos_perfil/673f4d67024ab.jpg', 5);
+(13, 'uploads/fotos_perfil/673f4d67024ab.jpg', 5),
+(14, 'uploads/fotos_perfil/6741214d71f82.jpg', 24),
+(15, 'uploads/fotos_perfil/6741215008336.jpg', 24),
+(16, 'uploads/fotos_perfil/67415529b3568.jpg', 29),
+(17, 'uploads/fotos_perfil/6741553092bca.jpg', 29),
+(18, 'uploads/fotos_perfil/67415545aadcf.jpg', 29),
+(19, 'uploads/fotos_perfil/6741554f725e7.jpg', 29),
+(20, 'uploads/fotos_perfil/674155795eaba.jpg', 29),
+(21, 'uploads/fotos_perfil/674155876dcaa.jpg', 29),
+(22, 'uploads/fotos_perfil/674155a2324ed.jpg', 29),
+(23, 'uploads/fotos_perfil/674155b038f64.jpg', 29),
+(24, 'uploads/fotos_perfil/674155fc23d50.jpg', 29),
+(25, 'uploads/fotos_perfil/674156003d1e9.jpg', 29),
+(26, 'uploads/fotos_perfil/6741598533c7c.jpg', 29),
+(27, 'uploads/fotos_perfil/674159892cc93.jpg', 29),
+(28, 'uploads/fotos_perfil/67421291748f8.png', NULL),
+(29, 'uploads/fotos_perfil/6745e5f876ae8.jpeg', 31),
+(30, 'uploads/fotos_perfil/6746375bbc949.png', 36);
 
 -- --------------------------------------------------------
 
@@ -126,7 +149,11 @@ CREATE TABLE `fotos_profissionais` (
 
 INSERT INTO `fotos_profissionais` (`id_foto`, `caminho_foto`, `fk_profissional_id_profissional`) VALUES
 (10, 'uploads/fotos_profissionais/673e4899c9348.png', 5),
-(15, 'uploads/fotos_profissionais/673f4e9782d9d.png', 5);
+(15, 'uploads/fotos_profissionais/673f4e9782d9d.png', 5),
+(17, 'uploads/fotos_profissionais/6745e60f4c243.png', 31),
+(18, 'uploads/fotos_profissionais/6745f034ec217.jpeg', 35),
+(19, 'uploads/fotos_profissionais/674637efebad7.png', 36),
+(20, 'uploads/fotos_profissionais/674637f5d480a.png', 36);
 
 -- --------------------------------------------------------
 
@@ -169,7 +196,17 @@ INSERT INTO `profissional` (`id_profissional`, `nome_profissional`, `senha_profi
 (20, 'descia', '$2y$10$AAD3yQLLQIfkw/hEhDgM2.v4gLI2OgH.9ZGZ8x89lcy6u12zfRe8m', 'desciadesciadesciadesciadesciadesciadesciadesciadesciadesciadesciadesciadesciadesciadescia', 'descia@gmail.com', '19555555555', 0, 2, 5),
 (21, 'lima', '$2y$10$z1s/HdmvnXpgVlL/nvbnd.bZfJQkzpqKZvvLZI1VkoBiWnk7Amzq2', 'limalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalimalima', 'correa@gmail.com', '12345647897', 0, 1, 4),
 (22, 'luiza', '$2y$10$ATjYyMElI2Gyo9V3AXK4KeXpwtgNg5eghs1XjcuIN.zqGOLYFYUAO', 'luizaluizaluizaluizaluizaluizaluizaluizaluizaluizaluizaluizaluizaluizaluizaluiza', 'lu2@gmail.com', '19998414123', 0, 2, 2),
-(23, 'genilda', '$2y$10$MyFT1g7PYr6rmn6kClXBuudoOCbPeIa/5XSaTcPnHAF.RrUQvCXjO', 'genildagenildagenildagenildagenildagenildagenildagenildagenildagenildagenildagenilda', 'gege@gmail.com', '12345678955', 0, 1, 4);
+(23, 'genilda', '$2y$10$MyFT1g7PYr6rmn6kClXBuudoOCbPeIa/5XSaTcPnHAF.RrUQvCXjO', 'genildagenildagenildagenildagenildagenildagenildagenildagenildagenildagenildagenilda', 'gege@gmail.com', '12345678955', 0, 1, 4),
+(24, 'jucicleia', '$2y$10$R4vgBR1k7jU4ugr0Go5dAeOdgIiktk9Bc/2Q0RFWWEYWA12UjzmEO', 'jucicleiajucicleiajucicleiajucicleiajucicleiajucicleiajucicleiajucicleiajucicleiajucicleiajucicleiajucicleiajucicleiajucicleiajucicleiajucicleiajucicleiajucicleiajucicleiajucicleia', 'juci@gmail.com', '19998414123', 0, 1, 4),
+(25, 'paola', '$2y$10$80Hn1BAG6Fu/1qUYe42JLOB97sQadJtHjE6f.49g5Ado5PgolFloO', 'paolapaolapaolapaolapaolapaolapaolapaolapaolapaolapaolapaolapaolapaolapaolapaolapaolapaola', 'paola@gmail.com', '12345678945', 0, 2, 3),
+(26, 'tina', '$2y$10$WNVm3kb4SOiRzqP7MHJ8euTQdSms1zkSWnUhzIuzeR0S4mhzf9gBy', 'tinatinatinatinatinatinatinatinatinatinatinatinatinatinatinatinatinatinatinatinatinatinatinatina', 'tina@gmail.com', '12345678978', 0, 2, 5),
+(29, 'Samantha Lambertini', '$2y$10$mcfulidluR.2nrvig7oGOeBML98qU.pK.K2J19vR2r4mhhG8O0ZYO', 'Samantha LambertiniSamantha LambertiniSamantha Samantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniLambertiniSamantha Samantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniLambertiniSamantha LambertiniSamantha LambertiniSamantha LambertiniSamantha Lambertini', 'samantinha@gmail.com', '12345678945', 0, 2, 3),
+(31, 'Carol Lopes', '$2y$10$TVoKbYdFNjDkHfNs8tRmAOFsq8ZY0NYnfNCieS1L372TeAnqpZ2y2', 'Carol Lopes Carol Lopes Carol Lopes Carol Lopes Carol Lopes Carol Lopes Carol Lopes Carol Lopes', 'carol@gmail.com', '19994545454', 0, 1, 10),
+(32, 'Kalica ', '$2y$10$XZO8RDnukctb8T6yu.BMeu.jFONy1Xym/MtUL6R5ik/.LvYPR08P.', 'Kalica Kalica Kalica Kalica Kalica Kalica Kalica Kalica Kalica Kalica Kalica Kalica Kalica Kalica Kalica ', 'kalica@gmail.com', '12345678945', 0, 1, 11),
+(33, 'Cleiton Pereira', '$2y$10$.TA4TrKdImNqYV5FQY2o7uLexwYNzAWz.mrsW8ULHTr4PStRQs0A.', 'gagagbdjsjbdeewihodcçhdsnjcipdauduigdusidgcuigsducgasdoiidcguigdigiudgoidhdcuccklz', 'Cleitin@gmail.com', '19966554422', 0, 6, 31),
+(34, 'MAVI', '$2y$10$t/cRxjKCNzEtcTTTgR4s0.vJUyebc.tI8.70YFO0dV6p9lW00bsrq', 'DESCRIÇÃO PROFISSIONAL TESTEZINHOOOOOOOOOOO DESCRIÇÃO PROFISSIONAL TESTEZINHOOOOOOOOOOO', 'mavi@email.com', '19996582255', 0, 1, 12),
+(35, 'Jiovanes ', '$2y$10$BpyOhNdNGzWPB1Qfv2YE6.v0SplZVi.CvO8k6bCjcavFyMWmUbpYi', 'É us guri jdhfndndbdjdhdhfjfjjfjdjdjdjdjdjjdjdjdjdjdjdjdhdhdhdhdndbdbdbbdbdbdbdbdbdhdhdhdn', 'glopesribeiro04@gmail.com', '19989994437', 0, 7, 35),
+(36, 'Rafaela Santos', '$2y$10$I0NQhUe5NYDPaTgVtQDGPe5L3EQplBQUhBClpa6FROhjHEAFWIQu.', 'Sou desenvolvedora web, com 2 anos de experiência em PHP, HTML e CSS, criando sites funcionais e visualmente atraentes. Também utilizo o Canva para desenvolver layouts e elementos gráficos, unindo design e tecnologia para entregar soluções completas e personalizadas.', 'rafasantos@gmail.com', '19996422951', 0, 6, 31);
 
 -- --------------------------------------------------------
 
@@ -194,7 +231,54 @@ INSERT INTO `profissoes` (`id_profissao`, `nome_profissao`, `fk_departamentos_id
 (4, 'Massagista', 1),
 (5, 'Calheiro', 2),
 (6, 'Jardineiro', 2),
-(7, 'Borracheiro', 3);
+(7, 'Borracheiro', 3),
+(8, 'Tatuador', 1),
+(9, 'Eletriscista Automotivo', 3),
+(10, 'Barbeiro(a)', 1),
+(11, 'Maquiador(a)', 1),
+(12, 'Esteticista', 1),
+(13, 'Massoterapeuta', 1),
+(14, 'Diarista', 2),
+(15, 'Dedetizador', 2),
+(18, 'Lavador de carros', 3),
+(19, 'Mecânico', 3),
+(20, 'Funileiro', 3),
+(21, 'Professor de idiomas', 4),
+(22, 'Professor de reforço escolar', 4),
+(23, 'Instrutor de música', 4),
+(24, 'Professor de desenho', 4),
+(25, 'Personal Trainer', 5),
+(26, 'Fisioterapeuta', 5),
+(27, 'Nutricionista', 5),
+(28, 'Psicólogo', 4),
+(29, 'Enfermeiro', 5),
+(30, 'Técnico em informática', 6),
+(31, 'Desenvolvedor web', 6),
+(32, 'Designer gráfico', 6),
+(33, 'Decorador', 7),
+(34, 'Fotógrafo', 7),
+(35, 'DJ', 7),
+(36, 'Locação de brinquedos infláveis', 7),
+(41, 'Advogado', 8),
+(42, 'Contador', 8),
+(43, 'Motorista particular', 8),
+(44, 'Passeador de cães', 8),
+(51, 'Cuidador de idosos', 5),
+(52, 'Arquiteto', 2),
+(53, 'Costureira', 8);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tokens_redefinicao`
+--
+
+CREATE TABLE `tokens_redefinicao` (
+  `id_redefinicao` int(11) NOT NULL,
+  `email_redefinicao` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `expira_em` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -216,7 +300,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `email_usuario`, `nome_usuario`, `senha_usuario`, `criado_em`, `atualizado_em`) VALUES
-(2, 'juris@gmail.com', 'juris', '$2y$10$XGMFSck4UwbiIoyJgTDjgeVBSw/CKXL6Ku7DnolxqEsjQ2KQ9uDtu', '2024-11-19 17:05:35', '2024-11-19 17:05:35');
+(2, 'juris@gmail.com', 'juris', '$2y$10$XGMFSck4UwbiIoyJgTDjgeVBSw/CKXL6Ku7DnolxqEsjQ2KQ9uDtu', '2024-11-19 17:05:35', '2024-11-19 17:05:35'),
+(3, 'keyla@gmail', 'keyla', '$2y$10$N.G46ZhJs2u0WnWhC9cuPOIhztIqach3z53Sm03PfVKbAZrDjxz12', '2024-11-23 00:25:40', '2024-11-23 00:25:40'),
+(4, 'marina.borgesc@hotmail.com', 'Marina ', '123456', '2024-11-26 02:59:02', '2024-11-26 02:59:02');
 
 --
 -- Índices para tabelas despejadas
@@ -266,6 +352,12 @@ ALTER TABLE `profissoes`
   ADD KEY `FK_profissoes_2` (`fk_departamentos_id_area`);
 
 --
+-- Índices de tabela `tokens_redefinicao`
+--
+ALTER TABLE `tokens_redefinicao`
+  ADD PRIMARY KEY (`id_redefinicao`);
+
+--
 -- Índices de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -280,43 +372,49 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `avaliacao`
 --
 ALTER TABLE `avaliacao`
-  MODIFY `id_avaliacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id_avaliacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de tabela `departamentos`
 --
 ALTER TABLE `departamentos`
-  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `fotos_perfil`
 --
 ALTER TABLE `fotos_perfil`
-  MODIFY `id_foto_perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_foto_perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de tabela `fotos_profissionais`
 --
 ALTER TABLE `fotos_profissionais`
-  MODIFY `id_foto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_foto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de tabela `profissional`
 --
 ALTER TABLE `profissional`
-  MODIFY `id_profissional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_profissional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de tabela `profissoes`
 --
 ALTER TABLE `profissoes`
-  MODIFY `id_profissao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_profissao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+
+--
+-- AUTO_INCREMENT de tabela `tokens_redefinicao`
+--
+ALTER TABLE `tokens_redefinicao`
+  MODIFY `id_redefinicao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restrições para tabelas despejadas

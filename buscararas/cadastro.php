@@ -42,7 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="container-fluid p-0 vh-100 d-flex">
      <!-- Sidebar -->
      <div class="sidebar d-flex flex-column p-3">
-            <h1 class="text-light text-left">BuscAraras</h1>
+     <h1 class="text-light text-left" style="color:#F5F5E6; display: flex; align-items: center;">
+                    <span class="text" style="color: #F5F5E6;"> Busc</span><span class="text" style="color: #BF4341;">Araras</span>
+                        <img src="img/lupasidebar.svg" alt="Lupa" style="width: 25px; height: 25px; margin-right: -5px; margin-top:9px;">                
+            </h1>
             
             <!-- Botão Início -->
             <a class="btn btn-light no-border mb-2 tamanho" href="index.php">Início</a>
@@ -61,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </div>                     
         <!-- Main Content -->
-<div class="main-content d-flex justify-content-center align-items-center">
+        <div class="main-content d-flex justify-content-center align-items-center">
             <div class="card form-card">
                 <div class="card-body">
                 <h4 class="card-title text-center">Cadastro|<span class="text" style="color:#BF4341;"> Profissional</span></h4>
@@ -94,8 +97,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="profissao">Profissão</label>
+                     <label for="profissao">Profissão</label>
+                    <small class="form-text text-muted" style="margin-top: -6px; margin-bottom: 5px">
+                        Se não achou sua profissão, nos avise
+                        <a href="https://wa.me/5519998414123" target="_blank" style="text-decoration: underline; color: #007bff;">
+                             <i class="fab fa-whatsapp text-success"></i> WhatsApp.
+                        </a>
+                    </small>
                             <select class="form-select" id="profissao" name="fk_profissoes_id_profissao" required>
+                                
                                 <option selected>Selecione uma opção</option>
                                 <!-- Profissões serão carregadas aqui -->
                             </select>
@@ -124,10 +134,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script>
     function carregarProfissoes() {
         const idArea = document.getElementById('area-atuacao').value;
-        const profissaoSelect = document.getElementById('profissao');
+        const  selecionarProfissao = document.getElementById('profissao');
 
         // Limpa as opções anteriores
-        profissaoSelect.innerHTML = '<option selected>Selecione uma opção</option>';
+        selecionarProfissao.innerHTML = '<option selected>Selecione uma opção</option>';
 
         if (idArea) {
             fetch(`carregar_profissoes.php?id_area=${idArea}`)
@@ -137,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         const option = document.createElement('option');
                         option.value = profissao.id_profissao;
                         option.textContent = profissao.nome_profissao;
-                        profissaoSelect.appendChild(option);
+                        selecionarProfissao.appendChild(option);
                     });
                 })
                 .catch(error => console.error('Erro ao carregar profissões:', error));

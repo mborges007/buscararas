@@ -1,11 +1,9 @@
 <?php
 include 'db.php'; // Incluindo o arquivo de conexão
 
-// Verificando se o parâmetro 'name' está presente na URL
 if (isset($_GET['name'])) {
     $profissaoName = $_GET['name'];
 
-    // Consultar informações da profissão no banco de dados
     $query = "SELECT * FROM profissoes WHERE nome_profissao = :nome_profissao";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':nome_profissao', $profissaoName);
@@ -13,7 +11,6 @@ if (isset($_GET['name'])) {
 
     $profissao = $stmt->fetch(PDO::FETCH_ASSOC);
     
-    // Se a profissão não for encontrada
     if (!$profissao) {
         echo "Profissão não encontrada.";
         exit;
@@ -40,8 +37,6 @@ if (isset($_GET['name'])) {
         <h1 class="text-light text-left">BuscAraras</h1>
         <a class="btn btn-light no-border mb-2 tamanho" href="index.php">Início</a>
         <h3 class="text-danger text-left">Departamentos</h3>
-        <!-- Aqui você pode adicionar o código dos dropdowns como no index.php -->
-        <!-- ... -->
         <div class="mt-auto">
             <a class="btn btn-primary w-100 mb-2" href="login.php">Login</a>
             <a class="btn btn-secondary w-100" href="cadastro.php">Cadastro</a>
@@ -54,7 +49,6 @@ if (isset($_GET['name'])) {
         <p><strong>Requisitos:</strong> <?php echo htmlspecialchars($profissao['requisitos']); ?></p>
         <p><strong>Contato:</strong> <?php echo htmlspecialchars($profissao['contato']); ?></p>
 
-        <!-- Passo a Passo -->
         <div class="steps-container d-flex justify-content-around w-100 p-4">
             <div class="step text-center">
                 <img src="img/4.passo1.svg" alt="Passo 1" class="step-image mb-2">
@@ -74,7 +68,6 @@ if (isset($_GET['name'])) {
         </div>
     </div>
 
-    <!-- Link para o Bootstrap 5 JS e Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
